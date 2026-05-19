@@ -1,21 +1,17 @@
-
 #!/bin/bash
 
-# Définition du chemin du fichier de sortie
-output_file="./tests/output.txt"
-
-# 1. Vérification de l'argument (ok ou ko)
-if [ "$1" == "ok" ]; then
-    dossier="./tests/Test_OK"
-    echo "Lancement des tests censés FONCTIONNER (OK)..."
-elif [ "$1" == "ko" ]; then
-    dossier="./tests/Test_KO"
-    echo "Lancement des tests censés ÉCHOUER (KO)..."
-else
-    echo "Erreur : Tu dois préciser quel dossier tester."
-    echo "Utilisation : ./run_tests.sh ok   OU   ./run_tests.sh ko"
+# 1. Vérification qu'un nom de dossier a bien été fourni
+if [ -z "$1" ]; then
+    echo "Erreur : Tu dois préciser le nom du dossier à tester."
+    echo "Utilisation : ./run_tests.sh <nom_dossier>"
+    echo "Exemple     : ./run_tests.sh caca"
+    echo "Exemple     : ./run_tests.sh pipi"
     exit 1
 fi
+
+# Définition du chemin du dossier et du fichier de sortie
+dossier="./tests/$1"
+output_file="./tests/output_$1.txt"
 
 # 2. Vérification de l'existence du dossier
 if [ ! -d "$dossier" ]; then
@@ -23,7 +19,9 @@ if [ ! -d "$dossier" ]; then
     exit 1
 fi
 
-# Nettoyage et création du nouveau fichier
+echo "Lancement des tests dans le dossier : $dossier"
+
+# Nettoyage et création du nouveau fichier de sortie
 rm -f "$output_file"
 touch "$output_file"
 
@@ -31,32 +29,33 @@ total=0
 valides=0
 
 for filename in "$dossier"/*.bloc; do
+    # Sécurité au cas où le dossier ne contient pas de fichier .bloc
     [ -e "$filename" ] || continue 
 
     ((total++))
-    echo "Exécution de $(basename "$filename")..."
+    echo -n "Exécution de $(basename "$filename")... "
     
     echo "-------------------------------------------------------------------------------------" >> "$output_file"
     echo "Treating $filename" >> "$output_file"
     
-    # ICI : On affiche tout le contenu du fichier au lieu de juste la ligne 2
+    # On affiche tout le contenu du fichier testé dans l'output
     cat "$filename" >> "$output_file"
-    echo "" >> "$output_file"
-    echo "" >> "$output_file"
+    echo -e "\n\n" >> "$output_file"
     
     # Exécution du compilateur
     java -cp "bin/cls:tools/*" fr.n7.stl.minic.Driver "$filename" >> "$output_file" 2>&1
     status=$?
     
-    # 3. Comptage des succès
-    if [ "$1" == "ok" ] && [ $status -eq 0 ]; then
+    # 3. Comptage des succès (on valide si le compilateur retourne 0)
+    if [ $status -eq 0 ]; then
         ((valides++))
-    elif [ "$1" == "ko" ] && [ $status -ne 0 ]; then
-        ((valides++))
+        echo "OK"
+    else
+        echo "KO (Erreur)"
     fi
 done
 
 echo -e "\n========================================================" | tee -a "$output_file"
-echo "Bilan ($1) : $valides tests valides sur $total tests au total." | tee -a "$output_file"
+echo "Bilan : $valides tests réussis sur $total tests au total." | tee -a "$output_file"
 echo "========================================================" | tee -a "$output_file"
 echo "Les résultats détaillés sont dans $output_file"
