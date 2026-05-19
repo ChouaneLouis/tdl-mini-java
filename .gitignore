@@ -1,5 +1,7 @@
 # Compiled class file
 *.class
+*.tam
+*.swp.*
 
 # Log file
 *.log
