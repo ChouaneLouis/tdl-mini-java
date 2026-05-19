@@ -1,0 +1,9 @@
+void main() {
+    <int,int> c = {4,2};
+
+    int a = fst c;
+    int b = snd c;
+
+    print a;
+    print b;
+}

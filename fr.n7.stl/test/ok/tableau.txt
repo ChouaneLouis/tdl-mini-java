@@ -1,0 +1,11 @@
+void main() {
+    int tab[] = new int[4];
+
+    tab[2] = 6;
+
+    int i = 0;
+    while (i<4) {
+        print tab[i];
+        i = i + 1;
+    }
+}

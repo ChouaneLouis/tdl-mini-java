@@ -1,0 +1,9 @@
+void main() {
+    if (false) {
+        int i = 0;
+        print i;
+    } else {
+        int i = 4;
+        print i;
+    }
+}

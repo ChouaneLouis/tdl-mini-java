@@ -1,0 +1,9 @@
+void main() {
+  typedef struct Pointi {int x; int y;} Point;
+  Point i = {2, 7};
+
+  i.x = 6;
+
+  print i.x;
+  print i.y;
+}

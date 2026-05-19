@@ -1,0 +1,1131 @@
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test00.bloc
+test00 {
+   // Sans erreur : initialisation d'une variable de type entier avec une valeur entière
+   int i = 1;
+}
+
+line 1:7 no viable alternative at input 'test00{'
+line 4:0 extraneous input '}' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test03.bloc
+test03 {
+   // Sans erreur : initialisation d'une variable de type entier avec le résultat du calcul d'une expression de type entier
+   int i = 1 + 2;
+}
+
+line 1:7 no viable alternative at input 'test03{'
+line 4:0 extraneous input '}' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test100.bloc
+test100 {
+   // Sans erreur : initialisation d'une variable de type tableau statique de booléens avec une valeur séquence de booléens de taille 2
+   // 	   	    extraction du premier élément de la paire dans une condition de conditionnelle
+   boolean a = true;
+   boolean *p =  & a ;
+   if (*p) {
+   }
+}
+
+line 1:8 no viable alternative at input 'test100{'
+line 6:3 extraneous input 'if' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test101.bloc
+test101 {
+   // Sans erreur : initialisation d'une variable de type tableau dynamique de booléens avec une valeur séquence de booléens de taille 2
+   // 	   	    extraction du premier élément de la paire dans une condition de conditionnelle
+   boolean *p = new boolean();
+   if (*p) {
+   }
+}
+
+
+line 1:8 no viable alternative at input 'test101{'
+line 5:3 extraneous input 'if' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test102.bloc
+test102 {
+   // Sans erreur : initialisation d'une variable de type tableau statique de booléens avec une valeur séquence de booléens de taille 2
+   // 	   	    extraction du premier élément de la paire dans une condition de répétition
+   boolean a = true;
+   boolean *p =  & a ;
+   while (*p) {
+   }
+}
+
+line 1:8 no viable alternative at input 'test102{'
+line 6:3 extraneous input 'while' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test103.bloc
+test103 {
+   // Sans erreur : initialisation d'une variable de type tableau dynamique de booléens avec une valeur séquence de booléens de taille 2
+   // 	   	    extraction du premier élément de la paire dans une condition de répétition
+   boolean *p = new boolean();
+   while (*p) {
+   }
+}
+
+
+line 1:8 no viable alternative at input 'test103{'
+line 5:3 extraneous input 'while' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test10.bloc
+test10 {
+   // Correct : double déclaration dans un sous-bloc avec le même type.
+   int i = 1 ;
+   if (true) {
+      int i = 1;
+   }
+}
+
+line 1:7 no viable alternative at input 'test10{'
+line 4:3 extraneous input 'if' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+line 6:3 extraneous input '}' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test11.bloc
+test11 {
+   // Correct : double déclaration dans un sous-bloc avec un type différent.
+   int i = 1 ;
+   if (true) {
+      boolean i = true;
+   }
+}
+
+line 1:7 no viable alternative at input 'test11{'
+line 4:3 extraneous input 'if' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+line 6:3 extraneous input '}' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test12.bloc
+test12 {
+   // Correct : double déclaration dans deux sous-blocs avec le même type.
+   int i = 1 ;
+   if (true) {
+      int i = 1;
+   } else {
+      int i = 1;
+   }
+}
+
+line 1:7 no viable alternative at input 'test12{'
+line 4:3 extraneous input 'if' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+line 6:3 extraneous input '}' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+line 8:3 extraneous input '}' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test13.bloc
+test13 {
+   // Correct : double déclaration dans un sous-bloc avec un type différent.
+   int i = 1 ;
+   if (true) {
+      boolean i = true;
+   } else  {
+      boolean i = true;
+   }
+}
+
+line 1:7 no viable alternative at input 'test13{'
+line 4:3 extraneous input 'if' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+line 6:3 extraneous input '}' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+line 8:3 extraneous input '}' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test16.bloc
+test16 {
+   // Sans erreur : utilisation d'une variable dans une condition.
+   int i = 1 ;
+   if (i == 1) {
+   }
+}
+
+line 1:7 no viable alternative at input 'test16{'
+line 4:3 extraneous input 'if' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test17.bloc
+test17 {
+   // Sans erreur : utilisation d'une variable dans un sous-bloc.
+   int i = 1 ;
+   if (true) {
+      int j = i;
+   }
+}
+
+line 1:7 no viable alternative at input 'test17{'
+line 4:3 extraneous input 'if' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+line 6:3 extraneous input '}' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test18.bloc
+test18 {
+   // Sans erreur : utilisation d'une variable dans un sous bloc.
+   int i = 1 ;
+   if (true) {
+      i = 2;
+   }
+}
+
+line 1:7 no viable alternative at input 'test18{'
+line 4:3 extraneous input 'if' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test19.bloc
+test19 {
+   // Sans erreur : utilisation d'une variable après un sous-bloc.
+   int i = 1 ;
+   if (true) {
+   }
+   int j = i;
+}
+
+line 1:7 no viable alternative at input 'test19{'
+line 4:3 extraneous input 'if' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+line 7:0 extraneous input '}' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test20.bloc
+test20 {
+   // Sans erreur : utilisation d'une variable après un sous-bloc.
+   int i = 1 ;
+   if (true) {
+   }
+   i = 2;
+}
+
+line 1:7 no viable alternative at input 'test20{'
+line 4:3 extraneous input 'if' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test26.bloc
+test26 {
+   // Correct : double déclaration dans un sous-bloc avec le même type.
+   int i = 1 ;
+   while (true) {
+      int i = 1;
+   }
+}
+
+line 1:7 no viable alternative at input 'test26{'
+line 4:3 extraneous input 'while' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+line 6:3 extraneous input '}' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test27.bloc
+test27 {
+   // Correct : double déclaration dans un sous-bloc avec un type différent.
+   int i = 1 ;
+   while (true) {
+      boolean i = true;
+   }
+}
+
+line 1:7 no viable alternative at input 'test27{'
+line 4:3 extraneous input 'while' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+line 6:3 extraneous input '}' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test31.bloc
+test31 {
+   // Sans erreur : utilisation d'une variable dans une condition.
+   int i = 1 ;
+   if (i == 1) {
+   }
+}
+
+line 1:7 no viable alternative at input 'test31{'
+line 4:3 extraneous input 'if' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test32.bloc
+test32 {
+   // Sans erreur : utilisation d'une variable dans un sous-bloc.
+   int i = 1 ;
+   while (true) {
+      int j = i;
+   }
+}
+
+line 1:7 no viable alternative at input 'test32{'
+line 4:3 extraneous input 'while' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+line 6:3 extraneous input '}' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test33.bloc
+test33 {
+   // Sans erreur : utilisation d'une variable dans un sous bloc.
+   int i = 1 ;
+   while (true) {
+      i = 2;
+   }
+}
+
+line 1:7 no viable alternative at input 'test33{'
+line 4:3 extraneous input 'while' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test34.bloc
+test34 {
+   // Sans erreur : utilisation d'une variable dans un sous bloc.
+   int i = 1 ;
+   while (true) {
+      i = 2;
+   }
+}
+
+line 1:7 no viable alternative at input 'test34{'
+line 4:3 extraneous input 'while' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test35.bloc
+test35 {
+   // Sans erreur : utilisation d'une variable après un sous-bloc.
+   int i = 1 ;
+   while (true) {
+   }
+   int j = i;
+}
+
+line 1:7 no viable alternative at input 'test35{'
+line 4:3 extraneous input 'while' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+line 7:0 extraneous input '}' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test36.bloc
+test36 {
+   // Sans erreur : utilisation d'une variable après un sous-bloc.
+   int i = 1 ;
+   while (true) {
+   }
+   i = 2;
+}
+
+line 1:7 no viable alternative at input 'test36{'
+line 4:3 extraneous input 'while' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test37.bloc
+test37 {
+   // Sans erreur : utilisation d'une variable après un sous-bloc.
+   int i = 1 ;
+   while (true) {
+   }
+   i = 2;
+}
+
+line 1:7 no viable alternative at input 'test37{'
+line 4:3 extraneous input 'while' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test42.bloc
+test42 {
+   // Sans erreur : initialisation d'une variable de type paire d'entier avec une valeur séquence d'entiers de taille 2
+   <int,int> p = { 1, 2};
+}
+
+line 1:7 no viable alternative at input 'test42{'
+line 4:0 extraneous input '}' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test43.bloc
+test43 {
+   // Sans erreur : initialisation d'une variable de type paire d'entier avec une valeur séquence d'entiers de taille 2
+   // 	   	    lecture de la première composante de la paire.
+   <int,int> p = { 1, 2};
+   int i = (fst p);
+}
+
+line 1:7 no viable alternative at input 'test43{'
+line 6:0 extraneous input '}' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test44.bloc
+test44 {
+   // Sans erreur : initialisation d'une variable de type paire d'entier avec une valeur séquence d'entiers de taille 2
+   // 	   	    lecture des deux composantes de la paire.
+   <int,int> p = { 1, 2};
+   int i = (fst p) + (snd p);
+}
+
+line 1:7 no viable alternative at input 'test44{'
+line 6:0 extraneous input '}' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test45.bloc
+test45 {
+   // Sans erreur : initialisation d'une variable de type paire d'entier avec une valeur séquence d'entiers de taille 2
+   // 	   	    initialisation d'une variable de type paire d'entier avec une valeur paire d'entiers
+   <int,int> p = { 1, 2};
+   <int,int> q = p;
+}
+
+line 1:7 no viable alternative at input 'test45{'
+line 6:0 extraneous input '}' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test46.bloc
+test46 {
+   // Sans erreur : initialisation d'une variable de type paire d'entier avec une valeur séquence d'entiers de taille 2
+   // 	   	    initialisation d'une variable de type paire d'entier avec une valeur paire d'entiers
+   <int,int> p = { 1, 2};
+   p = p;
+}
+
+line 1:7 no viable alternative at input 'test46{'
+line 5:5 no viable alternative at input 'p='
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test47.bloc
+test47 {
+   // Sans erreur : initialisation d'une variable de type paire d'entier avec une valeur séquence d'entiers de taille 2
+   // 	   	    initialisation d'une variable de type paire d'entier avec une valeur paire d'entiers
+   <int,int> p = { 1, 2};
+   p = { (fst p), (snd p) };
+}
+
+
+line 1:7 no viable alternative at input 'test47{'
+line 5:5 no viable alternative at input 'p='
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test48.bloc
+test48 {
+   // Sans erreur : initialisation d'une variable de type paire de booléens avec une valeur séquence de booléens de taille 2
+   // 	   	    extraction du premier élément dans la paire dans une condition de conditionnelle
+   <boolean,boolean> p =  { true, false } ;
+   if (fst p) {
+   }
+}
+
+line 1:7 no viable alternative at input 'test48{'
+line 5:3 extraneous input 'if' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test49.bloc
+test49 {
+   // Sans erreur : initialisation d'une variable de type paire de booléens avec une valeur séquence de booléens de taille 2
+   // 	   	    extraction du premier élément dans la paire dans une condition de conditionnelle
+   <boolean,boolean> p =  { true, false } ;
+   while (fst p) {
+   }
+}
+
+line 1:7 no viable alternative at input 'test49{'
+line 5:3 extraneous input 'while' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test50.bloc
+test50 {
+   // Sans erreur : initialisation d'une variable de type paire composée d'un booléen et un entier avec une valeur séquence composée d'un booléen et un entier
+   // 	   	    extraction du premier élément dans la paire dans une condition de conditionnelle
+   <boolean,int> p =  { true, 1 } ;
+   if (fst p) {
+   }
+}
+
+line 1:7 no viable alternative at input 'test50{'
+line 5:3 extraneous input 'if' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test51.bloc
+test51 {
+   // Sans erreur : initialisation d'une variable de type paire composée d'un booléen et un entier avec une valeur séquence composée d'un booléen et un entier
+   // 	   	    extraction du premier élément dans la paire dans une condition de conditionnelle
+   <boolean,int> p =  { true, 1 } ;
+   while (fst p) {
+   }
+}
+
+line 1:7 no viable alternative at input 'test51{'
+line 5:3 extraneous input 'while' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test52.bloc
+test52 {
+   // Sans erreur : initialisation d'une variable de type tableau d'entier avec un tableau créé statiquement
+   int p[] = { 1, 2};
+}
+
+line 1:7 no viable alternative at input 'test52{'
+line 4:0 extraneous input '}' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test53.bloc
+test53 {
+   // Sans erreur : initialisation d'une variable de type tableau d'entier avec un tableau créé dynamiquement
+   int p[] = new int[2];
+}
+
+line 1:7 no viable alternative at input 'test53{'
+line 4:0 extraneous input '}' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test54.bloc
+test54 {
+   // Sans erreur : initialisation d'une variable de type tableau d'entier avec un tableau créé statiquement, puis affectation du tableau
+   int p[] = { 1, 2};
+   p = { 3, 4};
+}
+
+line 1:7 no viable alternative at input 'test54{'
+line 4:5 no viable alternative at input 'p='
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test55.bloc
+test55 {
+   // Sans erreur : initialisation d'une variable de type tableau d'entier avec un tableau créé dynamiquement
+   int p[] = new int[2];
+   p = { 3, 4};
+}
+
+
+line 1:7 no viable alternative at input 'test55{'
+line 4:5 no viable alternative at input 'p='
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test56.bloc
+test56 {
+   // Sans erreur : initialisation d'une variable de type tableau d'entier avec un tableau créé statiquement, puis affectation du tableau
+   int p[] = { 1, 2};
+   p[0] = 3;
+}
+
+line 1:7 no viable alternative at input 'test56{'
+line 4:4 no viable alternative at input 'p['
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test57.bloc
+test57 {
+   // Sans erreur : initialisation d'une variable de type tableau d'entier avec un tableau créé statiquement, puis affectation du tableau
+   int p[] = { 1, 2};
+   int j = p[0];
+}
+
+
+line 1:7 no viable alternative at input 'test57{'
+line 5:0 extraneous input '}' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test58.bloc
+test58 {
+   // Sans erreur : initialisation d'une variable de type tableau d'entier avec un tableau créé dynamiquement
+   int p[] = new int[2];
+   p[0] = 3;
+}
+
+line 1:7 no viable alternative at input 'test58{'
+line 4:4 no viable alternative at input 'p['
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test59.bloc
+test59 {
+   // Sans erreur : initialisation d'une variable de type tableau d'entier avec un tableau créé dynamiquement
+   int p[] = new int[2];
+   int i = p[0];
+}
+
+line 1:7 no viable alternative at input 'test59{'
+line 5:0 extraneous input '}' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test60.bloc
+test60 {
+   // Sans erreur : initialisation d'une variable de type tableau statique de booléens avec une valeur séquence de booléens de taille 2
+   // 	   	    extraction du premier élément de la paire dans une condition de conditionnelle
+   boolean p[] =  { true, false } ;
+   if (p[0]) {
+   }
+}
+
+line 1:7 no viable alternative at input 'test60{'
+line 5:3 extraneous input 'if' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test61.bloc
+test61 {
+   // Sans erreur : initialisation d'une variable de type tableau dynamique de booléens avec une valeur séquence de booléens de taille 2
+   // 	   	    extraction du premier élément de la paire dans une condition de conditionnelle
+   boolean p[] = new boolean [2];
+   if (p[0]) {
+   }
+}
+
+line 1:7 no viable alternative at input 'test61{'
+line 5:3 extraneous input 'if' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test62.bloc
+test62 {
+   // Sans erreur : initialisation d'une variable de type tableau statique de booléens avec une valeur séquence de booléens de taille 2
+   // 	   	    extraction du premier élément de la paire dans une condition de répétition
+   boolean p[] =  { true, false } ;
+   while (p[0]) {
+   }
+}
+
+line 1:7 no viable alternative at input 'test62{'
+line 5:3 extraneous input 'while' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test63.bloc
+test63 {
+   // Sans erreur : initialisation d'une variable de type tableau dynamique de booléens avec une valeur séquence de booléens de taille 2
+   // 	   	    extraction du premier élément de la paire dans une condition de répétition
+   boolean p[] = new boolean [2];
+   while (p[0]) {
+   }
+}
+
+line 1:7 no viable alternative at input 'test63{'
+line 5:3 extraneous input 'while' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test64.bloc
+test64 {
+   // Sans erreur : initialisation d'une variable de enregistrement contenant deux champs entiers avec une valeur séquence d'entiers de taille 2
+   struct P { int x; int y; } p = { 1, 2};
+}
+
+line 1:7 no viable alternative at input 'test64{'
+line 4:0 extraneous input '}' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test65.bloc
+test65 {
+   // Sans erreur : initialisation d'une variable de enregistrement contenant deux champs entiers avec une valeur séquence d'entiers de taille 2
+   // 	   	    lecture du premier champs de l'enregistrement.
+   struct P { int x; int y; } p = { 1, 2};
+   int i = p.x;
+}
+
+line 1:7 no viable alternative at input 'test65{'
+line 6:0 extraneous input '}' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test66.bloc
+test66 {
+   // Sans erreur : initialisation d'une variable de enregistrement contenant deux champs entiers avec une valeur séquence d'entiers de taille 2
+   // 	   	    lecture du premier champs de l'enregistrement.
+   struct P { int x; int y; } p = { 1, 2};
+   int i = p.x + p.y;
+}
+
+line 1:7 no viable alternative at input 'test66{'
+line 6:0 extraneous input '}' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test68.bloc
+test68 {
+   // Sans erreur : initialisation d'une variable de enregistrement contenant deux champs entiers avec une valeur séquence d'entiers de taille 2
+   // 	   	    initialisation d'une variable du même type avec l'enregistrement précédent.
+   struct P { int x; int y; } p = { 1, 2};
+   p.x = 3;
+}
+
+line 1:7 no viable alternative at input 'test68{'
+line 5:4 no viable alternative at input 'p.'
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test69.bloc
+test69 {
+   // Sans erreur : initialisation d'une variable de enregistrement contenant deux champs entiers avec une valeur séquence d'entiers de taille 2
+   // 	   	    initialisation d'une variable du même type avec l'enregistrement précédent.
+   struct P { int x; int y; } p = { 1, 2};
+   p = { p.x, p.y};
+}
+
+line 1:7 no viable alternative at input 'test69{'
+line 5:5 no viable alternative at input 'p='
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test70.bloc
+test70 {
+   // Sans erreur : initialisation d'une variable de type enregistrement contenant deux champs booléens avec une valeur séquence de booléens de taille 2
+   // 	   	    extraction du premier champ de l'enregistrement dans une condition de conditionnelle
+   struct B { boolean a; boolean b; } p =  { true, false } ;
+   if (p.a) {
+   }
+}
+
+line 1:7 no viable alternative at input 'test70{'
+line 5:3 extraneous input 'if' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test71.bloc
+test71 {
+   // Sans erreur : initialisation d'une variable de type enregistrement contenant deux champs booléens avec une valeur séquence de booléens de taille 2
+   // 	   	    extraction du premier champ de l'enregistrement dans une condition de conditionnelle
+   struct B { boolean a; boolean b; } p =  { true, false } ;
+   while (p.a) {
+   }
+}
+
+line 1:7 no viable alternative at input 'test71{'
+line 5:3 extraneous input 'while' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test72.bloc
+test72 {
+   // Sans erreur : initialisation d'une variable de type enregistrement contenant deux champs booléens avec une valeur séquence de booléens de taille 2
+   // 	   	    extraction du premier champ de l'enregistrement dans une condition de conditionnelle
+   struct B { boolean a; int n; } p =  { true, 1 } ;
+   if (p.a) {
+   }
+}
+
+line 1:7 no viable alternative at input 'test72{'
+line 5:3 extraneous input 'if' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test73.bloc
+test73 {
+   // Sans erreur : initialisation d'une variable de type enregistrement contenant deux champs booléens avec une valeur séquence de booléens de taille 2
+   // 	   	    extraction du premier champ de l'enregistrement dans une condition de conditionnelle
+   struct B { boolean a; int n; } p =  { true, 1 } ;
+   while (p.a) {
+   }
+}
+
+line 1:7 no viable alternative at input 'test73{'
+line 5:3 extraneous input 'while' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test91.bloc
+test91 {
+   int n = 10;
+   int r = 1;
+   while (n > 0) {
+      r = r * n;
+      n = n - 1;
+   }
+   print (n);
+}
+
+
+line 1:7 no viable alternative at input 'test91{'
+line 4:3 extraneous input 'while' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test92.bloc
+test92 {
+   // Sans erreur : initialisation d'une variable de type pointeur sur entier avec une variable entière créé statiquement
+   int i = 1;
+   int *p = &i;
+}
+
+line 1:7 no viable alternative at input 'test92{'
+line 5:0 extraneous input '}' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test93.bloc
+test93 {
+   // Sans erreur : initialisation d'une variable de type tableau d'entier avec un tableau créé dynamiquement
+   int *p = new int ();
+}
+
+
+line 1:7 no viable alternative at input 'test93{'
+line 4:0 extraneous input '}' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test94.bloc
+test94 {
+   // Sans erreur : initialisation d'une variable de type tableau d'entier avec un tableau créé statiquement, puis affectation du tableau
+   int i = 1;
+   int *p = &i;
+   *p = 2;
+}
+
+line 1:7 no viable alternative at input 'test94{'
+line 5:3 extraneous input '*' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test95.bloc
+test95 {
+   // Sans erreur : initialisation d'une variable de type tableau d'entier avec un tableau créé dynamiquement
+   int *p = new int();
+   *p = 2;
+}
+
+
+line 1:7 no viable alternative at input 'test95{'
+line 4:3 extraneous input '*' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test96.bloc
+test96 {
+   // Sans erreur : initialisation d'une variable de type tableau d'entier avec un tableau créé statiquement, puis affectation du tableau
+   int i = 1;
+   int *p = &i;
+   *p = 2;
+}
+
+line 1:7 no viable alternative at input 'test96{'
+line 5:3 extraneous input '*' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test97.bloc
+test97 {
+   // Sans erreur : initialisation d'une variable de type tableau d'entier avec un tableau créé statiquement, puis affectation du tableau
+   int i = 1;
+   int *p = &i;
+   int j = *p;
+}
+
+line 1:7 no viable alternative at input 'test97{'
+line 6:0 extraneous input '}' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test98.bloc
+test98 {
+   // Sans erreur : initialisation d'une variable de type tableau d'entier avec un tableau créé dynamiquement
+   int *p = new int();
+   *p = 1;
+}
+
+
+line 1:7 no viable alternative at input 'test98{'
+line 4:3 extraneous input '*' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests-miniC-2021/Test_OK/test99.bloc
+test99 {
+   // Sans erreur : initialisation d'une variable de type tableau d'entier avec un tableau créé dynamiquement
+   int *p = new int();
+   int i = *p;
+}
+
+
+line 1:7 no viable alternative at input 'test99{'
+line 5:0 extraneous input '}' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unBloc" because "<parameter1>.main" is null
+	at fr.n7.stl.minic.ASTBuilder.exitDeclarationProgramme(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$DeclarationProgrammeContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+
+========================================================
+Bilan (ok) : 0 tests valides sur 64 tests au total.
+========================================================

@@ -1,0 +1,22 @@
+LOADL 0
+JUMPIF (0) if_1_else
+PUSH 1
+LOADL 0
+STORE (1) 0[SB]
+;fr.n7.stl.minic.ast.expression.accessible.VariableAccess@77468bd9
+LOAD (1) 0[SB]
+SUBR IOut
+POP (0) 1
+JUMP if_1_end
+if_1_else
+PUSH 1
+LOADL 4
+STORE (1) 0[SB]
+;fr.n7.stl.minic.ast.expression.accessible.VariableAccess@4cc77c2e
+LOAD (1) 0[SB]
+SUBR IOut
+POP (0) 1
+if_1_end
+POP (0) 0
+HALT
+

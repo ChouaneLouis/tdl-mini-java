@@ -1,0 +1,6 @@
+void main() {
+    // erreur de typage
+    if (1) {
+        print 1;
+    }
+}

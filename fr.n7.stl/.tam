@@ -1,0 +1,7 @@
+PUSH 2
+LOADL 1
+LOADL 2
+STORE (2) 0[SB]
+POP (0) 2
+HALT
+

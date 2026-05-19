@@ -1,0 +1,10 @@
+void main() {
+    int a = 4;
+    int *p = &a;
+    int b = *p;
+
+    *p = 6;
+
+    print a;
+    print b;
+}

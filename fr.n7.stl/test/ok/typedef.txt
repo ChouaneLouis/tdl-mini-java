@@ -1,0 +1,11 @@
+typedef int short;
+
+void main() {
+
+    short i = 6;
+    int j = i;
+    int k = i + j;
+
+    i = k;
+    print i;
+}
