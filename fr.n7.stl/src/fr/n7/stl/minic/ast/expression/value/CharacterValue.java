@@ -9,7 +9,7 @@ import fr.n7.stl.minic.ast.type.AtomicType;
 import fr.n7.stl.minic.ast.type.Type;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.TAMFactory;
-import org.apache.commons.text.*;
+import org.apache.commons.text.StringEscapeUtils;
 
 /**
  * Implementation of the Abstract Syntax Tree node for an integer constant expression.
@@ -25,7 +25,7 @@ public class CharacterValue implements Value {
 	 * @param _text Textual representation of the integer value.
 	 */
 	public CharacterValue(String _text) {
-		value = StringEscapeUtils.ESCAPE_JAVA.translate(_text).charAt(1);
+		value = StringEscapeUtils.unescapeJava(_text).charAt(1);
 	}
 
 	/* (non-Javadoc)

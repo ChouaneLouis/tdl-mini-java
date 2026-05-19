@@ -178,10 +178,7 @@ public class ASTBuilder extends MiniCParserBaseListener {
         ctx.uneInstruction = new Return(ctx.expression().uneExpression);
     }
     
-    @Override
-    public void exitDefinitionType(DefinitionTypeContext ctx) {
-        ctx.uneInstruction = new TypeDeclaration(ctx.identifiant().unIdentifiant.getLeft(), ctx.type().unType);
-    }
+    
 
     @Override
     public void exitAtomique(AtomiqueContext ctx) {
