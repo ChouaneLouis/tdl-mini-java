@@ -3,6 +3,7 @@ package fr.n7.stl.minijava.expression.allocation;
 import java.util.Iterator;
 import java.util.List;
 
+import fr.n7.stl.minic.ast.SemanticsUndefinedException;
 import fr.n7.stl.minic.ast.expression.accessible.AccessibleExpression;
 import fr.n7.stl.minic.ast.expression.assignable.AssignableExpression;
 import fr.n7.stl.minic.ast.scope.Declaration;
@@ -11,10 +12,10 @@ import fr.n7.stl.minic.ast.type.Type;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.TAMFactory;
 
-public class ObjectAllocation  implements AccessibleExpression, AssignableExpression {
-	
+public class ObjectAllocation implements AccessibleExpression, AssignableExpression {
+
 	protected String name;
-	
+
 	protected List<AccessibleExpression> arguments;
 
 	public ObjectAllocation(String _name, List<AccessibleExpression> _arguments) {
@@ -25,27 +26,31 @@ public class ObjectAllocation  implements AccessibleExpression, AssignableExpres
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
 		// TODO Auto-generated method stub
-		return false;
+		throw new SemanticsUndefinedException("collectAndPartialResolve in ObjectAllocation");
+
 	}
 
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
 		// TODO Auto-generated method stub
-		return false;
+		throw new SemanticsUndefinedException("completeResolve in ObjectAllocation");
+
 	}
 
 	@Override
 	public Type getType() {
 		// TODO Auto-generated method stub
-		return null;
+		throw new SemanticsUndefinedException("getType in ObjectAllocation");
+
 	}
 
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
 		// TODO Auto-generated method stub
-		return null;
+		throw new SemanticsUndefinedException("getCode in ObjectAllocation");
+
 	}
-	
+
 	@Override
 	public String toString() {
 		String image = "";
@@ -55,8 +60,8 @@ public class ObjectAllocation  implements AccessibleExpression, AssignableExpres
 			AccessibleExpression argument = iterator.next();
 			image += argument;
 			while (iterator.hasNext()) {
-				 argument = iterator.next();
-				 image += " ," + argument;
+				argument = iterator.next();
+				image += " ," + argument;
 			}
 		}
 		image += ")";

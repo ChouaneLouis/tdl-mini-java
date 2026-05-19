@@ -1,5 +1,6 @@
 package fr.n7.stl.minijava.expression;
 
+import fr.n7.stl.minic.ast.SemanticsUndefinedException;
 import fr.n7.stl.minic.ast.expression.Expression;
 import fr.n7.stl.minic.ast.scope.Declaration;
 import fr.n7.stl.minic.ast.scope.HierarchicalScope;
@@ -9,8 +10,8 @@ import fr.n7.stl.minijava.ast.type.declaration.AttributeDeclaration;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.TAMFactory;
 
-public abstract class AbstractAttribute <ObjectKind extends Expression> implements Expression {
-	
+public abstract class AbstractAttribute<ObjectKind extends Expression> implements Expression {
+
 	protected ObjectKind object;
 	protected String name;
 	protected AttributeDeclaration attribute;
@@ -23,21 +24,24 @@ public abstract class AbstractAttribute <ObjectKind extends Expression> implemen
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
 		// TODO Auto-generated method stub
-		return false;
+		throw new SemanticsUndefinedException("collectAndPartialResolve in AbstractAttribute");
+
 	}
 
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
 		// TODO Auto-generated method stub
-		return false;
+		throw new SemanticsUndefinedException("completeResolve in AbstractAttribute");
+
 	}
 
 	@Override
 	public Type getType() {
 		// TODO Auto-generated method stub
-		return null;
+		throw new SemanticsUndefinedException("getType in AbstractAttribute");
+
 	}
-	
+
 	@Override
 	public String toString() {
 		String image = "";

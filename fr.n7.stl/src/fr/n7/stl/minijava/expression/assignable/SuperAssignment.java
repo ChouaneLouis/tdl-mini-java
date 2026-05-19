@@ -1,5 +1,6 @@
 package fr.n7.stl.minijava.expression.assignable;
 
+import fr.n7.stl.minic.ast.SemanticsUndefinedException;
 import fr.n7.stl.minic.ast.expression.assignable.AssignableExpression;
 import fr.n7.stl.minijava.expression.AbstractSuper;
 import fr.n7.stl.tam.ast.Fragment;
@@ -9,12 +10,15 @@ public class SuperAssignment extends AbstractSuper<AssignableExpression> impleme
 
 	public SuperAssignment() {
 		// TODO Auto-generated constructor stub
+		throw new SemanticsUndefinedException("SuperAssignment constructor");
+
 	}
 
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
 		// TODO Auto-generated method stub
-		return null;
+		throw new SemanticsUndefinedException("getCode in SuperAssignment");
+
 	}
 
 }

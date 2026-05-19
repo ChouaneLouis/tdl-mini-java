@@ -3,6 +3,7 @@ package fr.n7.stl.minijava.instruction;
 import java.util.Iterator;
 import java.util.List;
 
+import fr.n7.stl.minic.ast.SemanticsUndefinedException;
 import fr.n7.stl.minic.ast.expression.accessible.AccessibleExpression;
 import fr.n7.stl.minic.ast.instruction.Instruction;
 import fr.n7.stl.minic.ast.instruction.declaration.FunctionDeclaration;
@@ -16,9 +17,9 @@ import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
 
 public class ThisCall implements Instruction {
-	
+
 	protected ConstructorDeclaration constructor;
-	
+
 	protected List<AccessibleExpression> arguments;
 
 	public ThisCall(List<AccessibleExpression> _arguments) {
@@ -28,39 +29,45 @@ public class ThisCall implements Instruction {
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
 		// TODO Auto-generated method stub
-		return false;
+		throw new SemanticsUndefinedException("collectAndPartialResolve in ThisCall");
+
 	}
 
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope, FunctionDeclaration _container) {
 		// TODO Auto-generated method stub
-		return false;
+		throw new SemanticsUndefinedException("collectAndPartialResolve in ThisCall");
+
 	}
 
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
 		// TODO Auto-generated method stub
-		return false;
+		throw new SemanticsUndefinedException("completeResolve in ThisCall");
+
 	}
 
 	@Override
 	public boolean checkType() {
 		// TODO Auto-generated method stub
-		return false;
+		throw new SemanticsUndefinedException("checkType in ThisCall");
+
 	}
 
 	@Override
 	public int allocateMemory(Register _register, int _offset) {
 		// TODO Auto-generated method stub
-		return 0;
+		throw new SemanticsUndefinedException("allocateMemory in ThisCall");
+
 	}
 
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
 		// TODO Auto-generated method stub
-		return null;
+		throw new SemanticsUndefinedException("getCode in ThisCall");
+
 	}
-	
+
 	@Override
 	public String toString() {
 		String image = "";
@@ -70,8 +77,8 @@ public class ThisCall implements Instruction {
 			AccessibleExpression argument = iterator.next();
 			image += argument;
 			while (iterator.hasNext()) {
-				 argument = iterator.next();
-				 image += " ," + argument;
+				argument = iterator.next();
+				image += " ," + argument;
 			}
 		}
 		image += ");\n";

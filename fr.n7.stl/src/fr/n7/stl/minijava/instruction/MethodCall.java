@@ -3,6 +3,7 @@ package fr.n7.stl.minijava.instruction;
 import java.util.Iterator;
 import java.util.List;
 
+import fr.n7.stl.minic.ast.SemanticsUndefinedException;
 import fr.n7.stl.minic.ast.expression.accessible.AccessibleExpression;
 import fr.n7.stl.minic.ast.instruction.Instruction;
 import fr.n7.stl.minic.ast.instruction.declaration.FunctionDeclaration;
@@ -15,13 +16,13 @@ import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
 
 public class MethodCall implements Instruction {
-	
+
 	protected AccessibleExpression target;
-	
+
 	protected String name;
-	
+
 	protected MethodDeclaration method;
-	
+
 	protected List<AccessibleExpression> arguments;
 
 	public MethodCall(AccessibleExpression _target, String _name, List<AccessibleExpression> _arguments) {
@@ -30,47 +31,53 @@ public class MethodCall implements Instruction {
 		this.target = _target;
 		this.arguments = _arguments;
 	}
-	
+
 	public MethodCall(String _name, List<AccessibleExpression> _arguments) {
-		this( null, _name,_arguments);
+		this(null, _name, _arguments);
 	}
 
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
 		// TODO Auto-generated method stub
-		return false;
+		throw new SemanticsUndefinedException("collectAndPartialResolve in MethodCall");
+
 	}
 
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope, FunctionDeclaration _container) {
 		// TODO Auto-generated method stub
-		return false;
+		throw new SemanticsUndefinedException("collectAndPartialResolve in MethodCall");
+
 	}
 
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
 		// TODO Auto-generated method stub
-		return false;
+		throw new SemanticsUndefinedException("completeResolve in MethodCall");
+
 	}
 
 	@Override
 	public boolean checkType() {
 		// TODO Auto-generated method stub
-		return false;
+		throw new SemanticsUndefinedException("checkType in MethodCall");
+
 	}
 
 	@Override
 	public int allocateMemory(Register _register, int _offset) {
 		// TODO Auto-generated method stub
-		return 0;
+		throw new SemanticsUndefinedException("allocateMemory in MethodCall");
+
 	}
 
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
 		// TODO Auto-generated method stub
-		return null;
+		throw new SemanticsUndefinedException("getCode in MethodCall");
+
 	}
-	
+
 	@Override
 	public String toString() {
 		String image = "";
@@ -84,8 +91,8 @@ public class MethodCall implements Instruction {
 			AccessibleExpression argument = iterator.next();
 			image += argument;
 			while (iterator.hasNext()) {
-				 argument = iterator.next();
-				 image += " ," + argument;
+				argument = iterator.next();
+				image += " ," + argument;
 			}
 		}
 		image += ");\n";
