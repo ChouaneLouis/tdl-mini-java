@@ -1,20 +1,22 @@
-[] minic -> message d’erreur sur type fail
+[] minic -> message d’erreur sur type fail <br/>
 
-[] minic -> pointer instanciation (new int())
-[] minijava -> instanciation classe
+[] minic -> pointer instanciation (new int()) <br/>
+[] minijava -> instanciation classe <br/>
 
-[] minijava -> classe definition
-[] minijava -> classe type
+[] minijava -> classe definition <br/>
+[] minijava -> classe type <br/>
 
-[] minic -> fonction
+[] minic -> fonction <br/>
 
-[] minijava -> attribut static
-[] minijava -> methode static
+[] minijava -> attribut static <br/>
+[] minijava -> methode static <br/>
 
-[] minijava -> attribut de classe
-[] minijava -> methode de classe
+[] minijava -> attribut de classe <br/>
+[] minijava -> methode de classe <br/>
 
-[] minijava -> attribut abstrait
-[] minijava -> method abstraite
+[] minijava -> attribut abstrait <br/>
+[] minijava -> method abstraite <br/>
 
-[] minijava -> heritage ???
+[] minijava -> heritage ??? <br/>
+
+==> Faire les tests pour chaque partie implantée
