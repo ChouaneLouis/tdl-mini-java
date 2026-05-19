@@ -1,0 +1,4 @@
+void main() {
+   // Sans erreur : initialisation d'une variable de type paire d'entier avec une valeur séquence d'entiers de taille 2
+   <int,int> p = { 1, 2};
+}

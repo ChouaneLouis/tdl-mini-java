@@ -1,0 +1,6 @@
+void main() {
+   // Erreur de type : utilisation d'une variable dans une condition.
+   int i = 1 ;
+   if (i) {
+   }
+}

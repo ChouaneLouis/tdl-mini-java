@@ -1,4 +1,0 @@
-void main() {
-    // erreur de typage
-    int i = false;
-}

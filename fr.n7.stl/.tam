@@ -1,7 +1,14 @@
-PUSH 2
+PUSH 1
 LOADL 1
-LOADL 2
-STORE (2) 0[SB]
-POP (0) 2
+STORE (1) 0[SB]
+PUSH 1
+LOADL 0
+STORE (1) 1[SB]
+PUSH 1
+;fr.n7.stl.minic.ast.expression.accessible.VariableAccess@5c8da962
+LOAD (1) 1[SB]
+LOADI (1)
+STORE (1) 2[SB]
+POP (0) 3
 HALT
 

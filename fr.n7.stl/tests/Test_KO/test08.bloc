@@ -1,0 +1,5 @@
+void main() {
+   // Erreur de déclaration : double déclaration d'une variable de même type.
+   int i = 1 ;
+   int i = 1;
+}

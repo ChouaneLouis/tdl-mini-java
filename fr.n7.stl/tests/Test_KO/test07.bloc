@@ -1,0 +1,5 @@
+void main() {
+   // Erreur de type : initialisation d'une variable de type entier avec la valeur d'une variable de type booléen
+   boolean a = true ;
+   int i = a;
+}

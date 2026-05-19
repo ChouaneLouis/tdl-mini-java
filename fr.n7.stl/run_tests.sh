@@ -2,14 +2,14 @@
 #!/bin/bash
 
 # Définition du chemin du fichier de sortie
-output_file="./tests-miniC-2021/output.txt"
+output_file="./tests/output.txt"
 
 # 1. Vérification de l'argument (ok ou ko)
 if [ "$1" == "ok" ]; then
-    dossier="./tests-miniC-2021/Test_OK"
+    dossier="./tests/Test_OK"
     echo "Lancement des tests censés FONCTIONNER (OK)..."
 elif [ "$1" == "ko" ]; then
-    dossier="./tests-miniC-2021/Test_KO"
+    dossier="./tests/Test_KO"
     echo "Lancement des tests censés ÉCHOUER (KO)..."
 else
     echo "Erreur : Tu dois préciser quel dossier tester."

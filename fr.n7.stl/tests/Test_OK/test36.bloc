@@ -1,0 +1,7 @@
+void main() {
+   // Sans erreur : utilisation d'une variable après un sous-bloc.
+   int i = 1 ;
+   while (true) {
+   }
+   i = 2;
+}

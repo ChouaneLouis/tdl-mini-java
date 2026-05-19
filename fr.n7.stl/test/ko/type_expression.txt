@@ -1,5 +1,0 @@
-void main() {
-    // erreur de typage
-    int i = 3;
-    int j = i + true;
-}
