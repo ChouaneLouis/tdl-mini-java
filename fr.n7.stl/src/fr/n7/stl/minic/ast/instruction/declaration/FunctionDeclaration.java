@@ -11,6 +11,7 @@ import fr.n7.stl.minic.ast.SemanticsUndefinedException;
 import fr.n7.stl.minic.ast.scope.Declaration;
 import fr.n7.stl.minic.ast.scope.HierarchicalScope;
 import fr.n7.stl.minic.ast.scope.SymbolTable;
+import fr.n7.stl.minic.ast.type.FunctionType;
 import fr.n7.stl.minic.ast.type.Type;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.Register;
@@ -132,7 +133,7 @@ public class FunctionDeclaration implements DeclarationInstruction {
 					ok = false;
 				}
 			}
-			ok = ok && this.body.collectAndPartialResolve(localScope);
+			ok = ok && this.body.collectAndPartialResolve(localScope, this);
 			return ok;
 		} else {
 			fr.n7.stl.util.Logger.error("La fonction " + this.name + " est déjà définie dans ce scope.");
@@ -156,7 +157,26 @@ public class FunctionDeclaration implements DeclarationInstruction {
 	 */
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
-		throw new SemanticsUndefinedException("Semantics resolve is undefined in FunctionDeclaration.");
+		// throw new SemanticsUndefinedException("Semantics resolve is undefined in
+		// FunctionDeclaration.");
+		boolean ok = true;
+
+		ok = ok && this.type.completeResolve(_scope);
+
+		HierarchicalScope<Declaration> localScope = new SymbolTable(_scope);
+
+		for (ParameterDeclaration param : this.parameters) {
+			if (localScope.accepts(param)) {
+				localScope.register(param);
+			}
+			// Complete resolve ajouté si jamais il faut gérer des fonctions avec des types
+			// spécifiques
+			// ok = ok && param.completeResolve(localScope);
+		}
+
+		ok = ok && this.body.completeResolve(localScope);
+
+		return ok;
 	}
 
 	/*
@@ -166,7 +186,9 @@ public class FunctionDeclaration implements DeclarationInstruction {
 	 */
 	@Override
 	public boolean checkType() {
-		throw new SemanticsUndefinedException("Semantics checkType is undefined in FunctionDeclaration.");
+		// throw new SemanticsUndefinedException("Semantics checkType is undefined in
+		// FunctionDeclaration.");
+		return this.body.checkType();
 	}
 
 	/*

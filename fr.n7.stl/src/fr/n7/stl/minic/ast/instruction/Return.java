@@ -67,7 +67,9 @@ public class Return implements Instruction {
 	 */
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
-		throw new SemanticsUndefinedException("Semantics resolve is undefined in Return.");
+		// throw new SemanticsUndefinedException("Semantics resolve is undefined in
+		// Return.");
+		return this.value.completeResolve(_scope);
 	}
 
 	@Override
