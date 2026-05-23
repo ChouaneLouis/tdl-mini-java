@@ -86,7 +86,14 @@ public class Return implements Instruction {
 	 */
 	@Override
 	public boolean checkType() {
-		throw new SemanticsUndefinedException("Semantics checkType undefined in Return.");
+		Type returnTypeComputed = this.value.getType();
+		Type returnTypeExpected = this.function.getType();
+		boolean ok = returnTypeComputed.compatibleWith(returnTypeExpected);
+		if (!ok) {
+			Logger.error("Type error in return: expected " + returnTypeExpected 
+				+ " but got " + returnTypeComputed + " in function " + this.function.getName());
+		}
+		return ok;
 	}
 
 	/*
