@@ -54,7 +54,7 @@ public class TypeDeclaration implements DeclarationInstruction {
             _scope.register(this);
             return true;
         } else {
-            Logger.error("Variable : " + this.name + " is already defined.");
+            Logger.error("Type : " + this.name + " is already defined.");
             return false;
         }
 	}
