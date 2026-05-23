@@ -17,6 +17,7 @@ import fr.n7.stl.tam.ast.TAMFactory;
 
 /**
  * Abstract Syntax Tree node for a function call expression.
+ * 
  * @author Marc Pantel
  *
  */
@@ -27,21 +28,23 @@ public class FunctionCall implements AccessibleExpression {
 	 * TODO : Should be an expression.
 	 */
 	protected String name;
-	
+
 	/**
 	 * Declaration of the called function after name resolution.
 	 * TODO : Should rely on the VariableUse class.
 	 */
 	protected FunctionDeclaration function;
-	
+
 	/**
-	 * List of AST nodes that computes the values of the parameters for the function call.
+	 * List of AST nodes that computes the values of the parameters for the function
+	 * call.
 	 */
 	protected List<AccessibleExpression> arguments;
-	
+
 	/**
-	 * @param _name : Name of the called function.
-	 * @param _arguments : List of AST nodes that computes the values of the parameters for the function call.
+	 * @param _name      : Name of the called function.
+	 * @param _arguments : List of AST nodes that computes the values of the
+	 *                   parameters for the function call.
 	 */
 	public FunctionCall(String _name, List<AccessibleExpression> _arguments) {
 		this.name = _name;
@@ -49,12 +52,14 @@ public class FunctionCall implements AccessibleExpression {
 		this.arguments = _arguments;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		String _result = ((this.function == null)?this.name:this.function) + "( ";
+		String _result = ((this.function == null) ? this.name : this.function) + "( ";
 		Iterator<AccessibleExpression> _iter = this.arguments.iterator();
 		if (_iter.hasNext()) {
 			_result += _iter.next();
@@ -62,39 +67,57 @@ public class FunctionCall implements AccessibleExpression {
 		while (_iter.hasNext()) {
 			_result += " ," + _iter.next();
 		}
-		return  _result + ")";
+		return _result + ")";
 	}
-	
-	/* (non-Javadoc)
-	 * @see fr.n7.stl.block.ast.expression.Expression#collect(fr.n7.stl.block.ast.scope.HierarchicalScope)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * fr.n7.stl.block.ast.expression.Expression#collect(fr.n7.stl.block.ast.scope.
+	 * HierarchicalScope)
 	 */
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
-		throw new SemanticsUndefinedException( "Semantics collect is undefined in FunctionCall.");
+		// throw new SemanticsUndefinedException( "Semantics collect is undefined in
+		// FunctionCall.");
+		boolean ok = true;
+		for (AccessibleExpression arg : this.arguments) {
+			ok = ok && arg.collectAndPartialResolve(_scope);
+		}
+		return ok;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.n7.stl.block.ast.expression.Expression#resolve(fr.n7.stl.block.ast.scope.HierarchicalScope)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * fr.n7.stl.block.ast.expression.Expression#resolve(fr.n7.stl.block.ast.scope.
+	 * HierarchicalScope)
 	 */
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
-		throw new SemanticsUndefinedException( "Semantics resolve is undefined in FunctionCall.");
+		throw new SemanticsUndefinedException("Semantics resolve is undefined in FunctionCall.");
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see fr.n7.stl.block.ast.Expression#getType()
 	 */
 	@Override
 	public Type getType() {
-		throw new SemanticsUndefinedException( "Semantics getType is undefined in FunctionCall.");
+		throw new SemanticsUndefinedException("Semantics getType is undefined in FunctionCall.");
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see fr.n7.stl.block.ast.Expression#getCode(fr.n7.stl.tam.ast.TAMFactory)
 	 */
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
-		throw new SemanticsUndefinedException( "Semantics getCode is undefined in FunctionCall.");
+		throw new SemanticsUndefinedException("Semantics getCode is undefined in FunctionCall.");
 	}
 
 }

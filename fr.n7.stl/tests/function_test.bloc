@@ -1,0 +1,13 @@
+
+int add(int a,int b){
+    int r = a + b;
+    return r;
+}
+
+
+void main() {
+   int x = 1;
+   int y = 2;
+   int res = add(x,y);
+   print (res);
+}
