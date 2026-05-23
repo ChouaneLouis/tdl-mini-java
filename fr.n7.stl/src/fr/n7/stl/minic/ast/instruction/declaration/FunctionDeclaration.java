@@ -11,7 +11,6 @@ import fr.n7.stl.minic.ast.SemanticsUndefinedException;
 import fr.n7.stl.minic.ast.scope.Declaration;
 import fr.n7.stl.minic.ast.scope.HierarchicalScope;
 import fr.n7.stl.minic.ast.scope.SymbolTable;
-import fr.n7.stl.minic.ast.type.FunctionType;
 import fr.n7.stl.minic.ast.type.Type;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.Register;
@@ -200,7 +199,17 @@ public class FunctionDeclaration implements DeclarationInstruction {
 	 */
 	@Override
 	public int allocateMemory(Register _register, int _offset) {
-		throw new SemanticsUndefinedException("Semantics allocateMemory is undefined in FunctionDeclaration.");
+		int paramOffset = 0;
+		for (int i = this.parameters.size() - 1; i >= 0; i--) {
+			ParameterDeclaration param = this.parameters.get(i);
+			paramOffset -= param.getType().length();
+			// Faut il update l'offset du parametre ??
+		}
+
+		this.body.allocateMemory(Register.LB, 3);
+
+		return _offset;
+		/// EDITED
 	}
 
 	/*
@@ -211,7 +220,34 @@ public class FunctionDeclaration implements DeclarationInstruction {
 	 */
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
-		throw new SemanticsUndefinedException("Semantics getCode is undefined in FunctionDeclaration.");
+		// throw new SemanticsUndefinedException("Semantics getCode is undefined in
+		// FunctionDeclaration.");
+		Fragment _result = _factory.createFragment();
+
+		// On récupère le code généré à l'intérieur du corps de la fonction
+		// Le corps contient toutes les instructions (affectations, if, return, etc.)
+		_result.append(this.body.getCode(_factory));
+
+		// SÉCURITÉ : Le retour par défaut
+		// Si la fonction est de type "void" (ou si l'utilisateur a oublié le return),
+		// il faut impérativement dépiler et revenir à l'appelant pour éviter un crash
+		// de la machine TAM.
+		// La commande RETURN (Taille_Retour) (Taille_Paramètres) s'en charge.
+		int sizeOfReturn = this.type.length();
+
+		// Calcul de la taille totale des paramètres à dépiler
+		int sizeOfParams = 0;
+		for (ParameterDeclaration param : this.parameters) {
+			sizeOfParams += param.getType().length();
+		}
+
+		_result.add(_factory.createReturn(sizeOfReturn, sizeOfParams));
+
+		_result.addPrefix(this.name);
+
+		return _result;
+
+		/// EDITED
 	}
 
 }

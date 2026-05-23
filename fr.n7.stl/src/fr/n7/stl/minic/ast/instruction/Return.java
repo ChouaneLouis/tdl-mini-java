@@ -5,10 +5,10 @@ package fr.n7.stl.minic.ast.instruction;
 
 import java.security.InvalidParameterException;
 
-import fr.n7.stl.minic.ast.SemanticsUndefinedException;
 import fr.n7.stl.minic.ast.expression.Expression;
-import fr.n7.stl.minic.ast.scope.Declaration;
 import fr.n7.stl.minic.ast.instruction.declaration.FunctionDeclaration;
+import fr.n7.stl.minic.ast.instruction.declaration.ParameterDeclaration;
+import fr.n7.stl.minic.ast.scope.Declaration;
 import fr.n7.stl.minic.ast.scope.HierarchicalScope;
 import fr.n7.stl.minic.ast.type.Type;
 import fr.n7.stl.tam.ast.Fragment;
@@ -109,7 +109,9 @@ public class Return implements Instruction {
 	 */
 	@Override
 	public int allocateMemory(Register _register, int _offset) {
-		throw new SemanticsUndefinedException("Semantics allocateMemory undefined in Return.");
+		// throw new SemanticsUndefinedException("Semantics allocateMemory undefined in
+		// Return.");
+		return _offset;
 	}
 
 	/*
@@ -119,7 +121,29 @@ public class Return implements Instruction {
 	 */
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
-		throw new SemanticsUndefinedException("Semantics getCode undefined in Return.");
+		/// throw new SemanticsUndefinedException("Semantics getCode undefined in
+		/// Return.");
+		Fragment _result = _factory.createFragment();
+
+		// 1. On calcule et on empile la valeur de retour (ex: charge la valeur de r ou
+		// de a+b)
+		_result.append(this.value.getCode(_factory));
+
+		// 2. On calcule les tailles requises pour l'instruction RETURN
+		int sizeOfReturn = this.function.getType().length();
+		int sizeOfParams = 0;
+		for (ParameterDeclaration param : this.function.getParameters()) {
+			sizeOfParams += param.getType().length();
+		}
+
+		// 3. L'instruction RETURN de la TAM va :
+		// - Garder les 'sizeOfReturn' mots en haut de la pile (la valeur finale)
+		// - Nettoyer les variables locales et effacer les 'sizeOfParams' arguments
+		// - Restaurer l'ancien LB et sauter à l'adresse de retour
+		_result.add(_factory.createReturn(sizeOfReturn, sizeOfParams));
+
+		return _result;
+		/// EDITED
 	}
 
 }
