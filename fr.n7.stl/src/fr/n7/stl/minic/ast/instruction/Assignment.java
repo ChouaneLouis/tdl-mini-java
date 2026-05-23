@@ -74,7 +74,13 @@ public class Assignment implements Instruction, Expression {
 	 */
 	@Override
 	public Type getType() {
-        return this.assignable.getType();
+        boolean ok = this.assignable.getType();
+		if (!ok) {
+			Logger.error("Type mismatch in assignment of " + (this.assignable != null ? this.assignable.getName() : "null") + " :
+			expected " + (this.assignable != null ? this.assignable.getType() : "null") + 
+			" but got " + (this.value != null ? this.value.getType() : "null"));
+		}
+		return ok;
         /// EDITED
 	}
 

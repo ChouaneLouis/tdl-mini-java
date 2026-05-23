@@ -63,7 +63,12 @@ public class Printer implements Instruction {
 	 */
 	@Override
 	public boolean checkType() {
-        return parameter.getType().compatibleWith(AtomicType.IntegerType);
+        boolean ok = parameter.getType().compatibleWith(AtomicType.IntegerType);
+		if (!ok) {
+			Logger.error("Type mismatch in print of " + this.parameter + " :
+			expected int but got " + (this.parameter != null ? this.parameter.getType() : "null"));
+		}
+		return ok;
         /// EDITED
 	}
 

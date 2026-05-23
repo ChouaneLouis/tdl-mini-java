@@ -82,9 +82,18 @@ public class Conditional implements Instruction {
 	 */
 	@Override
 	public boolean checkType() {
-        return this.condition.getType().compatibleWith(AtomicType.BooleanType)
-            && this.thenBranch.checkType()
-            && (this.elseBranch == null || this.elseBranch.checkType());
+        boolean condition = this.condition.getType().compatibleWith(AtomicType.BooleanType);
+        boolean thenBlock = this.thenBranch.checkType();
+    	boolean elseBlock = (this.elseBranch == null || this.elseBranch.checkType());
+		if (!condition) {
+			Logger.error("Type mismatch in " + this.condition + " Condition :
+			expected boolean but got " + (this.condition != null ? this.condition.getType() : "null"));
+		} else if (!thenBlock) {
+			Logger.error("Type mismatch in then block");
+		} else if (!elseBlock) {
+			Logger.error("Type mismatch in else block");
+		}
+		return condition && thenBlock && elseBlock;
         /// EDITED
 	}
 

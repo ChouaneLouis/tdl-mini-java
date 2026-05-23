@@ -68,8 +68,15 @@ public class Iteration implements Instruction {
      */
     @Override
     public boolean checkType() {
-        return this.condition.getType().compatibleWith(AtomicType.BooleanType)
-            && this.body.checkType();
+        boolean condition = this.condition.getType().compatibleWith(AtomicType.BooleanType)*;
+        boolean body = this.body.checkType();
+        if (!condition) {
+			Logger.error("Type mismatch in " + this.condition + " Condition :
+			expected boolean but got " + (this.condition != null ? this.condition.getType() : "null"));
+		} else if (!body) {
+			Logger.error("Type mismatch in body of Iteration");
+		}
+		return condition && body;
         /// EDITED
     }
 
