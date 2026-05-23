@@ -136,10 +136,11 @@ public class VariableDeclaration implements DeclarationInstruction {
 	public boolean checkType() {
         boolean ok = value.getType().compatibleWith(this.type);
 		if (!ok) {
-			Logger.error("Type mismatch in declaration of " + this.name + " Variable :
-			expected " + this.type + " but got " + 
+			Logger.error("Type mismatch in declaration of " + this.name +
+			" Variable : expected " + this.type + " but got " + 
 			(this.value != null ? this.value.getType() : "null"));
 		}
+		return ok;
         /// EDITED
 	}
 

@@ -116,8 +116,8 @@ public class ConstantDeclaration implements DeclarationInstruction {
 	public boolean checkType() {
         boolean ok = this.value.getType().compatibleWith(this.type);
 		if (!ok) {
-			Logger.error("Type mismatch in declaration of " + this.name + " Constant :
-			expected " + this.type + " but got " + 
+			Logger.error("Type mismatch in declaration of " + this.name + 
+			" Constant : expected " + this.type + " but got " + 
 			(this.value != null ? this.value.getType() : "null"));
 		}
 		return ok;

@@ -13,6 +13,7 @@ import fr.n7.stl.minic.ast.type.AtomicType;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
+import fr.n7.stl.util.Logger;
 
 /**
  * Implementation of the Abstract Syntax Tree node for a conditional instruction.
@@ -68,11 +69,11 @@ public class Iteration implements Instruction {
      */
     @Override
     public boolean checkType() {
-        boolean condition = this.condition.getType().compatibleWith(AtomicType.BooleanType)*;
+        boolean condition = this.condition.getType().compatibleWith(AtomicType.BooleanType);
         boolean body = this.body.checkType();
         if (!condition) {
-			Logger.error("Type mismatch in " + this.condition + " Condition :
-			expected boolean but got " + (this.condition != null ? this.condition.getType() : "null"));
+			Logger.error("Type mismatch in " + this.condition + 
+            " Condition : expected boolean but got " + (this.condition != null ? this.condition.getType() : "null"));
 		} else if (!body) {
 			Logger.error("Type mismatch in body of Iteration");
 		}
