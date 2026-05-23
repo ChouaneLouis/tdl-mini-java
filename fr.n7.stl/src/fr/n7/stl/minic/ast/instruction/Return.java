@@ -10,9 +10,11 @@ import fr.n7.stl.minic.ast.expression.Expression;
 import fr.n7.stl.minic.ast.scope.Declaration;
 import fr.n7.stl.minic.ast.instruction.declaration.FunctionDeclaration;
 import fr.n7.stl.minic.ast.scope.HierarchicalScope;
+import fr.n7.stl.minic.ast.type.Type;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
+import fr.n7.stl.util.Logger;
 
 /**
  * Implementation of the Abstract Syntax Tree node for a return instruction.
@@ -90,8 +92,8 @@ public class Return implements Instruction {
 		Type returnTypeExpected = this.function.getType();
 		boolean ok = returnTypeComputed.compatibleWith(returnTypeExpected);
 		if (!ok) {
-			Logger.error("Type error in return: expected " + returnTypeExpected 
-				+ " but got " + returnTypeComputed + " in function " + this.function.getName());
+			Logger.error("Type error in return: expected " + returnTypeExpected
+					+ " but got " + returnTypeComputed + " in function " + this.function.getName());
 		}
 		return ok;
 	}
