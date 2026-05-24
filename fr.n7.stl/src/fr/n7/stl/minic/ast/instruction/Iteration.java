@@ -74,8 +74,6 @@ public class Iteration implements Instruction {
         if (!condition) {
 			Logger.error("Type mismatch in " + this.condition + 
             " Condition : expected boolean but got " + (this.condition != null ? this.condition.getType() : "null"));
-		} else if (!body) {
-			Logger.error("Type mismatch in body of Iteration");
 		}
 		return condition && body;
         /// EDITED

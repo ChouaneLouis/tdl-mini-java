@@ -89,11 +89,7 @@ public class Conditional implements Instruction {
 		if (!condition) {
 			Logger.error("Type mismatch in " + this.condition + 
 			" Condition : expected boolean but got " + (this.condition != null ? this.condition.getType() : "null"));
-		} else if (!thenBlock) {
-			Logger.error("Type mismatch in then block");
-		} else if (!elseBlock) {
-			Logger.error("Type mismatch in else block");
-		}
+		}	
 		return condition && thenBlock && elseBlock;
         /// EDITED
 	}

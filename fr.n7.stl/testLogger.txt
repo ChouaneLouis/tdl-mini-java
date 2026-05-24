@@ -1,1 +1,7 @@
-const int CONSTANTE = "5";
+void main() {
+    //const int CONSTANTE = "5";
+    int x = 2;
+    if (x==2) {
+        x = "2";
+    }
+} 
