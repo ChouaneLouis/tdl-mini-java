@@ -5,16 +5,14 @@ package fr.n7.stl.minic.ast.expression;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Logger;
 
-import fr.n7.stl.minic.ast.SemanticsUndefinedException;
 import fr.n7.stl.minic.ast.expression.accessible.AccessibleExpression;
 import fr.n7.stl.minic.ast.instruction.declaration.FunctionDeclaration;
 import fr.n7.stl.minic.ast.scope.Declaration;
 import fr.n7.stl.minic.ast.scope.HierarchicalScope;
-import fr.n7.stl.minic.ast.type.FunctionType;
 import fr.n7.stl.minic.ast.type.Type;
 import fr.n7.stl.tam.ast.Fragment;
+import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
 
 /**
@@ -134,6 +132,7 @@ public class FunctionCall implements AccessibleExpression {
 		// throw new SemanticsUndefinedException("Semantics getType is undefined in
 		// FunctionCall.");
 		return this.function.getType();
+		/// EDITED
 	}
 
 	/*
@@ -143,7 +142,18 @@ public class FunctionCall implements AccessibleExpression {
 	 */
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
-		throw new SemanticsUndefinedException("Semantics getCode is undefined in FunctionCall.");
+		// throw new SemanticsUndefinedException("Semantics getCode is undefined in
+		// FunctionCall.");
+		Fragment _result = _factory.createFragment();
+
+		for (AccessibleExpression arg : this.arguments) {
+			_result.append(arg.getCode(_factory));
+		}
+
+		_result.add(_factory.createCall(this.function.getName(), Register.SB));
+
+		return _result;
+		/// EDITED
 	}
 
 }

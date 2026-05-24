@@ -125,21 +125,14 @@ public class Return implements Instruction {
 		/// Return.");
 		Fragment _result = _factory.createFragment();
 
-		// 1. On calcule et on empile la valeur de retour (ex: charge la valeur de r ou
-		// de a+b)
 		_result.append(this.value.getCode(_factory));
 
-		// 2. On calcule les tailles requises pour l'instruction RETURN
 		int sizeOfReturn = this.function.getType().length();
 		int sizeOfParams = 0;
 		for (ParameterDeclaration param : this.function.getParameters()) {
 			sizeOfParams += param.getType().length();
 		}
 
-		// 3. L'instruction RETURN de la TAM va :
-		// - Garder les 'sizeOfReturn' mots en haut de la pile (la valeur finale)
-		// - Nettoyer les variables locales et effacer les 'sizeOfParams' arguments
-		// - Restaurer l'ancien LB et sauter à l'adresse de retour
 		_result.add(_factory.createReturn(sizeOfReturn, sizeOfParams));
 
 		return _result;

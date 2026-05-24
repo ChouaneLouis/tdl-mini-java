@@ -199,13 +199,23 @@ public class FunctionDeclaration implements DeclarationInstruction {
 	 */
 	@Override
 	public int allocateMemory(Register _register, int _offset) {
-		int paramOffset = 0;
-		for (int i = this.parameters.size() - 1; i >= 0; i--) {
-			ParameterDeclaration param = this.parameters.get(i);
-			paramOffset -= param.getType().length();
-			// Faut il update l'offset du parametre ??
+		// Calculate total parameter size first
+		int totalParamSize = 0;
+		for (ParameterDeclaration param : this.parameters) {
+			totalParamSize += param.getType().length();
 		}
 
+		// Assign offsets: parameters are BELOW LB (negative side)
+		// The 3 header words (static link, dynamic link, return address) sit
+		// between LB and the parameters, so params start at -(totalParamSize)
+		// relative to LB, going upward toward LB.
+		int paramOffset = -totalParamSize;
+		for (ParameterDeclaration param : this.parameters) {
+			param.offset = paramOffset; // e.g. -3, then -2, then -1 for 3 words
+			paramOffset += param.getType().length();
+		}
+
+		// Local variables start at LB + 3 (after the 3-word frame header)
 		this.body.allocateMemory(Register.LB, 3);
 
 		return _offset;
@@ -224,26 +234,19 @@ public class FunctionDeclaration implements DeclarationInstruction {
 		// FunctionDeclaration.");
 		Fragment _result = _factory.createFragment();
 
-		// On récupère le code généré à l'intérieur du corps de la fonction
-		// Le corps contient toutes les instructions (affectations, if, return, etc.)
-		_result.append(this.body.getCode(_factory));
+		// Create a unique label to jump past this function's body
+		String skipLabel = "skip_" + this.name;
 
-		// SÉCURITÉ : Le retour par défaut
-		// Si la fonction est de type "void" (ou si l'utilisateur a oublié le return),
-		// il faut impérativement dépiler et revenir à l'appelant pour éviter un crash
-		// de la machine TAM.
-		// La commande RETURN (Taille_Retour) (Taille_Paramètres) s'en charge.
-		int sizeOfReturn = this.type.length();
+		// Jump over the function body during sequential execution
+		_result.add(_factory.createJump(skipLabel));
 
-		// Calcul de la taille totale des paramètres à dépiler
-		int sizeOfParams = 0;
-		for (ParameterDeclaration param : this.parameters) {
-			sizeOfParams += param.getType().length();
-		}
+		// The function body, prefixed with its name as the call target
+		Fragment bodyCode = this.body.getCode(_factory);
+		bodyCode.addPrefix(this.name);
+		_result.append(bodyCode);
 
-		_result.add(_factory.createReturn(sizeOfReturn, sizeOfParams));
-
-		_result.addPrefix(this.name);
+		// Landing point after the jump — execution resumes here
+		_result.addSuffix(skipLabel);
 
 		return _result;
 
