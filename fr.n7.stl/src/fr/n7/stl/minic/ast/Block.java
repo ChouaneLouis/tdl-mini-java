@@ -15,10 +15,12 @@ import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
 
 /**
- * Represents a Block node in the Abstract Syntax Tree node for the Bloc language.
+ * Represents a Block node in the Abstract Syntax Tree node for the Bloc
+ * language.
  * Declares the various semantics attributes for the node.
  * 
- * A block contains declarations. It is thus a Scope even if a separate SymbolTable is used in
+ * A block contains declarations. It is thus a Scope even if a separate
+ * SymbolTable is used in
  * the attributed semantics in order to manage declarations.
  * 
  * @author Marc Pantel
@@ -31,12 +33,12 @@ public class Block {
 	 */
 	protected List<Instruction> instructions;
 
-    /**
-     * Size of the allocated memory in the block.
-     */
-    protected int size;
+	/**
+	 * Size of the allocated memory in the block.
+	 */
+	protected int size;
 
-    protected HierarchicalScope<Declaration> scope;
+	protected HierarchicalScope<Declaration> scope;
 
 	/**
 	 * Constructor for a block.
@@ -44,8 +46,10 @@ public class Block {
 	public Block(List<Instruction> _instructions) {
 		this.instructions = _instructions;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -54,99 +58,129 @@ public class Block {
 		for (Instruction _instruction : this.instructions) {
 			_local += _instruction;
 		}
-		return "{\n" + _local + "}\n" ;
+		return "{\n" + _local + "}\n";
 	}
-	
+
 	/**
-	 * Inherited Semantics attribute to collect all the identifiers declaration and check
+	 * Inherited Semantics attribute to collect all the identifiers declaration and
+	 * check
 	 * that the declaration are allowed.
-	 * @param _scope Inherited Scope attribute that contains the identifiers defined previously
-	 * in the context.
-	 * @return Synthesized Semantics attribute that indicates if the identifier declaration are
-	 * allowed.
+	 * 
+	 * @param _scope Inherited Scope attribute that contains the identifiers defined
+	 *               previously
+	 *               in the context.
+	 * @return Synthesized Semantics attribute that indicates if the identifier
+	 *         declaration are
+	 *         allowed.
 	 */
-    public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
-        boolean ok = true;
-        this.scope = new SymbolTable(_scope);
-        for (Instruction instruction : this.instructions) {
-            ok &= instruction.collectAndPartialResolve(this.scope);
-        }
-        return ok;
-        //	throw new SemanticsUndefinedException("Semantics collect is undefined in Block.");
+	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
+		boolean ok = true;
+		this.scope = new SymbolTable(_scope);
+		for (Instruction instruction : this.instructions) {
+			ok &= instruction.collectAndPartialResolve(this.scope);
+		}
+		return ok;
+		// throw new SemanticsUndefinedException("Semantics collect is undefined in
+		// Block.");
 	}
-	
+
 	/**
-	 * Inherited Semantics attribute to collect all the identifiers declaration and check
+	 * Inherited Semantics attribute to collect all the identifiers declaration and
+	 * check
 	 * that the declaration are allowed.
-	 * @param _scope Inherited Scope attribute that contains the identifiers defined previously
-	 * in the context.
-	 * @param _container Inherited Container attribute that allows to link the return instructions
-	 * with the function declaration.
-	 * @return Synthesized Semantics attribute that indicates if the identifier declaration are
-	 * allowed.
+	 * 
+	 * @param _scope     Inherited Scope attribute that contains the identifiers
+	 *                   defined previously
+	 *                   in the context.
+	 * @param _container Inherited Container attribute that allows to link the
+	 *                   return instructions
+	 *                   with the function declaration.
+	 * @return Synthesized Semantics attribute that indicates if the identifier
+	 *         declaration are
+	 *         allowed.
 	 */
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope, FunctionDeclaration _container) {
-		throw new SemanticsUndefinedException( "Semantics collectAndPartialResolve is undefined in Iteration.");
+		// throw new SemanticsUndefinedException( "Semantics collectAndPartialResolve is
+		// undefined in Iteration.");
+		boolean ok = true;
+		this.scope = new SymbolTable(_scope);
+		for (Instruction instruction : this.instructions) {
+			ok &= instruction.collectAndPartialResolve(this.scope, _container);
+		}
+		return ok;
 	}
-	
+
 	/**
-	 * Inherited Semantics attribute to check that all identifiers have been defined and
+	 * Inherited Semantics attribute to check that all identifiers have been defined
+	 * and
 	 * associate all identifiers uses with their definitions.
-	 * @param _scope Inherited Scope attribute that contains the defined identifiers.
-	 * @return Synthesized Semantics attribute that indicates if the identifier used in the
-	 * block have been previously defined.
+	 * 
+	 * @param _scope Inherited Scope attribute that contains the defined
+	 *               identifiers.
+	 * @return Synthesized Semantics attribute that indicates if the identifier used
+	 *         in the
+	 *         block have been previously defined.
 	 */
-    public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
-        boolean ok = true;
-        for (Instruction instruction : this.instructions) {
-            ok &= instruction.completeResolve(this.scope);
-        }
-        return ok;
-        // throw new SemanticsUndefinedException("Semantics completeResolve is undefined in Block.");
-    }
+	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
+		boolean ok = true;
+		for (Instruction instruction : this.instructions) {
+			ok &= instruction.completeResolve(this.scope);
+		}
+		return ok;
+		// throw new SemanticsUndefinedException("Semantics completeResolve is undefined
+		// in Block.");
+	}
 
 	/**
 	 * Synthesized Semantics attribute to check that an instruction if well typed.
+	 * 
 	 * @return Synthesized True if the instruction is well typed, False if not.
-	 */	
+	 */
 	public boolean checkType() {
-        boolean ok = true;
-        for (Instruction instruction : this.instructions) {
-            ok &= instruction.checkType();
-        }
-        return ok;
-		// throw new SemanticsUndefinedException("Semantics checkType is undefined in Block.");
+		boolean ok = true;
+		for (Instruction instruction : this.instructions) {
+			ok &= instruction.checkType();
+		}
+		return ok;
+		// throw new SemanticsUndefinedException("Semantics checkType is undefined in
+		// Block.");
 	}
 
 	/**
-	 * Inherited Semantics attribute to allocate memory for the variables declared in the instruction.
-	 * Synthesized Semantics attribute that compute the size of the allocated memory. 
-	 * @param _register Inherited Register associated to the address of the variables.
-	 * @param _offset Inherited Current offset for the address of the variables.
-	 */	
+	 * Inherited Semantics attribute to allocate memory for the variables declared
+	 * in the instruction.
+	 * Synthesized Semantics attribute that compute the size of the allocated
+	 * memory.
+	 * 
+	 * @param _register Inherited Register associated to the address of the
+	 *                  variables.
+	 * @param _offset   Inherited Current offset for the address of the variables.
+	 */
 	public void allocateMemory(Register _register, int _offset) {
-        int offset = _offset;
-        for (Instruction instruction : this.instructions) {
-            offset = instruction.allocateMemory(_register, offset);
-        }
-        this.size = offset - _offset;
-        /// EDITED
+		int offset = _offset;
+		for (Instruction instruction : this.instructions) {
+			offset = instruction.allocateMemory(_register, offset);
+		}
+		this.size = offset - _offset;
+		/// EDITED
 	}
 
 	/**
-	 * Inherited Semantics attribute to build the nodes of the abstract syntax tree for the generated TAM code.
+	 * Inherited Semantics attribute to build the nodes of the abstract syntax tree
+	 * for the generated TAM code.
 	 * Synthesized Semantics attribute that provide the generated TAM code.
+	 * 
 	 * @param _factory Inherited Factory to build AST nodes for TAM code.
 	 * @return Synthesized AST for the generated TAM code.
 	 */
 	public Fragment getCode(TAMFactory _factory) {
-        Fragment _result = _factory.createFragment();
-        for (Instruction instruction : this.instructions) {
-            _result.append(instruction.getCode(_factory));
+		Fragment _result = _factory.createFragment();
+		for (Instruction instruction : this.instructions) {
+			_result.append(instruction.getCode(_factory));
 		}
-        _result.add(_factory.createPop(0, this.size));
-        return _result;
-        /// EDITED
+		_result.add(_factory.createPop(0, this.size));
+		return _result;
+		/// EDITED
 	}
 
 }

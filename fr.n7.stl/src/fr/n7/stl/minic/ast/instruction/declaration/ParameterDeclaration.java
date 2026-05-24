@@ -4,24 +4,26 @@
 package fr.n7.stl.minic.ast.instruction.declaration;
 
 import fr.n7.stl.minic.ast.scope.Declaration;
+import fr.n7.stl.minic.ast.scope.HierarchicalScope;
 import fr.n7.stl.minic.ast.type.Type;
 
 /**
  * Abstract Syntax Tree node for a formal parameter in a function declaration.
+ * 
  * @author Marc Pantel
  */
 public class ParameterDeclaration implements Declaration {
-	
+
 	/**
 	 * Name of the formal parameter
 	 */
 	protected String name;
-	
+
 	/**
 	 * AST node for the type of the formal parameter
 	 */
 	protected Type type;
-	
+
 	/**
 	 * Offset of the formal parameter in the list of parameters for the function
 	 * i.e. the size of the memory allocated to the previous parameters
@@ -30,6 +32,7 @@ public class ParameterDeclaration implements Declaration {
 
 	/**
 	 * Builds an AST node for a formal parameter declaration
+	 * 
 	 * @param _name : Name of the formal parameter
 	 * @param _type : AST node for the type of the formal parameter
 	 */
@@ -39,7 +42,9 @@ public class ParameterDeclaration implements Declaration {
 		this.offset = -1; // This value should never occur...
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see fr.n7.stl.block.ast.Declaration#getName()
 	 */
 	@Override
@@ -47,7 +52,9 @@ public class ParameterDeclaration implements Declaration {
 		return this.name;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -56,7 +63,9 @@ public class ParameterDeclaration implements Declaration {
 	}
 
 	/**
-	 * Provide the type of the formal parameter in the list of formal parameters for the function
+	 * Provide the type of the formal parameter in the list of formal parameters for
+	 * the function
+	 * 
 	 * @return Type of the formal parameter
 	 */
 	public Type getType() {
@@ -64,11 +73,20 @@ public class ParameterDeclaration implements Declaration {
 	}
 
 	/**
-	 * Provide the offset of the formal parameter in the list of formal parameters for the function
+	 * Provide the offset of the formal parameter in the list of formal parameters
+	 * for the function
+	 * 
 	 * @return Offset of the formal parameter
 	 */
 	public int getOffset() {
 		return this.offset;
+	}
+
+	// EDITED
+	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
+		return this.type.completeResolve(_scope);
+		// throw new SemanticsUndefinedException( "Semantics completeResolve is
+		// undefined in VariableDeclaration.");
 	}
 
 }

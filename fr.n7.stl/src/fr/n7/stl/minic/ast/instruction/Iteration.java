@@ -16,7 +16,9 @@ import fr.n7.stl.tam.ast.TAMFactory;
 import fr.n7.stl.util.Logger;
 
 /**
- * Implementation of the Abstract Syntax Tree node for a conditional instruction.
+ * Implementation of the Abstract Syntax Tree node for a conditional
+ * instruction.
+ * 
  * @author Marc Pantel
  *
  */
@@ -30,7 +32,9 @@ public class Iteration implements Instruction {
         this.body = _body;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#toString()
      */
     @Override
@@ -38,33 +42,44 @@ public class Iteration implements Instruction {
         return "while (" + this.condition + " )" + this.body;
     }
 
-    /* (non-Javadoc)
-     * @see fr.n7.stl.block.ast.instruction.Instruction#collect(fr.n7.stl.block.ast.scope.Scope)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * fr.n7.stl.block.ast.instruction.Instruction#collect(fr.n7.stl.block.ast.scope
+     * .Scope)
      */
     @Override
     public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
         return this.condition.collectAndPartialResolve(_scope)
-            && this.body.collectAndPartialResolve(_scope);
+                && this.body.collectAndPartialResolve(_scope);
         /// EDITED
     }
 
     @Override
     public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope, FunctionDeclaration _container) {
-        return this.collectAndPartialResolve(_scope);
+        return this.condition.collectAndPartialResolve(_scope)
+                && this.body.collectAndPartialResolve(_scope, _container);
         /// EDITED
     }
 
-    /* (non-Javadoc)
-     * @see fr.n7.stl.block.ast.instruction.Instruction#resolve(fr.n7.stl.block.ast.scope.Scope)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * fr.n7.stl.block.ast.instruction.Instruction#resolve(fr.n7.stl.block.ast.scope
+     * .Scope)
      */
     @Override
     public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
         return this.condition.completeResolve(_scope)
-            && this.body.completeResolve(_scope);
+                && this.body.completeResolve(_scope);
         /// EDITED
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see fr.n7.stl.block.ast.Instruction#checkType()
      */
     @Override
@@ -72,15 +87,21 @@ public class Iteration implements Instruction {
         boolean condition = this.condition.getType().compatibleWith(AtomicType.BooleanType);
         boolean body = this.body.checkType();
         if (!condition) {
-			Logger.error("Type mismatch in " + this.condition + 
-            " Condition : expected boolean but got " + (this.condition != null ? this.condition.getType() : "null"));
-		}
-		return condition && body;
+            Logger.error("Type mismatch in " + this.condition +
+                    " Condition : expected boolean but got "
+                    + (this.condition != null ? this.condition.getType() : "null"));
+        }
+        return condition && body;
+
         /// EDITED
     }
 
-    /* (non-Javadoc)
-     * @see fr.n7.stl.block.ast.Instruction#allocateMemory(fr.n7.stl.tam.ast.Register, int)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * fr.n7.stl.block.ast.Instruction#allocateMemory(fr.n7.stl.tam.ast.Register,
+     * int)
      */
     @Override
     public int allocateMemory(Register _register, int _offset) {
@@ -89,7 +110,9 @@ public class Iteration implements Instruction {
         /// EDITED
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see fr.n7.stl.block.ast.Instruction#getCode(fr.n7.stl.tam.ast.TAMFactory)
      */
     @Override
@@ -99,14 +122,14 @@ public class Iteration implements Instruction {
         String condLabel = "while_" + _id + "_cond";
         String endLabel = "while_" + _id + "_end";
 
-        _result.add(_factory.createPop(0,0));
+        _result.add(_factory.createPop(0, 0));
         _result.addSuffix(condLabel);
         _result.append(this.condition.getCode(_factory));
         _result.add(_factory.createJumpIf(endLabel, 0));
         _result.append(this.body.getCode(_factory));
         _result.add(_factory.createJump(condLabel));
         _result.addSuffix(endLabel);
-        
+
         return _result;
         /// EDITED
     }

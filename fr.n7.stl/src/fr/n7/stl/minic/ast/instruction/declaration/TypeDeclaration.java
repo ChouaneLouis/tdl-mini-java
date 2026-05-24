@@ -12,6 +12,7 @@ import fr.n7.stl.util.Logger;
 
 /**
  * Implementation of the Abstract Syntax Tree node for a type declaration.
+ * 
  * @author Marc Pantel
  *
  */
@@ -21,7 +22,7 @@ public class TypeDeclaration implements DeclarationInstruction {
 	 * Name of the declared type
 	 */
 	private String name;
-	
+
 	/**
 	 * AST node for the type associated to the name
 	 */
@@ -29,6 +30,7 @@ public class TypeDeclaration implements DeclarationInstruction {
 
 	/**
 	 * Builds an AST node for a type declaration
+	 * 
 	 * @param _name : Name of the declared type
 	 * @param _type : AST node for the type associated to the name
 	 */
@@ -37,52 +39,67 @@ public class TypeDeclaration implements DeclarationInstruction {
 		this.type = _type;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see fr.n7.stl.block.ast.Declaration#getName()
 	 */
 	@Override
 	public String getName() {
 		return this.name;
 	}
-	
-	/* (non-Javadoc)
-	 * @see fr.n7.stl.block.ast.instruction.Instruction#collect(fr.n7.stl.block.ast.scope.Scope)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * fr.n7.stl.block.ast.instruction.Instruction#collect(fr.n7.stl.block.ast.scope
+	 * .Scope)
 	 */
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
-        if (_scope.accepts(this)) {
-            _scope.register(this);
-            return true;
-        } else {
-            Logger.error("Type : " + this.name + " is already defined.");
-            return false;
-        }
+		if (_scope.accepts(this)) {
+			_scope.register(this);
+			return true;
+		} else {
+			Logger.error("Type : " + this.name + " is already defined.");
+			return false;
+		}
 	}
-	
+
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope, FunctionDeclaration _container) {
-		throw new SemanticsUndefinedException( "Semantics collectAndPartialResolve is undefined in ConstantDeclaration.");
-
+		// throw new SemanticsUndefinedException( "Semantics collectAndPartialResolve is
+		// undefined in ConstantDeclaration.");
+		return this.collectAndPartialResolve(_scope);
+		/// EDITED
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.n7.stl.block.ast.instruction.Instruction#resolve(fr.n7.stl.block.ast.scope.Scope)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * fr.n7.stl.block.ast.instruction.Instruction#resolve(fr.n7.stl.block.ast.scope
+	 * .Scope)
 	 */
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
-        return true;
-        /// EDITED
+		return true;
+		/// EDITED
 	}
 
 	/**
 	 * Provide the type associated to a name in a type declaration.
+	 * 
 	 * @return Type from the declaration.
 	 */
 	public Type getType() {
 		return this.type;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -90,7 +107,9 @@ public class TypeDeclaration implements DeclarationInstruction {
 		return "typedef " + this.type + " " + this.name + ";\n";
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see fr.n7.stl.block.ast.Instruction#checkType()
 	 */
 	@Override
@@ -98,20 +117,26 @@ public class TypeDeclaration implements DeclarationInstruction {
 		return true;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.n7.stl.block.ast.Instruction#allocateMemory(fr.n7.stl.tam.ast.Register, int)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * fr.n7.stl.block.ast.Instruction#allocateMemory(fr.n7.stl.tam.ast.Register,
+	 * int)
 	 */
 	@Override
 	public int allocateMemory(Register _register, int _offset) {
 		return _offset;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see fr.n7.stl.block.ast.Instruction#getCode(fr.n7.stl.tam.ast.TAMFactory)
 	 */
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
 		return _factory.createFragment();
 	}
-	
+
 }
