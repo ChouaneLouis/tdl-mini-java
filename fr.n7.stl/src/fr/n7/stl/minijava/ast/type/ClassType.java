@@ -1,9 +1,13 @@
 package fr.n7.stl.minijava.ast.type;
 
+import javax.lang.model.type.NullType;
+
 import fr.n7.stl.minic.ast.SemanticsUndefinedException;
 import fr.n7.stl.minic.ast.scope.Declaration;
 import fr.n7.stl.minic.ast.scope.HierarchicalScope;
+import fr.n7.stl.minic.ast.type.AtomicType;
 import fr.n7.stl.minic.ast.type.Type;
+import fr.n7.stl.util.Logger;
 
 public class ClassType implements Type {
 
@@ -16,33 +20,47 @@ public class ClassType implements Type {
 	@Override
 	public boolean equalsTo(Type _other) {
 		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("equalsTo in Type");
+		if (_other instanceof ClassType) {
+			return this.name.equals(((ClassType)_other).name);
+		} else {
+			return false;
+		} 
 	}
 
 	@Override
 	public boolean compatibleWith(Type _other) {
 		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("compatibleWith in Type");
+		if ( this.equalsTo(_other) || _other == AtomicType.NullType) {
+			return true;
+		}
+		return false;
 
 	}
 
 	@Override
 	public Type merge(Type _other) {
 		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("merge in Type");
+		if (this.compatibleWith(_other)) {
+			return _other;
+		} else if (_other.compatibleWith(this)) {
+			return this;
+		} else {
+			Logger.error("Erreur de Type");
+			return null;
+		}
 
 	}
 
 	@Override
 	public int length() {
-		throw new SemanticsUndefinedException("length in Type");
+		return 1;
 
 	}
 
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
 		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("completeResolve in Type");
+		return true;
 
 	}
 

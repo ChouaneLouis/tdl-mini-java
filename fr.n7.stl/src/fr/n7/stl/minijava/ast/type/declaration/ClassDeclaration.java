@@ -10,6 +10,7 @@ import fr.n7.stl.minic.ast.instruction.Instruction;
 import fr.n7.stl.minic.ast.instruction.declaration.FunctionDeclaration;
 import fr.n7.stl.minic.ast.scope.Declaration;
 import fr.n7.stl.minic.ast.scope.HierarchicalScope;
+import fr.n7.stl.minic.ast.scope.SymbolTable;
 import fr.n7.stl.minic.ast.type.Type;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.Register;
@@ -79,18 +80,12 @@ public class ClassDeclaration implements Instruction, Declaration {
 		//throw new SemanticsUndefinedException("Semantics resolve is undefined in ClassDeclaration.");
 		if (this.ancestor != null) {
 			Declaration ancestorDeclaration = _scope.get(this.ancestor);
-			if (ancestorDeclaration != null) {
-				this.ancestor = ancestorDeclaration;
-			} else {
+			if (ancestorDeclaration == null) {
 				Logger.error("Class " + this.name + " extends an unknown class " + this.ancestor);
 				return false;
 			}
 		}
-		boolean ok = true;
-		for (ClassElement element : this.elements) {
-			ok = ok && element.completeResolve(_scope, this);
-		}
-		return ok;
+		return true;
 	}
 
 	@Override
