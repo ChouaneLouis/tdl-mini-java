@@ -1,4 +1,4 @@
-[] minic -> message d’erreur sur type fail <br/>
+[Vadim] minic -> message d’erreur sur type fail <br/>
 
 [] minic -> pointer instanciation (new int()) <br/>
 [] minijava -> instanciation classe <br/>

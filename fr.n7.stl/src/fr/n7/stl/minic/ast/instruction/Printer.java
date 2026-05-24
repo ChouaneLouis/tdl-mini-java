@@ -12,6 +12,7 @@ import fr.n7.stl.minic.ast.scope.HierarchicalScope;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
+import fr.n7.stl.util.Logger;
 import fr.n7.stl.tam.ast.Library;
 
 /**
@@ -63,7 +64,12 @@ public class Printer implements Instruction {
 	 */
 	@Override
 	public boolean checkType() {
-        return parameter.getType().compatibleWith(AtomicType.IntegerType);
+        boolean ok = parameter.getType().compatibleWith(AtomicType.IntegerType);
+		if (!ok) {
+			Logger.error("Type mismatch in print of " + this.parameter + 
+			" : expected int but got " + (this.parameter != null ? this.parameter.getType() : "null"));
+		}
+		return ok;
         /// EDITED
 	}
 

@@ -13,6 +13,7 @@ import fr.n7.stl.minic.ast.type.Type;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
+import fr.n7.stl.util.Logger;
 
 /**
  * Implementation of the Abstract Syntax Tree node for an array type.
@@ -83,7 +84,13 @@ public class Assignment implements Instruction, Expression {
 	 */
 	@Override
 	public boolean checkType() {
-        return this.value.getType().compatibleWith(this.assignable.getType());
+        boolean ok = this.value.getType().compatibleWith(this.assignable.getType());
+		if (!ok) {
+			Logger.error("Type mismatch in assignment of " + this.assignable + 
+			" : expected " + (this.assignable != null ? this.assignable.getType() : "null") + 
+			" but got " + (this.value != null ? this.value.getType() : "null"));
+		}
+		return ok;
         /// EDITED
 	}
 	

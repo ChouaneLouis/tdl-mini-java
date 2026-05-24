@@ -14,20 +14,19 @@ import fr.n7.stl.minic.ast.type.Type;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
+import fr.n7.stl.util.Logger;
 
 /**
  * 
  */
 public class ClassDeclaration implements Instruction, Declaration {
-	
+
 	protected List<ClassElement> elements;
-	
-	
 
 	protected boolean concrete;
-	
+
 	protected String name;
-	
+
 	protected String ancestor;
 
 	/**
@@ -39,42 +38,59 @@ public class ClassDeclaration implements Instruction, Declaration {
 		this.ancestor = _ancestor;
 		this.elements = _elements;
 	}
-	
+
 	/**
 	 * 
 	 */
 	public ClassDeclaration(boolean _concrete, String _name, List<ClassElement> _elements) {
-		this( _concrete, _name, null, _elements);
+		this(_concrete, _name, null, _elements);
 	}
 
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
-		throw new SemanticsUndefinedException( "Semantics collect is undefined in ClassDeclaration.");
+		if (_scope.accepts(this)) {
+			_scope.register(this);
+
+			for (ClassElement classElement : elements) {
+				if (classElement instanceof Declaration) {
+					Declaration declaration = (Declaration) classElement;
+					_scope.register(declaration);
+				} else {
+					Logger.error("ClassElement is not a Declaration\n");
+				}
+			}
+			return true;
+		} else {
+			Logger.error("Variable : " + this.name + " is already defined.");
+			return false;
+		}
+		// throw new SemanticsUndefinedException("Semantics collect is undefined in
+		// ClassDeclaration.");
 	}
 
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope, FunctionDeclaration _container) {
-		throw new SemanticsUndefinedException( "Semantics resolve is undefined in ClassDeclaration.");
+		throw new SemanticsUndefinedException("Semantics resolve is undefined in ClassDeclaration.");
 	}
 
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
-		throw new SemanticsUndefinedException( "Semantics resolve is undefined in ClassDeclaration.");
+		throw new SemanticsUndefinedException("Semantics resolve is undefined in ClassDeclaration.");
 	}
 
 	@Override
 	public boolean checkType() {
-		throw new SemanticsUndefinedException( "Semantics check type is undefined in ClassDeclaration.");
+		throw new SemanticsUndefinedException("Semantics check type is undefined in ClassDeclaration.");
 	}
 
 	@Override
 	public int allocateMemory(Register _register, int _offset) {
-		throw new SemanticsUndefinedException( "Semantics allocation memory is undefined in ClassDeclaration.");
+		throw new SemanticsUndefinedException("Semantics allocation memory is undefined in ClassDeclaration.");
 	}
 
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
-		throw new SemanticsUndefinedException( "Semantics get code is undefined in ClassDeclaration.");
+		throw new SemanticsUndefinedException("Semantics get code is undefined in ClassDeclaration.");
 	}
 
 	@Override
@@ -87,11 +103,11 @@ public class ClassDeclaration implements Instruction, Declaration {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	@Override
 	public String toString() {
 		String image = "";
-		if (! this.concrete) {
+		if (!this.concrete) {
 			image += "abstract ";
 		}
 		image += "class " + this.name + " ";
