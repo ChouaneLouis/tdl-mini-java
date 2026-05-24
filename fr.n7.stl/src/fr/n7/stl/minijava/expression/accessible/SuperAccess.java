@@ -7,6 +7,7 @@ import fr.n7.stl.minic.ast.scope.HierarchicalScope;
 import fr.n7.stl.minic.ast.type.Type;
 import fr.n7.stl.minijava.expression.AbstractSuper;
 import fr.n7.stl.tam.ast.Fragment;
+import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
 
 public class SuperAccess extends AbstractSuper<AccessibleExpression> implements AccessibleExpression {
@@ -17,9 +18,10 @@ public class SuperAccess extends AbstractSuper<AccessibleExpression> implements 
 
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("getCode in SuperAccess");
+		Fragment result = _factory.createFragment();
+		result.add(_factory.createLoadA(Register.SB, 0));
 
+		return result;
 	}
 
 }

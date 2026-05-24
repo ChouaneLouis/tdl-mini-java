@@ -5,8 +5,11 @@ import fr.n7.stl.minic.ast.type.Type;
 public class AttributeDeclaration extends ClassElement {
 	
 	protected Type type;
+	protected int offset;
 
-	public AttributeDeclaration( String _name, Type _type) {
+	
+
+    public AttributeDeclaration( String _name, Type _type) {
 		super(_name);
 		this.type = _type;
 	}
@@ -20,4 +23,12 @@ public class AttributeDeclaration extends ClassElement {
 	public String toString() {
 		return this.accessRight + " " + type + " " + this.name + ";\n"; 
 	}
+
+	public int getOffset() {
+        return offset;
+    }
+
+    public void setOffset(int offset) {
+        this.offset = offset;
+    }
 }

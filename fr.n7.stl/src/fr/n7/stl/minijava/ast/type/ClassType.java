@@ -9,6 +9,8 @@ public class ClassType implements Type {
 
 	protected String name;
 
+	
+
 	public ClassType(String _name) {
 		this.name = _name;
 	}
@@ -48,6 +50,10 @@ public class ClassType implements Type {
 
 	public String toString() {
 		return " " + this.name + " ";
+	}
+
+	public String getName() {
+		return name;
 	}
 
 }

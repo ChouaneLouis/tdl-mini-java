@@ -22,6 +22,8 @@ public class ClassDeclaration implements Instruction, Declaration {
 	
 	protected List<ClassElement> elements;
 	
+	
+
 	protected boolean concrete;
 	
 	protected String name;
@@ -102,6 +104,10 @@ public class ClassDeclaration implements Instruction, Declaration {
 		}
 		image += "}\n";
 		return image;
+	}
+
+	public List<ClassElement> getElements() {
+		return elements;
 	}
 
 }

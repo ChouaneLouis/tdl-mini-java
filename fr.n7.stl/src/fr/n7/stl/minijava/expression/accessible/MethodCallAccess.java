@@ -28,9 +28,25 @@ public class MethodCallAccess extends AbstractMethodCall<AccessibleExpression> i
 
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("getCode in MethodCallAccess");
+		Fragment result = _factory.createFragment();
 
+		// 1. On charge l'adresse de l'objet (la cible) au sommet de la pile
+		// Cela servira de paramètre implicite 'this' pour la méthode
+		if (this.target != null) {
+			result.append(this.target.getCode(_factory));
+		}
+
+		// 2. On évalue et on empile chaque argument passé à la méthode
+		for (AccessibleExpression arg : this.arguments) {
+			result.append(arg.getCode(_factory));
+		}
+
+		// 3. On effectue l'appel à la méthode
+		// On utilise le nom de la méthode (ou celui de sa déclaration)
+		String label = (this.declaration != null) ? this.declaration.getName() : this.name;
+		result.add(_factory.createCall(label, Register.SB));
+
+		return result;
 	}
 
 }
