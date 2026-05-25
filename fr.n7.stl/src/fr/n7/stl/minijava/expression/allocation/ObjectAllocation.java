@@ -9,7 +9,11 @@ import fr.n7.stl.minic.ast.expression.assignable.AssignableExpression;
 import fr.n7.stl.minic.ast.scope.Declaration;
 import fr.n7.stl.minic.ast.scope.HierarchicalScope;
 import fr.n7.stl.minic.ast.type.Type;
+import fr.n7.stl.minijava.ast.type.declaration.AttributeDeclaration;
+import fr.n7.stl.minijava.ast.type.declaration.ClassElement;
 import fr.n7.stl.tam.ast.Fragment;
+import fr.n7.stl.tam.ast.Library;
+import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
 
 public class ObjectAllocation implements AccessibleExpression, AssignableExpression {
@@ -45,7 +49,7 @@ public class ObjectAllocation implements AccessibleExpression, AssignableExpress
 		Declaration decl = _scope.get(this.name);
 		if (decl instanceof fr.n7.stl.minijava.ast.type.declaration.ClassDeclaration) {
 			this.classDeclaration = (fr.n7.stl.minijava.ast.type.declaration.ClassDeclaration) decl;
-			
+
 			// Chercher le constructeur
 			for (fr.n7.stl.minijava.ast.type.declaration.ClassElement element : this.classDeclaration.getElements()) {
 				if (element instanceof fr.n7.stl.minijava.ast.type.declaration.ConstructorDeclaration) {
@@ -66,16 +70,20 @@ public class ObjectAllocation implements AccessibleExpression, AssignableExpress
 
 	@Override
 	public Type getType() {
-		// Vérification des types des arguments ici car ObjectAllocation est une Expression
+		// Vérification des types des arguments ici car ObjectAllocation est une
+		// Expression
 		if (this.constructor != null) {
 			if (this.arguments.size() != this.constructor.getParameters().size()) {
-				fr.n7.stl.util.Logger.error("Le constructeur de " + this.name + " attend " + this.constructor.getParameters().size() + " argument(s), mais " + this.arguments.size() + " ont été fournis.");
+				fr.n7.stl.util.Logger
+						.error("Le constructeur de " + this.name + " attend " + this.constructor.getParameters().size()
+								+ " argument(s), mais " + this.arguments.size() + " ont été fournis.");
 			} else {
 				for (int i = 0; i < this.arguments.size(); i++) {
 					Type argType = this.arguments.get(i).getType();
 					Type paramType = this.constructor.getParameters().get(i).getType();
 					if (!argType.compatibleWith(paramType)) {
-						fr.n7.stl.util.Logger.error("Type incorrect pour l'argument " + (i+1) + " du constructeur de " + this.name + " : attendu " + paramType + ", reçu " + argType + ".");
+						fr.n7.stl.util.Logger.error("Type incorrect pour l'argument " + (i + 1) + " du constructeur de "
+								+ this.name + " : attendu " + paramType + ", reçu " + argType + ".");
 					}
 				}
 			}
@@ -91,33 +99,35 @@ public class ObjectAllocation implements AccessibleExpression, AssignableExpress
 	public Fragment getCode(TAMFactory _factory) {
 		Fragment result = _factory.createFragment();
 
-		// 1. Calcul de la taille de l'objet
+		// 1. Compute object size
 		int size = 0;
 		if (this.classDeclaration != null) {
-			for (fr.n7.stl.minijava.ast.type.declaration.ClassElement element : this.classDeclaration.getElements()) {
-				if (element instanceof fr.n7.stl.minijava.ast.type.declaration.AttributeDeclaration) {
-					size += ((fr.n7.stl.minijava.ast.type.declaration.AttributeDeclaration) element).getType().length();
+			for (ClassElement element : this.classDeclaration.getElements()) {
+				if (element instanceof AttributeDeclaration) {
+					size += ((AttributeDeclaration) element).getType().length();
 				}
 			}
 		}
 
-		// 2. MAlloc pour réserver la mémoire
+		// 2. Allocate heap memory — leaves address on top of stack
 		result.add(_factory.createLoadL(size));
-		result.add(fr.n7.stl.tam.ast.Library.MAlloc);
-		
-		// 3. L'adresse de l'objet alloué (this) est maintenant au sommet de la pile.
-		// On empile ensuite les arguments pour le constructeur.
+		result.add(Library.MAlloc);
+
+		// 3. Duplicate the address so the constructor can consume its copy
+		// while we keep the original as the result of the expression.
+		result.add(_factory.createLoad(Register.ST, -1, 1)); // duplicate top-of-stack
+
+		// 4. Push constructor arguments
 		for (AccessibleExpression arg : this.arguments) {
 			result.append(arg.getCode(_factory));
 		}
-		
-		// 4. Appel du constructeur
+
+		// 5. Call constructor — RETURN (0) N pops this+args, leaving original address
 		if (this.constructor != null) {
-			result.add(_factory.createCall("Constructor_" + this.name, fr.n7.stl.tam.ast.Register.SB));
+			result.add(_factory.createCall(
+					"Constructor_" + this.name, Register.SB));
 		}
-		
-		// Au retour du constructeur, les arguments sont dépilés (RETURN 0, P).
-		// L'adresse de l'objet reste au sommet de la pile, ce qui est le comportement attendu.
+
 		return result;
 	}
 

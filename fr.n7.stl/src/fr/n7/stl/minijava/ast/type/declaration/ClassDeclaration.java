@@ -154,18 +154,26 @@ public class ClassDeclaration implements Instruction, Declaration {
 
     @Override
     public int allocateMemory(Register _register, int _offset) {
-        // La déclaration de la classe en soi ne prend pas de place sur la pile
-        // principale.
-        // Cependant, on peut déclencher l'allocation mémoire pour ses éléments
-        // statiques
-        // ou calculer les offsets des attributs d'instance.
+        int instanceOffset = 0; // offset inside the heap object
+
         for (ClassElement element : elements) {
-            if (element instanceof Instruction) {
-                // On laisse chaque élément gérer son allocation interne si nécessaire
+            if (element instanceof AttributeDeclaration) {
+                AttributeDeclaration attr = (AttributeDeclaration) element;
+                if (attr.getElementKind() == ElementKind.OBJECT) {
+                    // Instance attribute: lives inside the heap block at instanceOffset
+                    attr.setOffset(instanceOffset);
+                    instanceOffset += attr.getType().length();
+                } else {
+                    // Static (CLASS) attribute: lives on the global stack at _offset
+                    attr.setOffset(_offset);
+                    _offset += attr.getType().length();
+                }
+            } else if (element instanceof Instruction) {
+                // Methods / constructors: allocate their own locals, no change to _offset
                 ((Instruction) element).allocateMemory(_register, _offset);
             }
         }
-        return _offset; // Retourne 0 car la taille de la classe n'impacte pas l'offset du bloc courant
+        return _offset; // only static attributes consume global stack space
     }
 
     @Override
