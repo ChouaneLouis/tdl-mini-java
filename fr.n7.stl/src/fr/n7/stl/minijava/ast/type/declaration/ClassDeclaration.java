@@ -79,6 +79,10 @@ public class ClassDeclaration implements Instruction, Declaration {
                     if (!(classElement instanceof fr.n7.stl.minijava.ast.type.declaration.ConstructorDeclaration)) {
                         Declaration declaration = (Declaration) classElement;
                         this.classScope.register(declaration);
+                    } else {
+                        ConstructorDeclaration cons = (ConstructorDeclaration) classElement;
+                        cons.name = "constructor_" + cons.name;
+                        this.classScope.register(cons);
                     }
                 } else {
                     Logger.error("ClassElement " + classElement.toString() + " is not a Declaration\n");
