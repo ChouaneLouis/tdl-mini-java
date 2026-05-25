@@ -103,9 +103,7 @@ public class MainDeclaration implements Instruction {
 
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
-		// TODO Auto-generated method stub
-		// throw new SemanticsUndefinedException("Semantics getcode is undefined in
-		// MainDeclaration.");
+		/// EDITED
 		Fragment fragment = _factory.createFragment();
 
 		// On parcourt tous les éléments définis dans la classe

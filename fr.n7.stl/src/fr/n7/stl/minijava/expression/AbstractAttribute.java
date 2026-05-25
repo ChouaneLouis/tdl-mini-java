@@ -74,8 +74,8 @@ public abstract class AbstractAttribute<ObjectKind extends Expression> implement
 
 	@Override
 	public Type getType() {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("getType in AbstractAttribute");
+		// EDITED
+		return object.getType();
 
 	}
 

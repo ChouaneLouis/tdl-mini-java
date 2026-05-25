@@ -7,6 +7,9 @@ import fr.n7.stl.minic.ast.Block;
 import fr.n7.stl.minic.ast.SemanticsUndefinedException;
 import fr.n7.stl.minic.ast.instruction.declaration.FunctionDeclaration;
 import fr.n7.stl.minic.ast.instruction.declaration.ParameterDeclaration;
+import fr.n7.stl.minic.ast.scope.Declaration;
+import fr.n7.stl.minic.ast.scope.HierarchicalScope;
+import fr.n7.stl.minic.ast.scope.SymbolTable;
 import fr.n7.stl.minic.ast.type.Type;
 
 public class MethodDeclaration extends ClassElement {
@@ -61,6 +64,20 @@ public class MethodDeclaration extends ClassElement {
         // TODO Auto-generated method stub
         throw new SemanticsUndefinedException("Semantics getType is undefined in methoddeclaration.");
 
+    }
+
+    protected HierarchicalScope<Declaration> consScope;
+
+    public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
+        this.consScope = new SymbolTable(_scope);
+        for (ParameterDeclaration parameterDeclaration : parameters) {
+            consScope.register(parameterDeclaration);
+        }
+        return this.body.collectAndPartialResolve(consScope);
+    }
+
+    public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
+        return this.body.completeResolve(consScope);
     }
 
 }

@@ -7,12 +7,14 @@ import java.util.List;
 
 import fr.n7.stl.minic.ast.SemanticsUndefinedException;
 import fr.n7.stl.minic.ast.instruction.Instruction;
+import fr.n7.stl.minic.ast.instruction.Return;
 import fr.n7.stl.minic.ast.instruction.declaration.FunctionDeclaration;
 import fr.n7.stl.minic.ast.instruction.declaration.ParameterDeclaration;
 import fr.n7.stl.minic.ast.scope.Declaration;
 import fr.n7.stl.minic.ast.scope.HierarchicalScope;
 import fr.n7.stl.minic.ast.scope.SymbolTable;
 import fr.n7.stl.minic.ast.type.Type;
+import fr.n7.stl.minijava.ast.type.ClassType;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
@@ -81,7 +83,7 @@ public class ClassDeclaration implements Instruction, Declaration {
                 // This
                 cd.parameters.add(new ParameterDeclaration("this", this.getType()));
 
-                cd.body.collectAndPartialResolve(this.classScope);
+                cd.collectAndPartialResolve(this.classScope);
 
             } else if (classElement instanceof AttributeDeclaration) {
                 AttributeDeclaration ad = (AttributeDeclaration) classElement;
@@ -96,7 +98,7 @@ public class ClassDeclaration implements Instruction, Declaration {
                 // This
                 md.parameters.add(new ParameterDeclaration("this", this.getType()));
 
-                md.body.collectAndPartialResolve(this.classScope);
+                md.collectAndPartialResolve(this.classScope);
             } else {
                 Logger.error(classElement.name + " n'est pas du bon type");
             }
@@ -128,7 +130,7 @@ public class ClassDeclaration implements Instruction, Declaration {
 
             if (classElement instanceof ConstructorDeclaration) {
                 ConstructorDeclaration cd = (ConstructorDeclaration) classElement;
-                cd.body.completeResolve(this.classScope);
+                cd.completeResolve(this.classScope);
 
             } else if (classElement instanceof AttributeDeclaration) {
                 AttributeDeclaration attribute = (AttributeDeclaration) classElement;
@@ -136,7 +138,7 @@ public class ClassDeclaration implements Instruction, Declaration {
 
             } else if (classElement instanceof MethodDeclaration) {
                 MethodDeclaration md = (MethodDeclaration) classElement;
-                md.body.completeResolve(this.classScope);
+                md.completeResolve(this.classScope);
 
             } else {
                 Logger.error(classElement.name + " n'est pas du bon type");
@@ -170,29 +172,35 @@ public class ClassDeclaration implements Instruction, Declaration {
         // throw new SemanticsUndefinedException("Semantics get code is undefined in
         // ClassDeclaration.");
         Fragment fragment = _factory.createFragment();
+        String skipLabel = "skip_" + this.name;
+        fragment.add(_factory.createJump(skipLabel));
 
         // On parcourt tous les éléments définis dans la classe
         for (ClassElement classElement : this.elements) {
 
             // Seules les méthodes et les constructeurs (qui implémentent Instruction)
             // ont du code exécutable à générer. Les attributs sont ignorés ici.
-            System.out.println(classElement.getClass().toString());
+            // System.out.println(classElement.getClass().toString());
 
             if (classElement instanceof ConstructorDeclaration) {
                 ConstructorDeclaration cd = (ConstructorDeclaration) classElement;
 
-                Fragment cons = cd.body.getCode(_factory);
-                cons.addPrefix("Constructor_" + this.name);
-            }
+                fragment.append(cd.getCode(_factory));
 
-            if (classElement instanceof Instruction) {
-                Instruction executableElement = (Instruction) classElement;
+            } else if (classElement instanceof AttributeDeclaration) {
+                AttributeDeclaration attribute = (AttributeDeclaration) classElement;
+                // TODO : attribute getCode dans class declaration ?
 
-                // On récupère le fragment de code de la méthode/constructeur
-                // et on l'ajoute au fragment global de la classe
-                fragment.append(executableElement.getCode(_factory));
+            } else if (classElement instanceof MethodDeclaration) {
+                MethodDeclaration md = (MethodDeclaration) classElement;
+                Fragment methode = md.body.getCode(_factory);
+                methode.addPrefix(this.name + "_" + md.getName());
+                fragment.append(methode);
+            } else {
+                Logger.error(classElement.name + " n'est pas du bon type");
             }
         }
+        fragment.addSuffix(skipLabel);
 
         return fragment;
     }
@@ -204,9 +212,8 @@ public class ClassDeclaration implements Instruction, Declaration {
 
     @Override
     public Type getType() {
-        // TODO Auto-generated method stub
-        throw new SemanticsUndefinedException("Semantics get type is undefined in ClassDeclaration.");
-        // return null;
+        /// EDITED
+        return new ClassType(this);
     }
 
     @Override

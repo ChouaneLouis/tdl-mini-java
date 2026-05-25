@@ -97,8 +97,8 @@ public class ObjectAllocation implements AccessibleExpression, AssignableExpress
 		// l'adresse 'this', mais l'expression 'new' entière doit laisser l'adresse
 		// finale sur la pile !
 		fragment.add(_factory.createPush(1)); // Réserve 1 case pour la copie
-		fragment.add(_factory.createLoad(fr.n7.stl.tam.ast.Register.ST, -2, objectSize)); // Copie l'adresse située
-																							// juste en dessous
+		fragment.add(_factory.createLoad(fr.n7.stl.tam.ast.Register.ST, -2, 1)); // Copie l'adresse située
+																					// juste en dessous
 
 		// On génère et empile le code de chaque argument
 		for (AccessibleExpression arg : this.arguments) {

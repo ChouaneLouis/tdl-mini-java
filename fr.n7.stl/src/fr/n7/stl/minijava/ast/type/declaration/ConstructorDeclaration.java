@@ -7,7 +7,12 @@ import fr.n7.stl.minic.ast.Block;
 import fr.n7.stl.minic.ast.SemanticsUndefinedException;
 import fr.n7.stl.minic.ast.instruction.declaration.FunctionDeclaration;
 import fr.n7.stl.minic.ast.instruction.declaration.ParameterDeclaration;
+import fr.n7.stl.minic.ast.scope.Declaration;
+import fr.n7.stl.minic.ast.scope.HierarchicalScope;
+import fr.n7.stl.minic.ast.scope.SymbolTable;
 import fr.n7.stl.minic.ast.type.Type;
+import fr.n7.stl.tam.ast.Fragment;
+import fr.n7.stl.tam.ast.TAMFactory;
 
 public class ConstructorDeclaration extends ClassElement {
 
@@ -45,5 +50,31 @@ public class ConstructorDeclaration extends ClassElement {
 		throw new SemanticsUndefinedException("Semantics get type is undefined in ConstructorDeclaration.");
 
 		// return null;
+	}
+
+	protected HierarchicalScope<Declaration> consScope;
+
+	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
+		this.consScope = new SymbolTable(_scope);
+		for (ParameterDeclaration parameterDeclaration : parameters) {
+			consScope.register(parameterDeclaration);
+		}
+		return this.body.collectAndPartialResolve(consScope);
+	}
+
+	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
+		return this.body.completeResolve(consScope);
+	}
+
+	public Fragment getCode(TAMFactory _factory) {
+		Fragment cons = body.getCode(_factory);
+		cons.addPrefix("Constructor_" + this.name);
+
+		int sizeOfParams = 0;
+		for (ParameterDeclaration parameterDeclaration : parameters) {
+			sizeOfParams += parameterDeclaration.getType().length();
+		}
+		cons.add(_factory.createReturn(0, sizeOfParams));
+		return cons;
 	}
 }
