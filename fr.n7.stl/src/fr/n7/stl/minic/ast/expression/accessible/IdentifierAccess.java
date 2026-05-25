@@ -67,6 +67,9 @@ public class IdentifierAccess extends AbstractIdentifier implements AccessibleEx
 			} else if (_declaration instanceof ParameterDeclaration) {
 				this.expression = new ParameterAccess((ParameterDeclaration) _declaration);
 				return true;
+			} else if (_declaration instanceof fr.n7.stl.minijava.ast.type.declaration.ClassDeclaration) {
+				this.expression = new fr.n7.stl.minijava.expression.accessible.ClassAccess((fr.n7.stl.minijava.ast.type.declaration.ClassDeclaration) _declaration);
+				return true;
 			} else {
 				if (_declaration instanceof ConstantDeclaration) {
 					// TODO : refactor the management of Constants

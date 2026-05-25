@@ -36,7 +36,6 @@ public class AddressAccess implements AccessibleExpression {
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
         return assignable.collectAndPartialResolve(_scope);
-        /// EDITED
 	}
 
 	/* (non-Javadoc)
@@ -45,7 +44,6 @@ public class AddressAccess implements AccessibleExpression {
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
         return assignable.completeResolve(_scope);
-        /// EDITED
 	}
 	
 	/* (non-Javadoc)
@@ -54,7 +52,6 @@ public class AddressAccess implements AccessibleExpression {
 	@Override
 	public Type getType() {
         return new PointerType(this.assignable.getType());
-        /// EDITED
 	}
 	
 	/* (non-Javadoc)
@@ -63,7 +60,6 @@ public class AddressAccess implements AccessibleExpression {
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
         return this.assignable.getCode(_factory);
-        /// EDITED
 	}
 
 }

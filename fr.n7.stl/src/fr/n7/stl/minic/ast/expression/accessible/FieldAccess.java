@@ -41,7 +41,6 @@ public class FieldAccess extends AbstractField<AccessibleExpression> implements 
             this.field.getOffset()
         ));
         return _result;
-        /// EDITED
 	}
 
 }

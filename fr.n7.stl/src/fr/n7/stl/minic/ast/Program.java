@@ -122,7 +122,6 @@ public class Program {
             offset = declaration.allocateMemory(_register, offset);
 		}
         this.main.allocateMemory(_register, offset);
-        /// EDITED
 	}
 
 	/**
@@ -139,7 +138,6 @@ public class Program {
         _result.append(this.main.getCode(_factory));
 
         return _result;
-        /// EDITED
 	}
 
 }

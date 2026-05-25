@@ -43,7 +43,6 @@ public class ArrayAllocation implements AccessibleExpression, AssignableExpressi
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
         return this.size.collectAndPartialResolve(_scope);
-        /// EDITED
 	}
 	
 	/* (non-Javadoc)
@@ -52,7 +51,6 @@ public class ArrayAllocation implements AccessibleExpression, AssignableExpressi
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
         return this.size.completeResolve(_scope);
-        /// EDITED
 	}
 
 	/* (non-Javadoc)
@@ -61,7 +59,6 @@ public class ArrayAllocation implements AccessibleExpression, AssignableExpressi
 	@Override
 	public Type getType() {
         return new ArrayType(this.element);
-        /// EDITED
 	}
 
 	/* (non-Javadoc)
@@ -75,7 +72,6 @@ public class ArrayAllocation implements AccessibleExpression, AssignableExpressi
         _result.add(Library.IMul);
         _result.add(Library.MAlloc);
         return _result;
-        /// EDITED
 	}
 
 }

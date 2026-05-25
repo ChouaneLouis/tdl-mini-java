@@ -1,0 +1,30 @@
+// [SUCCES] Test d'héritage: Utilisation de 'super()' dans le constructeur et appel d'une méthode héritée ('getLegs').
+class Animal {
+    public int legs;
+
+    public Animal() {
+        this.legs = 4;
+    }
+
+    public int getLegs() {
+        return this.legs;
+    }
+}
+
+class Dog extends Animal {
+    public Dog() {
+        super();
+    }
+
+    public int bark() {
+        return 1;
+    }
+}
+
+public class Principal {
+    public static void main(String[] args) {
+        Dog d = new Dog();
+        print d.getLegs();
+        print d.bark();
+    }
+}

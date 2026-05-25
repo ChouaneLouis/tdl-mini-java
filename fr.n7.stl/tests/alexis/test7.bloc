@@ -1,0 +1,22 @@
+// [SUCCES] Test de chaînage: Accès à un attribut d'un objet contenu dans un attribut (ex: n1.next.value) et type récursif.
+class Node {
+    public int value;
+    public Node next;
+
+    public Node(int v) {
+        this.value = v;
+    }
+
+    public void setNext(Node n) {
+        this.next = n;
+    }
+}
+
+public class Principal {
+    public static void main(String[] args) {
+        Node n1 = new Node(10);
+        Node n2 = new Node(20);
+        n1.setNext(n2);
+        print n1.next.value;
+    }
+}

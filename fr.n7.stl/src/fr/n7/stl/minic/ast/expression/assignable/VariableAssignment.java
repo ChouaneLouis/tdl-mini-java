@@ -21,24 +21,25 @@ import fr.n7.stl.util.Logger;
 public class VariableAssignment extends AbstractIdentifier implements AssignableExpression {
 	
 	protected VariableDeclaration declaration;
+	protected fr.n7.stl.minijava.ast.type.declaration.ClassDeclaration classDeclaration;
+	protected fr.n7.stl.minic.ast.instruction.declaration.ParameterDeclaration parameterDeclaration;
 
-	/**
-	 * Creates a variable assignment expression Abstract Syntax Tree node.
-	 * @param _name Name of the assigned variable.
-	 */
 	public VariableAssignment(String _name) {
 		super(_name);
 	}
 	
-	/* (non-Javadoc)
-	 * @see fr.n7.stl.block.ast.expression.AbstractIdentifier#collect(fr.n7.stl.block.ast.scope.HierarchicalScope)
-	 */
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
 		if (((HierarchicalScope<Declaration>)_scope).knows(this.name)) {
 			Declaration _declaration = _scope.get(this.name);
 			if (_declaration instanceof VariableDeclaration) {
 				this.declaration = ((VariableDeclaration) _declaration);
+				return true;
+			} else if (_declaration instanceof fr.n7.stl.minic.ast.instruction.declaration.ParameterDeclaration) {
+				this.parameterDeclaration = (fr.n7.stl.minic.ast.instruction.declaration.ParameterDeclaration) _declaration;
+				return true;
+			} else if (_declaration instanceof fr.n7.stl.minijava.ast.type.declaration.ClassDeclaration) {
+				this.classDeclaration = (fr.n7.stl.minijava.ast.type.declaration.ClassDeclaration) _declaration;
 				return true;
 			} else {
 				Logger.error("The declaration for " + this.name + " is of the wrong kind.");
@@ -50,32 +51,34 @@ public class VariableAssignment extends AbstractIdentifier implements Assignable
 		}
 	}
 	
-	/* (non-Javadoc)
-	 * @see fr.n7.stl.block.ast.expression.AbstractIdentifier#resolve(fr.n7.stl.block.ast.scope.HierarchicalScope)
-	 */
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
 		return true;
 	}
 	
-	/* (non-Javadoc)
-	 * @see fr.n7.stl.block.ast.impl.VariableUseImpl#getType()
-	 */
 	@Override
 	public Type getType() {
+		if (this.classDeclaration != null) {
+			return new fr.n7.stl.minijava.ast.type.ClassType(this.classDeclaration);
+		}
+		if (this.parameterDeclaration != null) {
+			return this.parameterDeclaration.getType();
+		}
         return this.declaration.getType();
-        /// EDITED
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.n7.stl.block.ast.impl.VariableUseImpl#getCode(fr.n7.stl.tam.ast.TAMFactory)
-	 */
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
         Fragment _result = _factory.createFragment();
+		if (this.classDeclaration != null) {
+			return _result;
+		}
+		if (this.parameterDeclaration != null) {
+			_result.add(_factory.createLoadL(this.parameterDeclaration.getOffset()));
+			return _result;
+		}
         _result.add(_factory.createLoadL(this.declaration.getOffset()));
         return _result;
-        /// EDITED
 	}
 
 }

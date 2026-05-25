@@ -41,7 +41,6 @@ public abstract class AbstractPointer<PointerKind extends Expression> implements
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
         return this.pointer.collectAndPartialResolve(_scope);
-        /// EDITED
 	}
 	
 	/* (non-Javadoc)
@@ -50,7 +49,6 @@ public abstract class AbstractPointer<PointerKind extends Expression> implements
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
         return this.pointer.completeResolve(_scope);
-        /// EDITED
 	}
 
 	/**
@@ -63,7 +61,6 @@ public abstract class AbstractPointer<PointerKind extends Expression> implements
             throw new RuntimeException("You're trying to dereference a none pointer type");
         }
         return ((PointerType) pointer.getType()).getPointedType();
-        /// EDITED
 	}
 
 }

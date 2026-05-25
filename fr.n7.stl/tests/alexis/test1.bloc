@@ -1,0 +1,22 @@
+// [SUCCES] Test d'instanciation: Création d'un objet, utilisation de 'this' dans le constructeur, et appels de méthodes/attributs d'instance.
+class Coordonnee {
+    public int x;
+    public int y;
+
+    public Coordonnee(int _x, int _y) {
+        this.x = _x;
+        this.y = _y;
+    }
+
+    public int getX() {
+        return this.x;
+    }
+}
+
+public class Principal {
+    public static void main(String[] args) {
+        Coordonnee c = new Coordonnee(10, 20);
+        print c.x;
+        print c.getX();
+    }
+}

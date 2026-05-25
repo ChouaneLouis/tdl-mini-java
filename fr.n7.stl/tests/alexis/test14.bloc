@@ -1,0 +1,10 @@
+// [ECHEC] Erreur sémantique (Type) attendue: Affectation d'un type primitif à une référence d'objet.
+class Box {
+    public int size;
+}
+public class Principal {
+    public static void main(String[] args) {
+        Box b = new Box();
+        b = 10;
+    }
+}

@@ -39,7 +39,6 @@ public class ArrayAssignment extends AbstractArray<AssignableExpression> impleme
         _result.add(Library.IMul);
         _result.add(Library.IAdd);
         return _result;
-        /// EDITED
 	}
 
 	

@@ -1,0 +1,23 @@
+// [SUCCES] Test d'appels internes: Appels de méthodes d'instance depuis une autre méthode de la même classe via 'this.methode()'.
+class MathUtils {
+    public int add(int a, int b) {
+        return a + b;
+    }
+
+    public int multiply(int a, int b) {
+        return a * b;
+    }
+
+    public int compute(int x, int y) {
+        int sum = this.add(x, y);
+        int prod = this.multiply(x, y);
+        return sum + prod;
+    }
+}
+
+public class Principal {
+    public static void main(String[] args) {
+        MathUtils m = new MathUtils();
+        print m.compute(3, 4);
+    }
+}

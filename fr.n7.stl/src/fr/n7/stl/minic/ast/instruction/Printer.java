@@ -42,7 +42,6 @@ public class Printer implements Instruction {
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
         return this.parameter.collectAndPartialResolve(_scope);
-        /// EDITED
 	}
 	
 	@Override
@@ -56,7 +55,6 @@ public class Printer implements Instruction {
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
         return this.parameter.completeResolve(_scope);
-        /// EDITED
 	}
 
 	/* (non-Javadoc)
@@ -70,7 +68,6 @@ public class Printer implements Instruction {
 			" : expected int but got " + (this.parameter != null ? this.parameter.getType() : "null"));
 		}
 		return ok;
-        /// EDITED
 	}
 
 	/* (non-Javadoc)
@@ -90,7 +87,6 @@ public class Printer implements Instruction {
         _result.append(parameter.getCode(_factory));
         _result.add(Library.IOut);
         return _result;
-        /// EDITED
 	}
 
 }

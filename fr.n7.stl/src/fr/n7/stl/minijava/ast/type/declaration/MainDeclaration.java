@@ -7,6 +7,7 @@ import fr.n7.stl.minic.ast.instruction.Instruction;
 import fr.n7.stl.minic.ast.instruction.declaration.FunctionDeclaration;
 import fr.n7.stl.minic.ast.scope.Declaration;
 import fr.n7.stl.minic.ast.scope.HierarchicalScope;
+import fr.n7.stl.minic.ast.scope.SymbolTable;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
@@ -26,40 +27,91 @@ public class MainDeclaration implements Instruction {
 	}
 
 	@Override
-	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
+        // 1. On crée une table des symboles locale pour le bloc principal
+        HierarchicalScope<Declaration> mainScope = new SymbolTable(_scope);
+        boolean isValid = true;
+        
+        // 2. On enregistre et résout les déclarations statiques / locales
+        for (Declaration declaration : this.declarations) {
+            if (declaration instanceof Instruction) {
+                isValid = isValid && ((Instruction) declaration).collectAndPartialResolve(mainScope);
+            } else {
+                mainScope.register(declaration);
+            }
+        }
+        
+        // 3. On résout le bloc principal (main)
+        isValid = isValid && this.main.collectAndPartialResolve(mainScope);
+        return isValid;
+    }
 
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope, FunctionDeclaration _container) {
-		// TODO Auto-generated method stub
-		return false;
+		return this.collectAndPartialResolve(_scope);
 	}
 
 	@Override
-	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
+        boolean isValid = true;
+        for (Declaration declaration : this.declarations) {
+            if (declaration instanceof Instruction) {
+                isValid = isValid && ((Instruction) declaration).completeResolve(_scope);
+            }
+        }
+        isValid = isValid && this.main.completeResolve(_scope);
+        return isValid;
+    }
 
 	@Override
-	public boolean checkType() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    public boolean checkType() {
+        boolean isValid = true;
+        for (Declaration declaration : this.declarations) {
+            if (declaration instanceof Instruction) {
+                isValid = isValid && ((Instruction) declaration).checkType();
+            }
+        }
+        isValid = isValid && this.main.checkType();
+        return isValid;
+    }
 
 	@Override
-	public int allocateMemory(Register _register, int _offset) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    public int allocateMemory(Register _register, int _offset) {
+        int currentOffset = _offset;
+        
+        // On alloue la mémoire pour les déclarations sur le registre global (SB)
+        for (Declaration declaration : this.declarations) {
+            if (declaration instanceof Instruction) {
+                currentOffset += ((Instruction) declaration).allocateMemory(Register.SB, currentOffset);
+            }
+        }
+        
+        // On alloue la mémoire pour le bloc d'instructions du main
+        this.main.allocateMemory(Register.SB, currentOffset);
+        
+        return 0; // C'est le programme principal, il ne remonte pas de taille d'allocation.
+    }
 
 	@Override
-	public Fragment getCode(TAMFactory _factory) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public Fragment getCode(TAMFactory _factory) {
+        Fragment fragment = _factory.createFragment();
+        
+        // Code d'initialisation des déclarations
+        for (Declaration declaration : this.declarations) {
+            if (declaration instanceof Instruction) {
+                fragment.append(((Instruction) declaration).getCode(_factory));
+            }
+        }
+        
+        // Code du bloc principal
+        fragment.append(this.main.getCode(_factory));
+        
+        // Fin du programme : HALT
+        fragment.add(_factory.createHalt());
+        
+        return fragment;
+    }
+    
 	
 	public String getName() {
 		return this.name;

@@ -65,8 +65,7 @@ public class Conditional implements Instruction {
 		return this.condition.collectAndPartialResolve(_scope)
 				&& this.thenBranch.collectAndPartialResolve(_scope)
 				&& (this.elseBranch == null || this.elseBranch.collectAndPartialResolve(_scope));
-		/// EDITED
-	}
+			}
 
 	/*
 	 * (non-Javadoc)
@@ -80,8 +79,7 @@ public class Conditional implements Instruction {
 		return this.condition.collectAndPartialResolve(_scope)
 				&& this.thenBranch.collectAndPartialResolve(_scope, _container)
 				&& (this.elseBranch == null || this.elseBranch.collectAndPartialResolve(_scope, _container));
-		/// EDITED
-	}
+			}
 
 	/*
 	 * (non-Javadoc)
@@ -95,8 +93,7 @@ public class Conditional implements Instruction {
 		return this.condition.completeResolve(_scope)
 				&& this.thenBranch.completeResolve(_scope)
 				&& (this.elseBranch == null || this.elseBranch.completeResolve(_scope));
-		/// EDITED
-	}
+			}
 
 	/*
 	 * (non-Javadoc)
@@ -113,8 +110,7 @@ public class Conditional implements Instruction {
 			" Condition : expected boolean but got " + (this.condition != null ? this.condition.getType() : "null"));
 		}	
 		return condition && thenBlock && elseBlock;
-		/// EDITED
-	}
+			}
 
 	/*
 	 * (non-Javadoc)
@@ -130,8 +126,7 @@ public class Conditional implements Instruction {
 			this.elseBranch.allocateMemory(_register, _offset);
 		}
 		return _offset;
-		/// EDITED
-	}
+			}
 
 	/*
 	 * (non-Javadoc)
@@ -167,7 +162,6 @@ public class Conditional implements Instruction {
 		_result.addSuffix(endLabel);
 
 		return _result;
-		/// EDITED
-	}
+			}
 
 }

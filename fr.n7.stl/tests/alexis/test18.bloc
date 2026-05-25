@@ -1,0 +1,9 @@
+// [ECHEC] Erreur sémantique (Type) attendue: Le type de retour de la méthode ne correspond pas à la déclaration.
+class BadReturn {
+    public int getBool() {
+        return true;
+    }
+}
+public class Principal {
+    public static void main(String[] args) { }
+}

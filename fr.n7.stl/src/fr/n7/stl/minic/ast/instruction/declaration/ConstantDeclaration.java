@@ -106,14 +106,12 @@ public class ConstantDeclaration implements DeclarationInstruction {
 			Logger.error("Variable : " + this.name + " is already defined.");
 			return false;
 		}
-		/// EDITED
-	}
+			}
 
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope, FunctionDeclaration _container) {
 		return this.collectAndPartialResolve(_scope);
-		/// EDITED
-
+		
 	}
 
 	/*
@@ -126,8 +124,7 @@ public class ConstantDeclaration implements DeclarationInstruction {
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
 		return this.value.completeResolve(_scope) && this.type.completeResolve(_scope);
-		/// EDITED
-	}
+			}
 
 	/*
 	 * (non-Javadoc)
@@ -143,8 +140,7 @@ public class ConstantDeclaration implements DeclarationInstruction {
 					(this.value != null ? this.value.getType() : "null"));
 		}
 		return ok;
-		/// EDITED
-	}
+			}
 
 	/*
 	 * (non-Javadoc)
@@ -156,8 +152,7 @@ public class ConstantDeclaration implements DeclarationInstruction {
 	@Override
 	public int allocateMemory(Register _register, int _offset) {
 		return _offset;
-		/// EDITED
-	}
+			}
 
 	/*
 	 * (non-Javadoc)
@@ -167,7 +162,6 @@ public class ConstantDeclaration implements DeclarationInstruction {
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
 		return _factory.createFragment();
-		/// EDITED
-	}
+			}
 
 }

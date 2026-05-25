@@ -1,0 +1,12 @@
+// [SUCCES] Test de portée: Paramètre de méthode ayant le même nom qu'un attribut (masquage résolu par 'this').
+class Point {
+    public int x;
+    public Point(int x) {
+        this.x = x;
+    }
+}
+public class Principal {
+    public static void main(String[] args) {
+        Point p = new Point(5);
+    }
+}

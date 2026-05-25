@@ -38,44 +38,131 @@ public class MethodCall implements Instruction {
 
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("collectAndPartialResolve in MethodCall");
-
+		boolean isValid = true;
+		if (this.target != null) {
+			isValid = isValid && this.target.collectAndPartialResolve(_scope);
+		}
+		for (AccessibleExpression arg : this.arguments) {
+			isValid = isValid && arg.collectAndPartialResolve(_scope);
+		}
+		return isValid;
 	}
 
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope, FunctionDeclaration _container) {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("collectAndPartialResolve in MethodCall");
-
+		return this.collectAndPartialResolve(_scope);
 	}
 
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("completeResolve in MethodCall");
-
+		boolean isValid = true;
+		if (this.target != null) {
+			isValid = isValid && this.target.completeResolve(_scope);
+		}
+		for (AccessibleExpression arg : this.arguments) {
+			isValid = isValid && arg.completeResolve(_scope);
+		}
+		
+		fr.n7.stl.minijava.ast.type.declaration.ClassDeclaration classDecl = null;
+		if (this.target != null) {
+			fr.n7.stl.minic.ast.type.Type targetType = this.target.getType();
+			if (targetType instanceof fr.n7.stl.minijava.ast.type.ClassType) {
+				// Pareil ici, getDeclaration() évite de foirer la recherche avec _scope.get()
+				classDecl = ((fr.n7.stl.minijava.ast.type.ClassType)targetType).getDeclaration();
+			}
+		} else {
+			Declaration thisDecl = _scope.get("this");
+			if (thisDecl != null && thisDecl.getType() instanceof fr.n7.stl.minijava.ast.type.ClassType) {
+				classDecl = ((fr.n7.stl.minijava.ast.type.ClassType)thisDecl.getType()).getDeclaration();
+			}
+		}
+		
+		if (classDecl != null) {
+			// Pareil, on remonte les ancêtres pour trouver la méthode (héritage)
+			while (classDecl != null) {
+				for (fr.n7.stl.minijava.ast.type.declaration.ClassElement element : classDecl.getElements()) {
+					if (element instanceof MethodDeclaration && element.getName().equals(this.name)) {
+						this.method = (MethodDeclaration) element;
+						return isValid;
+					}
+				}
+				if (classDecl.getAncestor() != null) {
+					Declaration ancestorDecl = _scope.get(classDecl.getAncestor());
+					if (ancestorDecl instanceof fr.n7.stl.minijava.ast.type.declaration.ClassDeclaration) {
+						classDecl = (fr.n7.stl.minijava.ast.type.declaration.ClassDeclaration) ancestorDecl;
+					} else {
+						classDecl = null;
+					}
+				} else {
+					classDecl = null;
+				}
+			}
+		}
+		
+		fr.n7.stl.util.Logger.error("Method " + this.name + " not found or invalid target in instruction.");
+		return false;
 	}
 
 	@Override
 	public boolean checkType() {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("checkType in MethodCall");
+		boolean isValid = true;
+		if (this.method == null) return false;
 
+		List<ParameterDeclaration> params = this.method.getParameters();
+		if (params.size() != this.arguments.size()) {
+			fr.n7.stl.util.Logger.error("Wrong number of arguments for method " + this.name);
+			return false;
+		}
+
+		// On vérifie bien que chaque type d'argument correspond au type du paramètre déclaré
+		for (int i = 0; i < params.size(); i++) {
+			fr.n7.stl.minic.ast.type.Type argType = this.arguments.get(i).getType();
+			fr.n7.stl.minic.ast.type.Type paramType = params.get(i).getType();
+			if (!argType.compatibleWith(paramType)) {
+				fr.n7.stl.util.Logger.error("Incompatible argument type for method " + this.name + ": expected " + paramType + " but got " + argType);
+				isValid = false;
+			}
+		}
+		return isValid;
 	}
 
 	@Override
 	public int allocateMemory(Register _register, int _offset) {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("allocateMemory in MethodCall");
-
+		return 0;
 	}
 
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("getCode in MethodCall");
+		Fragment result = _factory.createFragment();
 
+		if (this.method != null && this.method.getElementKind() == fr.n7.stl.minijava.ast.type.declaration.ElementKind.CLASS) {
+			// STATIC METHOD
+			for (AccessibleExpression arg : this.arguments) {
+				result.append(arg.getCode(_factory));
+			}
+		} else {
+			// INSTANCE METHOD
+			if (this.target != null) {
+				result.append(this.target.getCode(_factory));
+			} else {
+				// implicit 'this'
+				result.add(_factory.createLoad(Register.LB, -1, 1));
+			}
+			for (AccessibleExpression arg : this.arguments) {
+				result.append(arg.getCode(_factory));
+			}
+		}
+
+		// 3. On effectue l'appel à la méthode
+		String label = (this.method != null) ? this.method.getName() : this.name;
+		result.add(_factory.createCall("Method_" + label, Register.SB));
+
+		// 4. Si la méthode renvoie une valeur, on doit la dépiler car c'est une instruction (on ignore le résultat)
+		if (this.method != null && this.method.getType() != fr.n7.stl.minic.ast.type.AtomicType.VoidType) {
+			result.add(_factory.createPop(0, this.method.getType().length()));
+		}
+
+		return result;
 	}
 
 	@Override

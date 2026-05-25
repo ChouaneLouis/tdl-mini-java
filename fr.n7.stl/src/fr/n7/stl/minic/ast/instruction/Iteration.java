@@ -53,14 +53,12 @@ public class Iteration implements Instruction {
     public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
         return this.condition.collectAndPartialResolve(_scope)
                 && this.body.collectAndPartialResolve(_scope);
-        /// EDITED
     }
 
     @Override
     public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope, FunctionDeclaration _container) {
         return this.condition.collectAndPartialResolve(_scope)
                 && this.body.collectAndPartialResolve(_scope, _container);
-        /// EDITED
     }
 
     /*
@@ -74,7 +72,6 @@ public class Iteration implements Instruction {
     public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
         return this.condition.completeResolve(_scope)
                 && this.body.completeResolve(_scope);
-        /// EDITED
     }
 
     /*
@@ -93,7 +90,6 @@ public class Iteration implements Instruction {
         }
         return condition && body;
 
-        /// EDITED
     }
 
     /*
@@ -107,7 +103,6 @@ public class Iteration implements Instruction {
     public int allocateMemory(Register _register, int _offset) {
         this.body.allocateMemory(_register, _offset);
         return _offset;
-        /// EDITED
     }
 
     /*
@@ -131,7 +126,6 @@ public class Iteration implements Instruction {
         _result.addSuffix(endLabel);
 
         return _result;
-        /// EDITED
     }
 
 }

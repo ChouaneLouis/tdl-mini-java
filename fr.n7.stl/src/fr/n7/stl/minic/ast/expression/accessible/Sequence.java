@@ -98,7 +98,6 @@ public class Sequence implements AccessibleExpression {
             _result.append(_value.getCode(_factory));
         }
         return _result;
-        /// EDITED
 	}
 
 }

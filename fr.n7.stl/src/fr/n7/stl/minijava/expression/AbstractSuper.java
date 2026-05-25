@@ -9,30 +9,31 @@ import fr.n7.stl.minic.ast.type.Type;
 public abstract class AbstractSuper<ObjectKind extends Expression> implements Expression {
 
 	public AbstractSuper() {
-		// TODO Auto-generated constructor stub
-		throw new SemanticsUndefinedException("constructor in AbstractSuper");
-
 	}
+
+	protected Declaration declaration;
 
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("collectAndPartialResolve in AbstractSuper");
-
+		return true;
 	}
 
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("completeResolve in AbstractSuper");
-
+		this.declaration = _scope.get("super");
+		if (this.declaration == null) {
+			fr.n7.stl.util.Logger.error("L'utilisation de 'super' est interdite dans ce contexte (pas de parent).");
+			return false;
+		}
+		return this.declaration.getType().completeResolve(_scope);
 	}
 
 	@Override
 	public Type getType() {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("getType in AbstractSuper");
-
+		if (this.declaration != null) {
+			return this.declaration.getType();
+		}
+		return null;
 	}
 
 	@Override

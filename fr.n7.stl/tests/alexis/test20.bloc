@@ -1,0 +1,7 @@
+// [ECHEC] Erreur sémantique (Type) attendue: Appel de méthode sur un type primitif (int).
+public class Principal {
+    public static void main(String[] args) {
+        int x = 5;
+        x.doSomething();
+    }
+}

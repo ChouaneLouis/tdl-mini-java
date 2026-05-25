@@ -23,23 +23,55 @@ public abstract class AbstractAttribute<ObjectKind extends Expression> implement
 
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("collectAndPartialResolve in AbstractAttribute");
-
+		return this.object.collectAndPartialResolve(_scope);
 	}
 
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("completeResolve in AbstractAttribute");
+		boolean ok = this.object.completeResolve(_scope);
+		if (!ok){return false;}
 
+		Type objectType = this.object.getType();
+
+		if (objectType instanceof fr.n7.stl.minijava.ast.type.ClassType){
+			// On utilise getDeclaration() pour éviter de retomber sur le constructeur si on fait juste _scope.get()
+			fr.n7.stl.minijava.ast.type.declaration.ClassDeclaration laClass = ((fr.n7.stl.minijava.ast.type.ClassType) objectType).getDeclaration();
+			
+			if (laClass != null){
+				// Boucle ajoutée pour remonter dans les classes parentes si on ne trouve pas l'attribut dans la classe courante
+				while (laClass != null) {
+					for (fr.n7.stl.minijava.ast.type.declaration.ClassElement element : laClass.getElements()) {
+						if (element instanceof fr.n7.stl.minijava.ast.type.declaration.AttributeDeclaration){
+							fr.n7.stl.minijava.ast.type.declaration.AttributeDeclaration attr = (fr.n7.stl.minijava.ast.type.declaration.AttributeDeclaration) element;
+							if (attr.getName().equals(this.name)){
+								this.attribute = attr;
+								return true;
+							}
+						}
+					}
+					if (laClass.getAncestor() != null) {
+						Declaration ancestorDecl = _scope.get(laClass.getAncestor());
+						if (ancestorDecl instanceof fr.n7.stl.minijava.ast.type.declaration.ClassDeclaration) {
+							laClass = (fr.n7.stl.minijava.ast.type.declaration.ClassDeclaration) ancestorDecl;
+						} else {
+							laClass = null;
+						}
+					} else {
+						laClass = null;
+					}
+				}
+			}
+		}
+		fr.n7.stl.util.Logger.error("L'attribut " + this.name + " n'existe pas ou l'objet cible est invalide.");
+		return false;
 	}
 
 	@Override
 	public Type getType() {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("getType in AbstractAttribute");
-
+		if (this.attribute != null) {
+            return this.attribute.getType();
+        }
+        return null;
 	}
 
 	@Override

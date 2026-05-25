@@ -5,20 +5,18 @@ import fr.n7.stl.minic.ast.expression.assignable.AssignableExpression;
 import fr.n7.stl.minijava.expression.AbstractSuper;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.TAMFactory;
+import fr.n7.stl.minic.ast.scope.Declaration;
+import fr.n7.stl.minic.ast.scope.HierarchicalScope;
+import fr.n7.stl.minic.ast.type.Type;
 
 public class SuperAssignment extends AbstractSuper<AssignableExpression> implements AssignableExpression {
 
 	public SuperAssignment() {
-		// TODO Auto-generated constructor stub
-		throw new SemanticsUndefinedException("SuperAssignment constructor");
-
 	}
 
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("getCode in SuperAssignment");
-
+		return _factory.createFragment();
 	}
 
 }

@@ -1,0 +1,16 @@
+// [SUCCES] Test d'affectation statique: Modification d'un attribut statique (Counter.count = Counter.count + 1) depuis le constructeur.
+class Counter {
+    public static int count = 0;
+    
+    public Counter() {
+        Counter.count = Counter.count + 1;
+    }
+}
+
+public class Principal {
+    public static void main(String[] args) {
+        Counter c1 = new Counter();
+        Counter c2 = new Counter();
+        print Counter.count;
+    }
+}

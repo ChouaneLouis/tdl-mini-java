@@ -52,7 +52,6 @@ public abstract class AbstractArray<ArrayKind extends Expression> implements Exp
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
         return this.array.collectAndPartialResolve(_scope)
             && this.index.collectAndPartialResolve(_scope);
-        /// EDITED
 	}
 
 	/* (non-Javadoc)
@@ -62,7 +61,6 @@ public abstract class AbstractArray<ArrayKind extends Expression> implements Exp
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
         return this.array.completeResolve(_scope)
             && this.index.completeResolve(_scope);
-        /// EDITED
 	}
 	
 	/**
@@ -76,7 +74,6 @@ public abstract class AbstractArray<ArrayKind extends Expression> implements Exp
             return AtomicType.ErrorType;
         }
         return ((ArrayType) _array_type).getType();
-        /// EDITED
 	}
 
 }

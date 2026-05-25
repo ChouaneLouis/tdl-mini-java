@@ -1,0 +1,11 @@
+// [ECHEC] Erreur sémantique attendue: Il est strictement interdit de réaffecter la référence 'this'.
+class Fails {
+    public void test() {
+        this = new Fails();
+    }
+}
+
+public class Principal {
+    public static void main(String[] args) {
+    }
+}

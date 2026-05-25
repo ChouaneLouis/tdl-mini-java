@@ -1,0 +1,15 @@
+// [SUCCES] Test de chaînage de méthodes: Appel successif de méthodes retournant l'instance 'this'.
+class Chain {
+    public int v;
+    public Chain setV(int _v) {
+        this.v = _v;
+        return this;
+    }
+}
+public class Principal {
+    public static void main(String[] args) {
+        Chain c = new Chain();
+        c.setV(10).setV(20);
+        print c.v;
+    }
+}

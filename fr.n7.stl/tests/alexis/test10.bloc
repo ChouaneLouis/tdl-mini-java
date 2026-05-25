@@ -1,0 +1,13 @@
+// [ECHEC] Erreur sémantique attendue: Appel d'une méthode 'doesNotExist()' qui n'est pas déclarée dans la classe 'Helper'.
+class Helper {
+    public int doSomething() {
+        return 1;
+    }
+}
+
+public class Principal {
+    public static void main(String[] args) {
+        Helper h = new Helper();
+        h.doesNotExist();
+    }
+}

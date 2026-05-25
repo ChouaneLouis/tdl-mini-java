@@ -39,7 +39,6 @@ public class ArrayAccess extends AbstractArray<AccessibleExpression> implements 
         _result.add(Library.IAdd);
         _result.add(_factory.createLoadI(this.getType().length()));
         return _result;
-        /// EDITED
 	}
 
 }

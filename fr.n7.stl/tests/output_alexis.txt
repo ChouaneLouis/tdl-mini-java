@@ -1,0 +1,935 @@
+-------------------------------------------------------------------------------------
+Treating ./tests/alexis/test0.bloc
+// [SUCCES] Test basique: Accès à des membres statiques (attribut et méthode) d'une classe.
+class Point {
+    public static int x = 10;
+
+    public static int obtenirX() {
+        return 5;
+    }
+}
+
+public class Principal {
+    // Cette fois-ce, on respecte à 100% la règle 'principale' de la grammaire !
+    public static void main(String[] args) {
+        print Point.x; 
+        print Point.obtenirX();
+    }
+}
+
+
+class Point {
+public  int x;
+public  int obtenirX( ){
+return 5;
+}
+}
+
+public class Principal {
+
+	public static void Main( String[] args) {
+print Point.x;
+print Point.obtenirX( );
+}
+
+}
+
+collect succeeded
+Resolve succeeded.
+Type verification succeeded.
+Code generation ...
+Code generation finished
+-------------------------------------------------------------------------------------
+Treating ./tests/alexis/test10.bloc
+// [ECHEC] Erreur sémantique attendue: Appel d'une méthode 'doesNotExist()' qui n'est pas déclarée dans la classe 'Helper'.
+class Helper {
+    public int doSomething() {
+        return 1;
+    }
+}
+
+public class Principal {
+    public static void main(String[] args) {
+        Helper h = new Helper();
+        h.doesNotExist();
+    }
+}
+
+
+
+class Helper {
+public  int doSomething( ){
+return 1;
+}
+}
+
+public class Principal {
+
+	public static void Main( String[] args) {
+ Helper  h = new Helper( );
+h.doesNotExist( );
+}
+
+}
+
+collect succeeded
+Error : Method doesNotExist not found or invalid target in instruction.
+Exception in thread "main" fr.n7.stl.util.BlockSemanticsError
+	at fr.n7.stl.util.Logger.error(Unknown Source)
+	at fr.n7.stl.minijava.instruction.MethodCall.completeResolve(Unknown Source)
+	at fr.n7.stl.minic.ast.Block.completeResolve(Unknown Source)
+	at fr.n7.stl.minijava.ast.type.declaration.MainDeclaration.completeResolve(Unknown Source)
+	at fr.n7.stl.minijava.ASTBuilder.startCompilation(Unknown Source)
+	at fr.n7.stl.minijava.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests/alexis/test11.bloc
+// [SUCCES] Test de masquage (shadowing): Variable locale 'x' masque l'attribut 'x', l'utilisation de 'this.x' permet d'y accéder.
+class Shadow {
+    public int x;
+    public void setX(int x) {
+        this.x = x;
+    }
+}
+public class Principal {
+    public static void main(String[] args) {
+        Shadow s = new Shadow();
+        s.setX(42);
+        print s.x;
+    }
+}
+
+
+
+class Shadow {
+public  int x;
+public  void setX( int x){
+this.x = x;
+}
+}
+
+public class Principal {
+
+	public static void Main( String[] args) {
+ Shadow  s = new Shadow( );
+s.setX( 42);
+print s.x;
+}
+
+}
+
+collect succeeded
+Resolve succeeded.
+Type verification succeeded.
+Code generation ...
+Code generation finished
+-------------------------------------------------------------------------------------
+Treating ./tests/alexis/test12.bloc
+// [ECHEC] Erreur sémantique (Type) attendue: Mauvais type d'argument passé au constructeur.
+class Person {
+    public int age;
+    public Person(int _age) {
+        this.age = _age;
+    }
+}
+public class Principal {
+    public static void main(String[] args) {
+        boolean b = true;
+        Person p = new Person(b);
+    }
+}
+
+
+
+class Person {
+public  int age;
+public  Person( int _age){
+this.age = _age;
+}
+}
+
+public class Principal {
+
+	public static void Main( String[] args) {
+boolean b = true;
+ Person  p = new Person( b);
+}
+
+}
+
+collect succeeded
+Resolve succeeded.
+Error : Type incorrect pour l'argument 1 du constructeur de Person : attendu int, reçu boolean.
+Exception in thread "main" fr.n7.stl.util.BlockSemanticsError
+	at fr.n7.stl.util.Logger.error(Unknown Source)
+	at fr.n7.stl.minijava.expression.allocation.ObjectAllocation.getType(Unknown Source)
+	at fr.n7.stl.minic.ast.instruction.declaration.VariableDeclaration.checkType(Unknown Source)
+	at fr.n7.stl.minic.ast.Block.checkType(Unknown Source)
+	at fr.n7.stl.minijava.ast.type.declaration.MainDeclaration.checkType(Unknown Source)
+	at fr.n7.stl.minijava.ASTBuilder.startCompilation(Unknown Source)
+	at fr.n7.stl.minijava.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests/alexis/test13.bloc
+// [SUCCES] Test d'accès statique hérité: Accès à un attribut statique de la classe parente via le nom de la classe enfant.
+class Parent {
+    public static int id = 100;
+}
+class Child extends Parent {
+}
+public class Principal {
+    public static void main(String[] args) {
+        print Child.id;
+    }
+}
+
+
+
+class Parent {
+public  int id;
+}
+
+class Child extends Parent {
+}
+
+public class Principal {
+
+	public static void Main( String[] args) {
+print Child.id;
+}
+
+}
+
+collect succeeded
+Resolve succeeded.
+Type verification succeeded.
+Code generation ...
+Code generation finished
+-------------------------------------------------------------------------------------
+Treating ./tests/alexis/test14.bloc
+// [ECHEC] Erreur sémantique (Type) attendue: Affectation d'un type primitif à une référence d'objet.
+class Box {
+    public int size;
+}
+public class Principal {
+    public static void main(String[] args) {
+        Box b = new Box();
+        b = 10;
+    }
+}
+
+
+
+class Box {
+public  int size;
+}
+
+public class Principal {
+
+	public static void Main( String[] args) {
+ Box  b = new Box( );
+ b  = 10;
+}
+
+}
+
+collect succeeded
+Resolve succeeded.
+Error : Type mismatch in assignment of  b  : expected  Box  but got int
+Exception in thread "main" fr.n7.stl.util.BlockSemanticsError
+	at fr.n7.stl.util.Logger.error(Unknown Source)
+	at fr.n7.stl.minic.ast.instruction.Assignment.checkType(Unknown Source)
+	at fr.n7.stl.minic.ast.Block.checkType(Unknown Source)
+	at fr.n7.stl.minijava.ast.type.declaration.MainDeclaration.checkType(Unknown Source)
+	at fr.n7.stl.minijava.ASTBuilder.startCompilation(Unknown Source)
+	at fr.n7.stl.minijava.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests/alexis/test15.bloc
+// [SUCCES] Test de chaînage de méthodes: Appel successif de méthodes retournant l'instance 'this'.
+class Chain {
+    public int v;
+    public Chain setV(int _v) {
+        this.v = _v;
+        return this;
+    }
+}
+public class Principal {
+    public static void main(String[] args) {
+        Chain c = new Chain();
+        c.setV(10).setV(20);
+        print c.v;
+    }
+}
+
+
+
+class Chain {
+public  int v;
+public   Chain  setV( int _v){
+this.v = _v;
+return this;
+}
+}
+
+public class Principal {
+
+	public static void Main( String[] args) {
+ Chain  c = new Chain( );
+c.setV( 10).setV( 20);
+print c.v;
+}
+
+}
+
+collect succeeded
+Resolve succeeded.
+Type verification succeeded.
+Code generation ...
+Code generation finished
+-------------------------------------------------------------------------------------
+Treating ./tests/alexis/test16.bloc
+// [ECHEC] Erreur sémantique attendue: Appel de this() sans constructeur correspondant (aucun argument alors qu'il attend un int).
+class Auto {
+    public Auto(int v) {
+        this();
+    }
+}
+public class Principal {
+    public static void main(String[] args) { }
+}
+
+
+
+class Auto {
+public  Auto( int v){
+this( );
+}
+}
+
+public class Principal {
+
+	public static void Main( String[] args) {
+}
+
+}
+
+collect succeeded
+Resolve succeeded.
+Error : L'appel à this() attend 1 argument(s), mais 0 ont été fournis.
+Exception in thread "main" fr.n7.stl.util.BlockSemanticsError
+	at fr.n7.stl.util.Logger.error(Unknown Source)
+	at fr.n7.stl.minijava.instruction.ThisCall.checkType(Unknown Source)
+	at fr.n7.stl.minic.ast.Block.checkType(Unknown Source)
+	at fr.n7.stl.minijava.ast.type.declaration.ConstructorDeclaration.checkType(Unknown Source)
+	at fr.n7.stl.minijava.ast.type.declaration.ClassDeclaration.checkType(Unknown Source)
+	at fr.n7.stl.minijava.ASTBuilder.startCompilation(Unknown Source)
+	at fr.n7.stl.minijava.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests/alexis/test17.bloc
+// [SUCCES] Test de portée: Paramètre de méthode ayant le même nom qu'un attribut (masquage résolu par 'this').
+class Point {
+    public int x;
+    public Point(int x) {
+        this.x = x;
+    }
+}
+public class Principal {
+    public static void main(String[] args) {
+        Point p = new Point(5);
+    }
+}
+
+
+
+class Point {
+public  int x;
+public  Point( int x){
+this.x = x;
+}
+}
+
+public class Principal {
+
+	public static void Main( String[] args) {
+ Point  p = new Point( 5);
+}
+
+}
+
+collect succeeded
+Resolve succeeded.
+Type verification succeeded.
+Code generation ...
+Code generation finished
+-------------------------------------------------------------------------------------
+Treating ./tests/alexis/test18.bloc
+// [ECHEC] Erreur sémantique (Type) attendue: Le type de retour de la méthode ne correspond pas à la déclaration.
+class BadReturn {
+    public int getBool() {
+        return true;
+    }
+}
+public class Principal {
+    public static void main(String[] args) { }
+}
+
+
+
+class BadReturn {
+public  int getBool( ){
+return true;
+}
+}
+
+public class Principal {
+
+	public static void Main( String[] args) {
+}
+
+}
+
+collect succeeded
+Resolve succeeded.
+Error : Type error in return: expected int but got boolean in function getBool
+Exception in thread "main" fr.n7.stl.util.BlockSemanticsError
+	at fr.n7.stl.util.Logger.error(Unknown Source)
+	at fr.n7.stl.minic.ast.instruction.Return.checkType(Unknown Source)
+	at fr.n7.stl.minic.ast.Block.checkType(Unknown Source)
+	at fr.n7.stl.minijava.ast.type.declaration.MethodDeclaration.checkType(Unknown Source)
+	at fr.n7.stl.minijava.ast.type.declaration.ClassDeclaration.checkType(Unknown Source)
+	at fr.n7.stl.minijava.ASTBuilder.startCompilation(Unknown Source)
+	at fr.n7.stl.minijava.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests/alexis/test19.bloc
+// [SUCCES] Test de polymorphisme: Passage d'un objet enfant (Dog) à une méthode attendant un objet parent (Animal).
+class Animal {
+    public int age;
+}
+class Dog extends Animal {
+    public int getBarks() { return 10; }
+}
+class Vet {
+    public void examine(Animal a) {
+        a.age = 5;
+    }
+}
+public class Principal {
+    public static void main(String[] args) {
+        Vet v = new Vet();
+        Dog d = new Dog();
+        v.examine(d);
+    }
+}
+
+
+
+class Animal {
+public  int age;
+}
+
+class Dog extends Animal {
+public  int getBarks( ){
+return 10;
+}
+}
+
+class Vet {
+public  void examine(  Animal  a){
+ a .age = 5;
+}
+}
+
+public class Principal {
+
+	public static void Main( String[] args) {
+ Vet  v = new Vet( );
+ Dog  d = new Dog( );
+v.examine( d);
+}
+
+}
+
+collect succeeded
+Resolve succeeded.
+Type verification succeeded.
+Code generation ...
+Code generation finished
+-------------------------------------------------------------------------------------
+Treating ./tests/alexis/test1.bloc
+// [SUCCES] Test d'instanciation: Création d'un objet, utilisation de 'this' dans le constructeur, et appels de méthodes/attributs d'instance.
+class Coordonnee {
+    public int x;
+    public int y;
+
+    public Coordonnee(int _x, int _y) {
+        this.x = _x;
+        this.y = _y;
+    }
+
+    public int getX() {
+        return this.x;
+    }
+}
+
+public class Principal {
+    public static void main(String[] args) {
+        Coordonnee c = new Coordonnee(10, 20);
+        print c.x;
+        print c.getX();
+    }
+}
+
+
+
+class Coordonnee {
+public  int x;
+public  int y;
+public  Coordonnee( int _x ,int _y){
+this.x = _x;
+this.y = _y;
+}
+public  int getX( ){
+return this.x;
+}
+}
+
+public class Principal {
+
+	public static void Main( String[] args) {
+ Coordonnee  c = new Coordonnee( 10 ,20);
+print c.x;
+print c.getX( );
+}
+
+}
+
+collect succeeded
+Resolve succeeded.
+Type verification succeeded.
+Code generation ...
+Code generation finished
+-------------------------------------------------------------------------------------
+Treating ./tests/alexis/test20.bloc
+// [ECHEC] Erreur sémantique (Type) attendue: Appel de méthode sur un type primitif (int).
+public class Principal {
+    public static void main(String[] args) {
+        int x = 5;
+        x.doSomething();
+    }
+}
+
+
+
+public class Principal {
+
+	public static void Main( String[] args) {
+int x = 5;
+x.doSomething( );
+}
+
+}
+
+collect succeeded
+Error : Method doSomething not found or invalid target in instruction.
+Exception in thread "main" fr.n7.stl.util.BlockSemanticsError
+	at fr.n7.stl.util.Logger.error(Unknown Source)
+	at fr.n7.stl.minijava.instruction.MethodCall.completeResolve(Unknown Source)
+	at fr.n7.stl.minic.ast.Block.completeResolve(Unknown Source)
+	at fr.n7.stl.minijava.ast.type.declaration.MainDeclaration.completeResolve(Unknown Source)
+	at fr.n7.stl.minijava.ASTBuilder.startCompilation(Unknown Source)
+	at fr.n7.stl.minijava.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests/alexis/test2.bloc
+// [ECHEC] Erreur sémantique attendue: L'attribut 'z' n'est pas défini dans la classe 'Coordonnee'.
+class Coordonnee {
+    public int x;
+    public int y;
+}
+
+public class Principal {
+    public static void main(String[] args) {
+        Coordonnee c = new Coordonnee();
+        c.x = 1;
+        c.z = 2;
+    }
+}
+
+
+
+class Coordonnee {
+public  int x;
+public  int y;
+}
+
+public class Principal {
+
+	public static void Main( String[] args) {
+ Coordonnee  c = new Coordonnee( );
+ c .x = 1;
+ c .z = 2;
+}
+
+}
+
+collect succeeded
+Error : L'attribut z n'existe pas ou l'objet cible est invalide.
+Exception in thread "main" fr.n7.stl.util.BlockSemanticsError
+	at fr.n7.stl.util.Logger.error(Unknown Source)
+	at fr.n7.stl.minijava.expression.AbstractAttribute.completeResolve(Unknown Source)
+	at fr.n7.stl.minic.ast.instruction.Assignment.completeResolve(Unknown Source)
+	at fr.n7.stl.minic.ast.Block.completeResolve(Unknown Source)
+	at fr.n7.stl.minijava.ast.type.declaration.MainDeclaration.completeResolve(Unknown Source)
+	at fr.n7.stl.minijava.ASTBuilder.startCompilation(Unknown Source)
+	at fr.n7.stl.minijava.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests/alexis/test3.bloc
+// [SUCCES] Test d'appels internes: Appels de méthodes d'instance depuis une autre méthode de la même classe via 'this.methode()'.
+class MathUtils {
+    public int add(int a, int b) {
+        return a + b;
+    }
+
+    public int multiply(int a, int b) {
+        return a * b;
+    }
+
+    public int compute(int x, int y) {
+        int sum = this.add(x, y);
+        int prod = this.multiply(x, y);
+        return sum + prod;
+    }
+}
+
+public class Principal {
+    public static void main(String[] args) {
+        MathUtils m = new MathUtils();
+        print m.compute(3, 4);
+    }
+}
+
+
+
+class MathUtils {
+public  int add( int a ,int b){
+return (a + b);
+}
+public  int multiply( int a ,int b){
+return (a * b);
+}
+public  int compute( int x ,int y){
+int sum = this.add( x ,y);
+int prod = this.multiply( x ,y);
+return (sum + prod);
+}
+}
+
+public class Principal {
+
+	public static void Main( String[] args) {
+ MathUtils  m = new MathUtils( );
+print m.compute( 3 ,4);
+}
+
+}
+
+collect succeeded
+Resolve succeeded.
+Type verification succeeded.
+Code generation ...
+Code generation finished
+-------------------------------------------------------------------------------------
+Treating ./tests/alexis/test4.bloc
+// [ECHEC] Erreur sémantique attendue: Il est strictement interdit de réaffecter la référence 'this'.
+class Fails {
+    public void test() {
+        this = new Fails();
+    }
+}
+
+public class Principal {
+    public static void main(String[] args) {
+    }
+}
+
+
+
+class Fails {
+public  void test( ){
+this = new Fails( );
+}
+}
+
+public class Principal {
+
+	public static void Main( String[] args) {
+}
+
+}
+
+Error : Il est interdit de réaffecter 'this'.
+Exception in thread "main" fr.n7.stl.util.BlockSemanticsError
+	at fr.n7.stl.util.Logger.error(Unknown Source)
+	at fr.n7.stl.minic.ast.instruction.Assignment.collectAndPartialResolve(Unknown Source)
+	at fr.n7.stl.minic.ast.instruction.Assignment.collectAndPartialResolve(Unknown Source)
+	at fr.n7.stl.minic.ast.Block.collectAndPartialResolve(Unknown Source)
+	at fr.n7.stl.minijava.ast.type.declaration.MethodDeclaration.collectAndPartialResolve(Unknown Source)
+	at fr.n7.stl.minijava.ast.type.declaration.ClassDeclaration.collectAndPartialResolve(Unknown Source)
+	at fr.n7.stl.minijava.ASTBuilder.startCompilation(Unknown Source)
+	at fr.n7.stl.minijava.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests/alexis/test5.bloc
+// [SUCCES] Test d'héritage: Utilisation de 'super()' dans le constructeur et appel d'une méthode héritée ('getLegs').
+class Animal {
+    public int legs;
+
+    public Animal() {
+        this.legs = 4;
+    }
+
+    public int getLegs() {
+        return this.legs;
+    }
+}
+
+class Dog extends Animal {
+    public Dog() {
+        super();
+    }
+
+    public int bark() {
+        return 1;
+    }
+}
+
+public class Principal {
+    public static void main(String[] args) {
+        Dog d = new Dog();
+        print d.getLegs();
+        print d.bark();
+    }
+}
+
+
+
+class Animal {
+public  int legs;
+public  Animal( ){
+this.legs = 4;
+}
+public  int getLegs( ){
+return this.legs;
+}
+}
+
+class Dog extends Animal {
+public  Dog( ){
+super( );
+}
+public  int bark( ){
+return 1;
+}
+}
+
+public class Principal {
+
+	public static void Main( String[] args) {
+ Dog  d = new Dog( );
+print d.getLegs( );
+print d.bark( );
+}
+
+}
+
+collect succeeded
+Resolve succeeded.
+Type verification succeeded.
+Code generation ...
+Code generation finished
+-------------------------------------------------------------------------------------
+Treating ./tests/alexis/test6.bloc
+// [ECHEC] Erreur sémantique attendue: Appel de 'super()' dans une classe ('Orphan') qui n'hérite d'aucune classe parente.
+class Orphan {
+    public Orphan() {
+        super();
+    }
+}
+
+public class Principal {
+    public static void main(String[] args) {
+        Orphan o = new Orphan();
+    }
+}
+
+
+
+class Orphan {
+public  Orphan( ){
+super( );
+}
+}
+
+public class Principal {
+
+	public static void Main( String[] args) {
+ Orphan  o = new Orphan( );
+}
+
+}
+
+collect succeeded
+Error : Constructeur parent introuvable pour super()
+Exception in thread "main" fr.n7.stl.util.BlockSemanticsError
+	at fr.n7.stl.util.Logger.error(Unknown Source)
+	at fr.n7.stl.minijava.instruction.SuperCall.completeResolve(Unknown Source)
+	at fr.n7.stl.minic.ast.Block.completeResolve(Unknown Source)
+	at fr.n7.stl.minijava.ast.type.declaration.ConstructorDeclaration.completeResolve(Unknown Source)
+	at fr.n7.stl.minijava.ast.type.declaration.ClassDeclaration.completeResolve(Unknown Source)
+	at fr.n7.stl.minijava.ASTBuilder.startCompilation(Unknown Source)
+	at fr.n7.stl.minijava.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests/alexis/test7.bloc
+// [SUCCES] Test de chaînage: Accès à un attribut d'un objet contenu dans un attribut (ex: n1.next.value) et type récursif.
+class Node {
+    public int value;
+    public Node next;
+
+    public Node(int v) {
+        this.value = v;
+    }
+
+    public void setNext(Node n) {
+        this.next = n;
+    }
+}
+
+public class Principal {
+    public static void main(String[] args) {
+        Node n1 = new Node(10);
+        Node n2 = new Node(20);
+        n1.setNext(n2);
+        print n1.next.value;
+    }
+}
+
+
+
+class Node {
+public  int value;
+public   Node  next;
+public  Node( int v){
+this.value = v;
+}
+public  void setNext(  Node  n){
+this.next = n;
+}
+}
+
+public class Principal {
+
+	public static void Main( String[] args) {
+ Node  n1 = new Node( 10);
+ Node  n2 = new Node( 20);
+n1.setNext( n2);
+print n1.next.value;
+}
+
+}
+
+collect succeeded
+Resolve succeeded.
+Type verification succeeded.
+Code generation ...
+Code generation finished
+-------------------------------------------------------------------------------------
+Treating ./tests/alexis/test8.bloc
+// [ECHEC] Erreur sémantique (Type) attendue: Passage d'un paramètre 'boolean' à une méthode qui attend un 'int'.
+class Types {
+    public int val;
+
+    public void setVal(int v) {
+        this.val = v;
+    }
+}
+
+public class Principal {
+    public static void main(String[] args) {
+        Types t = new Types();
+        boolean b = true;
+        t.setVal(b);
+    }
+}
+
+
+
+class Types {
+public  int val;
+public  void setVal( int v){
+this.val = v;
+}
+}
+
+public class Principal {
+
+	public static void Main( String[] args) {
+ Types  t = new Types( );
+boolean b = true;
+t.setVal( b);
+}
+
+}
+
+collect succeeded
+Resolve succeeded.
+Error : Incompatible argument type for method setVal: expected int but got boolean
+Exception in thread "main" fr.n7.stl.util.BlockSemanticsError
+	at fr.n7.stl.util.Logger.error(Unknown Source)
+	at fr.n7.stl.minijava.instruction.MethodCall.checkType(Unknown Source)
+	at fr.n7.stl.minic.ast.Block.checkType(Unknown Source)
+	at fr.n7.stl.minijava.ast.type.declaration.MainDeclaration.checkType(Unknown Source)
+	at fr.n7.stl.minijava.ASTBuilder.startCompilation(Unknown Source)
+	at fr.n7.stl.minijava.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests/alexis/test9.bloc
+// [SUCCES] Test d'affectation statique: Modification d'un attribut statique (Counter.count = Counter.count + 1) depuis le constructeur.
+class Counter {
+    public static int count = 0;
+    
+    public Counter() {
+        Counter.count = Counter.count + 1;
+    }
+}
+
+public class Principal {
+    public static void main(String[] args) {
+        Counter c1 = new Counter();
+        Counter c2 = new Counter();
+        print Counter.count;
+    }
+}
+
+
+
+class Counter {
+public  int count;
+public  Counter( ){
+ Counter .count = (Counter.count + 1);
+}
+}
+
+public class Principal {
+
+	public static void Main( String[] args) {
+ Counter  c1 = new Counter( );
+ Counter  c2 = new Counter( );
+print Counter.count;
+}
+
+}
+
+collect succeeded
+Resolve succeeded.
+Type verification succeeded.
+Code generation ...
+Code generation finished
+
+========================================================
+Bilan : 11 tests réussis sur 21 tests au total.
+========================================================

@@ -1,0 +1,19 @@
+// [SUCCES] Test de polymorphisme: Passage d'un objet enfant (Dog) à une méthode attendant un objet parent (Animal).
+class Animal {
+    public int age;
+}
+class Dog extends Animal {
+    public int getBarks() { return 10; }
+}
+class Vet {
+    public void examine(Animal a) {
+        a.age = 5;
+    }
+}
+public class Principal {
+    public static void main(String[] args) {
+        Vet v = new Vet();
+        Dog d = new Dog();
+        v.examine(d);
+    }
+}

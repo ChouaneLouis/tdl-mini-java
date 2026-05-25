@@ -132,8 +132,7 @@ public class FunctionCall implements AccessibleExpression {
 		// throw new SemanticsUndefinedException("Semantics getType is undefined in
 		// FunctionCall.");
 		return this.function.getType();
-		/// EDITED
-	}
+			}
 
 	/*
 	 * (non-Javadoc)
@@ -153,7 +152,6 @@ public class FunctionCall implements AccessibleExpression {
 		_result.add(_factory.createCall(this.function.getName(), Register.SB));
 
 		return _result;
-		/// EDITED
-	}
+			}
 
 }

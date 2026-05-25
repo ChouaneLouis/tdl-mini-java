@@ -52,7 +52,6 @@ public class Second implements AccessibleExpression {
             return AtomicType.ErrorType;
         }
         return ((CoupleType) type).getFirst();
-        /// EDITED
 	}
 	
 	/* (non-Javadoc)
@@ -61,7 +60,6 @@ public class Second implements AccessibleExpression {
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
         return this.target.collectAndPartialResolve(_scope);
-        /// EDITED
 	}
 
 	/* (non-Javadoc)
@@ -70,7 +68,6 @@ public class Second implements AccessibleExpression {
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
         return this.target.completeResolve(_scope);
-        /// EDITED
 	}
 
 	/* (non-Javadoc)
@@ -85,7 +82,6 @@ public class Second implements AccessibleExpression {
             ((CoupleType) this.target.getType()).getFirst().length()
         ));
         return _result;
-        /// EDITED
 
 	}
 

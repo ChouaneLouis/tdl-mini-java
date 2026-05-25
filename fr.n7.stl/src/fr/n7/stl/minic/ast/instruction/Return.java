@@ -136,7 +136,6 @@ public class Return implements Instruction {
 		_result.add(_factory.createReturn(sizeOfReturn, sizeOfParams));
 
 		return _result;
-		/// EDITED
-	}
+			}
 
 }

@@ -34,7 +34,6 @@ public class PointerAssignment extends AbstractPointer<AccessibleExpression> imp
         _result.append(this.pointer.getCode(_factory));
         _result.add(_factory.createStoreI(this.getType().length()));
         return _result;
-        /// EDITED
 	}
 	
 }

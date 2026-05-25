@@ -46,7 +46,6 @@ public abstract class AbstractField<RecordKind extends Expression> implements Ex
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
         return this.record.collectAndPartialResolve(_scope);
-        /// EDITED
 	}
 
 	/* (non-Javadoc)
@@ -77,7 +76,6 @@ public abstract class AbstractField<RecordKind extends Expression> implements Ex
         }
 		
 		return _result;
-        /// EDITED
 	}
 
 	/**

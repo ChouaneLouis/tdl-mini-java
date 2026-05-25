@@ -162,8 +162,7 @@ public class Block {
 			offset = instruction.allocateMemory(_register, offset);
 		}
 		this.size = offset - _offset;
-		/// EDITED
-	}
+			}
 
 	/**
 	 * Inherited Semantics attribute to build the nodes of the abstract syntax tree
@@ -180,7 +179,6 @@ public class Block {
 		}
 		_result.add(_factory.createPop(0, this.size));
 		return _result;
-		/// EDITED
-	}
+			}
 
 }

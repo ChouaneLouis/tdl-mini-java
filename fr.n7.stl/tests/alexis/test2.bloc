@@ -1,0 +1,13 @@
+// [ECHEC] Erreur sémantique attendue: L'attribut 'z' n'est pas défini dans la classe 'Coordonnee'.
+class Coordonnee {
+    public int x;
+    public int y;
+}
+
+public class Principal {
+    public static void main(String[] args) {
+        Coordonnee c = new Coordonnee();
+        c.x = 1;
+        c.z = 2;
+    }
+}

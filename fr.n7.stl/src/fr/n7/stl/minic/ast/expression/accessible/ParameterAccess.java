@@ -56,7 +56,6 @@ public class ParameterAccess extends AbstractAccess {
 
 		return _result;
 
-		/// EDITED
-	}
+			}
 
 }

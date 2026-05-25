@@ -15,11 +15,27 @@ public class AttributeAssignment extends AbstractAttribute<AssignableExpression>
 		super(_object, _name);
 	}
 
+
+
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("getCode in AttributeAssignment");
-
+		Fragment result = _factory.createFragment();
+        
+		if (this.attribute.getElementKind() == fr.n7.stl.minijava.ast.type.declaration.ElementKind.CLASS) {
+			// STATIC FIELD: On pousse l'adresse de la variable globale (SB + offset)
+			result.add(_factory.createLoadA(fr.n7.stl.tam.ast.Register.SB, this.attribute.getOffset()));
+		} else {
+			// 1. On charge l'adresse de l'objet (la référence) au sommet de la pile
+			result.append(this.object.getCode(_factory));
+			
+			// 2. On ajoute l'offset (le décalage) de l'attribut dans la classe
+			result.add(_factory.createLoadL(this.attribute.getOffset()));
+			result.add(fr.n7.stl.tam.ast.Library.IAdd); 
+			// L'adresse exacte de l'attribut est maintenant au sommet de la pile.
+			// On ne fait PAS de LoadI car on veut l'adresse pour une affectation.
+		}
+        
+        return result;
 	}
 
 }

@@ -138,8 +138,7 @@ public class VariableDeclaration implements DeclarationInstruction {
 		// throw new SemanticsUndefinedException( "Semantics collectAndPartialResolve is
 		// undefined in ConstantDeclaration.");
 		return this.collectAndPartialResolve(_scope);
-		/// EDITED
-	}
+			}
 
 	/*
 	 * (non-Javadoc)
@@ -169,8 +168,7 @@ public class VariableDeclaration implements DeclarationInstruction {
 					(this.value != null ? this.value.getType() : "null"));
 		}
 		return ok;
-		/// EDITED
-	}
+			}
 
 	/*
 	 * (non-Javadoc)
@@ -184,8 +182,7 @@ public class VariableDeclaration implements DeclarationInstruction {
 		this.register = _register;
 		this.offset = _offset;
 		return _offset + this.type.length();
-		/// EDITED
-	}
+			}
 
 	/*
 	 * (non-Javadoc)
@@ -202,7 +199,6 @@ public class VariableDeclaration implements DeclarationInstruction {
 				this.offset,
 				this.type.length()));
 		return _result;
-		/// EDITED
-	}
+			}
 
 }

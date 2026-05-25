@@ -1,0 +1,9 @@
+// [ECHEC] Erreur sémantique attendue: Appel de this() sans constructeur correspondant (aucun argument alors qu'il attend un int).
+class Auto {
+    public Auto(int v) {
+        this();
+    }
+}
+public class Principal {
+    public static void main(String[] args) { }
+}

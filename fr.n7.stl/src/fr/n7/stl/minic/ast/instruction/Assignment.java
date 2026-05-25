@@ -50,9 +50,16 @@ public class Assignment implements Instruction, Expression {
 	 */
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
+        if (this.assignable instanceof fr.n7.stl.minijava.expression.assignable.ThisAssignment) {
+            fr.n7.stl.util.Logger.error("Il est interdit de réaffecter 'this'.");
+            return false;
+        }
+        if (this.assignable instanceof fr.n7.stl.minijava.expression.assignable.SuperAssignment) {
+            fr.n7.stl.util.Logger.error("Il est interdit de réaffecter 'super'.");
+            return false;
+        }
         return this.assignable.collectAndPartialResolve(_scope)
             && this.value.collectAndPartialResolve(_scope);
-        /// EDITED
 	}
 	
 	@Override
@@ -67,7 +74,6 @@ public class Assignment implements Instruction, Expression {
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
         return this.assignable.completeResolve(_scope)
             && this.value.completeResolve(_scope);
-        /// EDITED
 	}
 
 	/* (non-Javadoc)
@@ -76,7 +82,6 @@ public class Assignment implements Instruction, Expression {
 	@Override
 	public Type getType() {
         return this.assignable.getType();
-        /// EDITED
 	}
 
 	/* (non-Javadoc)
@@ -91,7 +96,6 @@ public class Assignment implements Instruction, Expression {
 			" but got " + (this.value != null ? this.value.getType() : "null"));
 		}
 		return ok;
-        /// EDITED
 	}
 	
 	/* (non-Javadoc)
@@ -100,7 +104,6 @@ public class Assignment implements Instruction, Expression {
 	@Override
 	public int allocateMemory(Register _register, int _offset) {
         return _offset;
-        /// EDITED
 	}
 
 	/* (non-Javadoc)
@@ -113,7 +116,6 @@ public class Assignment implements Instruction, Expression {
         _result.append(this.assignable.getCode(_factory));
         _result.add(_factory.createStoreI(this.getType().length()));
         return _result;
-        /// EDITED
 	}
 
 }

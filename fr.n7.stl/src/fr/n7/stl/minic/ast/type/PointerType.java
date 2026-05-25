@@ -41,7 +41,6 @@ public class PointerType implements Type {
 			return this.compatibleWith(((NamedType) _other).getType());
         }
         return _other instanceof PointerType && ((PointerType) _other).getPointedType().compatibleWith(element);
-        /// EDITED
 	}
 
 	/* (non-Javadoc)

@@ -26,25 +26,33 @@ public class MethodCallAccess extends AbstractMethodCall<AccessibleExpression> i
 		super(_name, _arguments);
 	}
 
+
+
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
 		Fragment result = _factory.createFragment();
 
-		// 1. On charge l'adresse de l'objet (la cible) au sommet de la pile
-		// Cela servira de paramètre implicite 'this' pour la méthode
-		if (this.target != null) {
-			result.append(this.target.getCode(_factory));
+		if (this.declaration != null && this.declaration.getElementKind() == fr.n7.stl.minijava.ast.type.declaration.ElementKind.CLASS) {
+			// STATIC METHOD
+			for (AccessibleExpression arg : this.arguments) {
+				result.append(arg.getCode(_factory));
+			}
+		} else {
+			// INSTANCE METHOD
+			if (this.target != null) {
+				result.append(this.target.getCode(_factory));
+			} else {
+				// C'est un appel de méthode sans cible explicite, donc ça s'applique sur 'this'.
+				// On doit empiler l'adresse de l'objet courant qui est toujours à LB - 1.
+				result.add(_factory.createLoad(Register.LB, -1, 1));
+			}
+			for (AccessibleExpression arg : this.arguments) {
+				result.append(arg.getCode(_factory));
+			}
 		}
 
-		// 2. On évalue et on empile chaque argument passé à la méthode
-		for (AccessibleExpression arg : this.arguments) {
-			result.append(arg.getCode(_factory));
-		}
-
-		// 3. On effectue l'appel à la méthode
-		// On utilise le nom de la méthode (ou celui de sa déclaration)
 		String label = (this.declaration != null) ? this.declaration.getName() : this.name;
-		result.add(_factory.createCall(label, Register.SB));
+		result.add(_factory.createCall("Method_" + label, fr.n7.stl.tam.ast.Register.SB));
 
 		return result;
 	}

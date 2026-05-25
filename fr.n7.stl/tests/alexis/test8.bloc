@@ -1,0 +1,16 @@
+// [ECHEC] Erreur sémantique (Type) attendue: Passage d'un paramètre 'boolean' à une méthode qui attend un 'int'.
+class Types {
+    public int val;
+
+    public void setVal(int v) {
+        this.val = v;
+    }
+}
+
+public class Principal {
+    public static void main(String[] args) {
+        Types t = new Types();
+        boolean b = true;
+        t.setVal(b);
+    }
+}

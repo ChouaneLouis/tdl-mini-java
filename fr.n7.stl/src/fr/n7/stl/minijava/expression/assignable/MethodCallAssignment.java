@@ -28,10 +28,25 @@ public class MethodCallAssignment extends AbstractMethodCall<AssignableExpressio
 	}
 
 	@Override
-	public Fragment getCode(TAMFactory _factory) {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("getCode in MethodCallAssignment");
+	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
+		fr.n7.stl.util.Logger.error("Il est interdit d'affecter une valeur à un appel de méthode.");
+		return false;
+	}
 
+	@Override
+	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
+		fr.n7.stl.util.Logger.error("Il est interdit d'affecter une valeur à un appel de méthode.");
+		return false;
+	}
+
+	@Override
+	public Type getType() {
+		return null;
+	}
+
+	@Override
+	public Fragment getCode(TAMFactory _factory) {
+		return _factory.createFragment();
 	}
 
 }

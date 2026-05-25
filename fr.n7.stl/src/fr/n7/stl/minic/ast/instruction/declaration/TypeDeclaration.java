@@ -72,8 +72,7 @@ public class TypeDeclaration implements DeclarationInstruction {
 		// throw new SemanticsUndefinedException( "Semantics collectAndPartialResolve is
 		// undefined in ConstantDeclaration.");
 		return this.collectAndPartialResolve(_scope);
-		/// EDITED
-	}
+			}
 
 	/*
 	 * (non-Javadoc)
@@ -85,8 +84,7 @@ public class TypeDeclaration implements DeclarationInstruction {
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
 		return true;
-		/// EDITED
-	}
+			}
 
 	/**
 	 * Provide the type associated to a name in a type declaration.

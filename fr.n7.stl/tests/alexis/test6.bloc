@@ -1,0 +1,12 @@
+// [ECHEC] Erreur sémantique attendue: Appel de 'super()' dans une classe ('Orphan') qui n'hérite d'aucune classe parente.
+class Orphan {
+    public Orphan() {
+        super();
+    }
+}
+
+public class Principal {
+    public static void main(String[] args) {
+        Orphan o = new Orphan();
+    }
+}

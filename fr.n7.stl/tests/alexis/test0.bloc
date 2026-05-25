@@ -1,0 +1,16 @@
+// [SUCCES] Test basique: Accès à des membres statiques (attribut et méthode) d'une classe.
+class Point {
+    public static int x = 10;
+
+    public static int obtenirX() {
+        return 5;
+    }
+}
+
+public class Principal {
+    // Cette fois-ce, on respecte à 100% la règle 'principale' de la grammaire !
+    public static void main(String[] args) {
+        print Point.x; 
+        print Point.obtenirX();
+    }
+}

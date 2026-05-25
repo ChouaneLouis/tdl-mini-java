@@ -33,7 +33,6 @@ public class PointerAccess extends AbstractPointer<AccessibleExpression> impleme
         _result.append(this.pointer.getCode(_factory));
         _result.add(_factory.createLoadI(this.getType().length()));
         return _result;
-        /// EDITED
 	}
 
 	@Override
