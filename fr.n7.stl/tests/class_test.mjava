@@ -12,10 +12,9 @@ class A {
 
 public class Main {
 
-	static final int CST  = 1;
 
 	public static void main(String[] args) {
-		A a = new A();
+		int i = 1;
 		
 	}
 }

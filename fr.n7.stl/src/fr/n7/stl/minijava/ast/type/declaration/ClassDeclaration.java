@@ -8,6 +8,7 @@ import java.util.List;
 import fr.n7.stl.minic.ast.SemanticsUndefinedException;
 import fr.n7.stl.minic.ast.instruction.Instruction;
 import fr.n7.stl.minic.ast.instruction.declaration.FunctionDeclaration;
+import fr.n7.stl.minic.ast.instruction.declaration.ParameterDeclaration;
 import fr.n7.stl.minic.ast.scope.Declaration;
 import fr.n7.stl.minic.ast.scope.HierarchicalScope;
 import fr.n7.stl.minic.ast.scope.SymbolTable;
@@ -15,6 +16,7 @@ import fr.n7.stl.minic.ast.type.Type;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
+import fr.n7.stl.tam.ast.TAMInstruction;
 import fr.n7.stl.util.Logger;
 
 /**
@@ -23,6 +25,10 @@ import fr.n7.stl.util.Logger;
 public class ClassDeclaration implements Instruction, Declaration {
 
     protected List<ClassElement> elements;
+
+    public List<ClassElement> getElements() {
+        return elements;
+    }
 
     protected boolean concrete;
 
@@ -60,22 +66,39 @@ public class ClassDeclaration implements Instruction, Declaration {
 
         _scope.register(this);
 
-        this.classScope = new fr.n7.stl.minic.ast.scope.SymbolTable(_scope);
+        this.classScope = new SymbolTable(_scope);
+
+        // This
+        classScope.register(new ClassDeclaration(concrete, "this", elements));
 
         boolean isValid = true;
 
         for (ClassElement classElement : this.elements) {
+            // System.out.println(classElement.getClass().toString());
 
-            if (this.classScope.accepts(classElement)) {
-                this.classScope.register(classElement);
+            if (classElement instanceof ConstructorDeclaration) {
+                ConstructorDeclaration cd = (ConstructorDeclaration) classElement;
+                // This
+                cd.parameters.add(new ParameterDeclaration("this", this.getType()));
 
-                if (classElement instanceof Instruction) {
-                    isValid = isValid && ((Instruction) classElement).collectAndPartialResolve(this.classScope);
+                cd.body.collectAndPartialResolve(this.classScope);
+
+            } else if (classElement instanceof AttributeDeclaration) {
+                AttributeDeclaration ad = (AttributeDeclaration) classElement;
+                if (!_scope.accepts(ad)) {
+                    Logger.error(ad.name + " déjà défini");
+                    return false;
                 }
+                _scope.register(ad);
+
+            } else if (classElement instanceof MethodDeclaration) {
+                MethodDeclaration md = (MethodDeclaration) classElement;
+                // This
+                md.parameters.add(new ParameterDeclaration("this", this.getType()));
+
+                md.body.collectAndPartialResolve(this.classScope);
             } else {
-                Logger.error(
-                        "Double définition de l'élément " + classElement.getName() + " dans la classe " + this.name);
-                isValid = false;
+                Logger.error(classElement.name + " n'est pas du bon type");
             }
         }
 
@@ -90,7 +113,8 @@ public class ClassDeclaration implements Instruction, Declaration {
     @Override
     public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
         // throw new SemanticsUndefinedException("Semantics resolve is undefined in
-        // ClassDeclaration.");
+        // ClassDeclaration.")
+
         boolean isValid = true;
 
         if (this.ancestor != null) {
@@ -102,11 +126,20 @@ public class ClassDeclaration implements Instruction, Declaration {
 
         for (ClassElement classElement : this.elements) {
 
-            if (classElement instanceof AttributeDeclaration) {
+            if (classElement instanceof ConstructorDeclaration) {
+                ConstructorDeclaration cd = (ConstructorDeclaration) classElement;
+                cd.body.completeResolve(this.classScope);
+
+            } else if (classElement instanceof AttributeDeclaration) {
                 AttributeDeclaration attribute = (AttributeDeclaration) classElement;
                 isValid = isValid && attribute.getType().completeResolve(this.classScope);
-            } else if (classElement instanceof Instruction) {
-                isValid = isValid && ((Instruction) classElement).completeResolve(this.classScope);
+
+            } else if (classElement instanceof MethodDeclaration) {
+                MethodDeclaration md = (MethodDeclaration) classElement;
+                md.body.completeResolve(this.classScope);
+
+            } else {
+                Logger.error(classElement.name + " n'est pas du bon type");
             }
         }
 
@@ -143,6 +176,15 @@ public class ClassDeclaration implements Instruction, Declaration {
 
             // Seules les méthodes et les constructeurs (qui implémentent Instruction)
             // ont du code exécutable à générer. Les attributs sont ignorés ici.
+            System.out.println(classElement.getClass().toString());
+
+            if (classElement instanceof ConstructorDeclaration) {
+                ConstructorDeclaration cd = (ConstructorDeclaration) classElement;
+
+                Fragment cons = cd.body.getCode(_factory);
+                cons.addPrefix("Constructor_" + this.name);
+            }
+
             if (classElement instanceof Instruction) {
                 Instruction executableElement = (Instruction) classElement;
 
