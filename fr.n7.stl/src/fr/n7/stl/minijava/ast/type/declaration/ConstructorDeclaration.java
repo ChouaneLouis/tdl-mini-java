@@ -4,18 +4,19 @@ import java.util.Iterator;
 import java.util.List;
 
 import fr.n7.stl.minic.ast.Block;
+import fr.n7.stl.minic.ast.SemanticsUndefinedException;
 import fr.n7.stl.minic.ast.instruction.declaration.FunctionDeclaration;
 import fr.n7.stl.minic.ast.instruction.declaration.ParameterDeclaration;
 import fr.n7.stl.minic.ast.type.Type;
 
 public class ConstructorDeclaration extends ClassElement {
-	
+
 	protected List<ParameterDeclaration> parameters;
-	
+
 	protected Block body;
 
 	public ConstructorDeclaration(String _name, List<ParameterDeclaration> _parameters, Block _body) {
-		super( _name);
+		super(_name);
 		this.parameters = _parameters;
 		this.body = _body;
 	}
@@ -29,18 +30,20 @@ public class ConstructorDeclaration extends ClassElement {
 			ParameterDeclaration parameter = iterator.next();
 			image += parameter;
 			while (iterator.hasNext()) {
-				 parameter = iterator.next();
-				 image += " ," + parameter;
+				parameter = iterator.next();
+				image += " ," + parameter;
 			}
 		}
 		image += ")";
-		image += this.body; 
+		image += this.body;
 		return image;
 	}
 
 	@Override
 	public Type getType() {
 		// TODO Auto-generated method stub
-		return null;
+		throw new SemanticsUndefinedException("Semantics get type is undefined in ConstructorDeclaration.");
+
+		// return null;
 	}
 }
