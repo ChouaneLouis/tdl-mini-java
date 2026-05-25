@@ -48,24 +48,7 @@ public class ClassDeclaration implements Instruction, Declaration {
 
     @Override
     public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
-        if (_scope.accepts(this)) {
-            _scope.register(this);
-
-            for (ClassElement classElement : elements) {
-                if (classElement instanceof Declaration) {
-                    Declaration declaration = (Declaration) classElement;
-                    _scope.register(declaration);
-                } else {
-                    Logger.error("ClassElement is not a Declaration\n");
-                }
-            }
-            return true;
-        } else {
-            Logger.error("Variable : " + this.name + " is already defined.");
-            return false;
-        }
-        // throw new SemanticsUndefinedException("Semantics collect is undefined in
-        // ClassDeclaration.");
+        throw new SemanticsUndefinedException("Semantics collect is undefined in ClassDeclaration.");
     }
 
     @Override
