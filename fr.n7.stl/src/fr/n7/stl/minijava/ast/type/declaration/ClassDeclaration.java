@@ -10,6 +10,7 @@ import fr.n7.stl.minic.ast.instruction.Instruction;
 import fr.n7.stl.minic.ast.instruction.declaration.FunctionDeclaration;
 import fr.n7.stl.minic.ast.scope.Declaration;
 import fr.n7.stl.minic.ast.scope.HierarchicalScope;
+import fr.n7.stl.minic.ast.scope.SymbolTable;
 import fr.n7.stl.minic.ast.type.Type;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.Register;
@@ -51,17 +52,18 @@ public class ClassDeclaration implements Instruction, Declaration {
 		if (_scope.accepts(this)) {
 			_scope.register(this);
 
+			HierarchicalScope<Declaration> classScope = new SymbolTable(_scope);
 			for (ClassElement classElement : elements) {
 				if (classElement instanceof Declaration) {
 					Declaration declaration = (Declaration) classElement;
-					_scope.register(declaration);
+					classScope.register(declaration);
 				} else {
-					Logger.error("ClassElement is not a Declaration\n");
+					Logger.error("ClassElement " + classElement.toString() + " is not a Declaration\n");
 				}
 			}
 			return true;
 		} else {
-			Logger.error("Variable : " + this.name + " is already defined.");
+			Logger.error("class " + this.name + " is already defined.");
 			return false;
 		}
 		// throw new SemanticsUndefinedException("Semantics collect is undefined in
@@ -75,7 +77,15 @@ public class ClassDeclaration implements Instruction, Declaration {
 
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
-		throw new SemanticsUndefinedException("Semantics resolve is undefined in ClassDeclaration.");
+		//throw new SemanticsUndefinedException("Semantics resolve is undefined in ClassDeclaration.");
+		if (this.ancestor != null) {
+			Declaration ancestorDeclaration = _scope.get(this.ancestor);
+			if (ancestorDeclaration == null) {
+				Logger.error("Class " + this.name + " extends an unknown class " + this.ancestor);
+				return false;
+			}
+		}
+		return true;
 	}
 
 	@Override

@@ -3,8 +3,8 @@
 [] minic -> pointer instanciation (new int()) <br/>
 [] minijava -> instanciation classe <br/>
 
-[] minijava -> classe definition <br/>
-[] minijava -> classe type <br/>
+[Vadim] minijava -> classe definition <br/>
+[Vadim] minijava -> classe type <br/>
 
 [] minic -> fonction <br/>
 
