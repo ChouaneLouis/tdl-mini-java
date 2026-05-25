@@ -9,30 +9,31 @@ import fr.n7.stl.minic.ast.type.Type;
 public abstract class AbstractThis<ObjectKind extends Expression> implements Expression {
 
 	public AbstractThis() {
-		// TODO Auto-generated constructor stub
-		throw new SemanticsUndefinedException("constructor in AbstractThis");
-
 	}
+
+	protected Declaration declaration;
 
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("collectAndPartialResolve in AbstractThis");
-
+		return true;
 	}
 
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("completeResolve in AbstractThis");
-
+		this.declaration = _scope.get("this");
+		if (this.declaration == null) {
+			fr.n7.stl.util.Logger.error("L'utilisation de 'this' est interdite dans ce contexte.");
+			return false;
+		}
+		return true;
 	}
 
 	@Override
 	public Type getType() {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("getType in AbstractThis");
-
+		if (this.declaration != null) {
+			return this.declaration.getType();
+		}
+		return null;
 	}
 
 	@Override
