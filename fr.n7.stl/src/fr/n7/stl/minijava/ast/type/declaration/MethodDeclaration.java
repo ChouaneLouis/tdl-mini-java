@@ -10,7 +10,9 @@ import fr.n7.stl.minic.ast.instruction.declaration.ParameterDeclaration;
 import fr.n7.stl.minic.ast.scope.Declaration;
 import fr.n7.stl.minic.ast.scope.HierarchicalScope;
 import fr.n7.stl.minic.ast.scope.SymbolTable;
+import fr.n7.stl.minic.ast.type.AtomicType;
 import fr.n7.stl.minic.ast.type.Type;
+import fr.n7.stl.minijava.ast.type.ClassType;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
@@ -48,7 +50,8 @@ public class MethodDeclaration extends ClassElement implements Instruction {
         }
 
         if (this.concrete) {
-            fr.n7.stl.minic.ast.instruction.declaration.FunctionDeclaration dummy = new fr.n7.stl.minic.ast.instruction.declaration.FunctionDeclaration(this.name, this.type, this.parameters, this.body);
+            fr.n7.stl.minic.ast.instruction.declaration.FunctionDeclaration dummy = new fr.n7.stl.minic.ast.instruction.declaration.FunctionDeclaration(
+                    this.name, this.type, this.parameters, this.body);
             isValid = isValid && this.body.collectAndPartialResolve(methodScope, dummy);
         }
         return isValid;
@@ -95,21 +98,44 @@ public class MethodDeclaration extends ClassElement implements Instruction {
         }
         // Retourne 0 car la définition de la méthode ne prend pas de place mémoire au
         // sein de l'objet lui-même
-        return 0;
+        return _offset;
     }
 
     @Override
     public Fragment getCode(TAMFactory _factory) {
         Fragment fragment = _factory.createFragment();
 
-        if (this.concrete) {
-            // On génère le code du corps de la méthode
-            fragment.append(this.body.getCode(_factory));
+        // Create a unique label to jump past this function's body
+        String skipLabel = "skip_" + this.name;
 
+        // Jump over the function body during sequential execution
+        fragment.add(_factory.createJump(skipLabel));
+
+        if (this.concrete) {
+
+            Fragment methodCode = this.body.getCode(_factory);
             // On attache l'étiquette au fragment pour pouvoir appeler cette méthode plus
             // tard
-            fragment.addPrefix("Method_" + this.name);
+            methodCode.addPrefix("Method_" + this.name);
+
+            if (this.type.equals(AtomicType.VoidType)) {
+                int sizeOfReturn = 0; // Void = 0 mot à garder sur la pile
+
+                // On calcule la taille des paramètres à dépiler (sans oublier 'this' !)
+                int sizeOfParams = 1; // 1 pour this //TODO : static
+                for (ParameterDeclaration param : this.parameters) {
+                    sizeOfParams += param.getType().length();
+                }
+
+                methodCode.add(_factory.createReturn(sizeOfReturn, sizeOfParams));
+            }
+
+            fragment.append(methodCode);
+
         }
+
+        // Landing point after the jump — execution resumes here
+        fragment.addSuffix(skipLabel);
 
         return fragment;
     }
@@ -145,8 +171,10 @@ public class MethodDeclaration extends ClassElement implements Instruction {
     }
 
     public List<ParameterDeclaration> getParameters() {
-        // J'ai ajouté cette méthode pour pouvoir récupérer les paramètres d'une méthode déclarée
-        // et vérifier lors d'un appel (MethodCall) si les arguments passés sont du bon type.
+        // J'ai ajouté cette méthode pour pouvoir récupérer les paramètres d'une méthode
+        // déclarée
+        // et vérifier lors d'un appel (MethodCall) si les arguments passés sont du bon
+        // type.
         return this.parameters;
     }
 

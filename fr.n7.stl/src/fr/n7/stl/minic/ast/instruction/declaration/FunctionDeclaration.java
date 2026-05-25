@@ -219,7 +219,7 @@ public class FunctionDeclaration implements DeclarationInstruction {
 		this.body.allocateMemory(Register.LB, 3);
 
 		return _offset;
-			}
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -249,6 +249,6 @@ public class FunctionDeclaration implements DeclarationInstruction {
 
 		return _result;
 
-			}
+	}
 
 }

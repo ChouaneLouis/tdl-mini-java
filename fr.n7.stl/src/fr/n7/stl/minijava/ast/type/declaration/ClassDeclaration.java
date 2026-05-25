@@ -57,24 +57,24 @@ public class ClassDeclaration implements Instruction, Declaration {
             _scope.register(this);
 
             this.classScope = new SymbolTable(_scope);
-            
+
             // On enregistre 'this' et 'super' dans la portée de la classe
-            fr.n7.stl.minic.ast.instruction.declaration.ParameterDeclaration thisParam = 
-                new fr.n7.stl.minic.ast.instruction.declaration.ParameterDeclaration("this", new ClassType(this));
+            fr.n7.stl.minic.ast.instruction.declaration.ParameterDeclaration thisParam = new fr.n7.stl.minic.ast.instruction.declaration.ParameterDeclaration(
+                    "this", new ClassType(this));
             this.classScope.register(thisParam);
-            
+
             if (this.ancestor != null) {
-                fr.n7.stl.minic.ast.instruction.declaration.ParameterDeclaration superParam = 
-                    new fr.n7.stl.minic.ast.instruction.declaration.ParameterDeclaration("super", new ClassType(this.ancestor));
+                fr.n7.stl.minic.ast.instruction.declaration.ParameterDeclaration superParam = new fr.n7.stl.minic.ast.instruction.declaration.ParameterDeclaration(
+                        "super", new ClassType(this.ancestor));
                 this.classScope.register(superParam);
             }
-
 
             boolean b = true;
             for (ClassElement classElement : elements) {
                 if (classElement instanceof Declaration) {
                     // Attention : les constructeurs ont le même nom que la classe !
-                    // Si on les met dans la table des symboles, ils vont écraser le type de la classe en cas de recherche !
+                    // Si on les met dans la table des symboles, ils vont écraser le type de la
+                    // classe en cas de recherche !
                     // Donc on les ignore ici.
                     if (!(classElement instanceof fr.n7.stl.minijava.ast.type.declaration.ConstructorDeclaration)) {
                         Declaration declaration = (Declaration) classElement;
@@ -126,8 +126,10 @@ public class ClassDeclaration implements Instruction, Declaration {
             if (element instanceof Instruction) {
                 result = result && ((Instruction) element).completeResolve(this.classScope);
             } else if (element instanceof fr.n7.stl.minijava.ast.type.declaration.AttributeDeclaration) {
-                // Il faut bien penser à appeler completeResolve sur le type de l'attribut, sinon ça plante car le type reste null après
-                result = result && ((fr.n7.stl.minijava.ast.type.declaration.AttributeDeclaration) element).getType().completeResolve(this.classScope);
+                // Il faut bien penser à appeler completeResolve sur le type de l'attribut,
+                // sinon ça plante car le type reste null après
+                result = result && ((fr.n7.stl.minijava.ast.type.declaration.AttributeDeclaration) element).getType()
+                        .completeResolve(this.classScope);
             }
         }
 
@@ -159,7 +161,7 @@ public class ClassDeclaration implements Instruction, Declaration {
                 ((Instruction) element).allocateMemory(_register, _offset);
             }
         }
-        return 0; // Retourne 0 car la taille de la classe n'impacte pas l'offset du bloc courant
+        return _offset; // Retourne 0 car la taille de la classe n'impacte pas l'offset du bloc courant
     }
 
     @Override

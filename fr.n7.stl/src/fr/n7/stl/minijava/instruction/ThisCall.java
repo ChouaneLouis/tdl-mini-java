@@ -48,10 +48,11 @@ public class ThisCall implements Instruction {
 		for (AccessibleExpression arg : this.arguments) {
 			isValid = isValid && arg.completeResolve(_scope);
 		}
-		
+
 		Declaration thisDecl = _scope.get("this");
 		if (thisDecl != null && thisDecl.getType() instanceof fr.n7.stl.minijava.ast.type.ClassType) {
-			fr.n7.stl.minijava.ast.type.ClassType classType = (fr.n7.stl.minijava.ast.type.ClassType) thisDecl.getType();
+			fr.n7.stl.minijava.ast.type.ClassType classType = (fr.n7.stl.minijava.ast.type.ClassType) thisDecl
+					.getType();
 			Declaration classDecl = _scope.get(classType.getName());
 			if (classDecl instanceof fr.n7.stl.minijava.ast.type.declaration.ClassDeclaration) {
 				fr.n7.stl.minijava.ast.type.declaration.ClassDeclaration thisClass = (fr.n7.stl.minijava.ast.type.declaration.ClassDeclaration) classDecl;
@@ -74,14 +75,16 @@ public class ThisCall implements Instruction {
 		boolean isValid = true;
 		if (this.constructor != null) {
 			if (this.arguments.size() != this.constructor.getParameters().size()) {
-				fr.n7.stl.util.Logger.error("L'appel à this() attend " + this.constructor.getParameters().size() + " argument(s), mais " + this.arguments.size() + " ont été fournis.");
+				fr.n7.stl.util.Logger.error("L'appel à this() attend " + this.constructor.getParameters().size()
+						+ " argument(s), mais " + this.arguments.size() + " ont été fournis.");
 				isValid = false;
 			} else {
 				for (int i = 0; i < this.arguments.size(); i++) {
 					Type argType = this.arguments.get(i).getType();
 					Type paramType = this.constructor.getParameters().get(i).getType();
 					if (!argType.compatibleWith(paramType)) {
-						fr.n7.stl.util.Logger.error("Type incorrect pour l'argument " + (i+1) + " dans this() : attendu " + paramType + ", reçu " + argType + ".");
+						fr.n7.stl.util.Logger.error("Type incorrect pour l'argument " + (i + 1)
+								+ " dans this() : attendu " + paramType + ", reçu " + argType + ".");
 						isValid = false;
 					}
 				}
@@ -92,7 +95,7 @@ public class ThisCall implements Instruction {
 
 	@Override
 	public int allocateMemory(Register _register, int _offset) {
-		return 0;
+		return _offset;
 	}
 
 	@Override
@@ -111,7 +114,8 @@ public class ThisCall implements Instruction {
 		String label = (this.constructor != null) ? this.constructor.getName() : "this";
 		result.add(_factory.createCall("Constructor_" + label, Register.SB));
 
-		// 4. Comme pour super(), on dépile l'adresse laissée par le constructeur pour nettoyer la pile
+		// 4. Comme pour super(), on dépile l'adresse laissée par le constructeur pour
+		// nettoyer la pile
 		result.add(_factory.createPop(0, 1));
 
 		return result;

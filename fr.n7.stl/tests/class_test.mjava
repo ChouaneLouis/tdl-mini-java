@@ -1,18 +1,25 @@
 class A {
-	public int u;
-    private int v;
-    protected int w;
+	public int v;
+	
+	public void setV(int _v) {
+		this.v = _v;
+	}
+	
+	public int getV() {
+		return this.v;
+	}
+	
+	public A(int _v) {
+		this.v = _v;
+	}
 	
 }
-
 
 public class Main {
 
-	static final int CST  = 1;
-
 	public static void main(String[] args) {
-		//A a = new A();
+		A a1 = new A(7);
 		
 	}
 }
-	
+		
