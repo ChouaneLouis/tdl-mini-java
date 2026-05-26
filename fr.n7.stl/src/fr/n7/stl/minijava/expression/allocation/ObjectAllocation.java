@@ -91,19 +91,16 @@ public class ObjectAllocation implements AccessibleExpression, AssignableExpress
 		// mémoire allouée (le pointeur 'this')
 		fragment.add(Library.MAlloc);
 
-		// Étape 2 : Empiler les arguments du constructeur
-		// On duplique d'abord l'adresse de l'objet car le CALL du constructeur va
-		// consommer
-		// l'adresse 'this', mais l'expression 'new' entière doit laisser l'adresse
-		// finale sur la pile !
-		fragment.add(_factory.createPush(1)); // Réserve 1 case pour la copie
-		fragment.add(_factory.createLoad(fr.n7.stl.tam.ast.Register.ST, -2, 1)); // Copie l'adresse située
-																					// juste en dessous
-
 		// On génère et empile le code de chaque argument
+		int sizeArgs = 0;
 		for (AccessibleExpression arg : this.arguments) {
 			fragment.append(arg.getCode(_factory));
+			sizeArgs += arg.getType().length();
 		}
+
+		// On empile l'adresse de l'objet (déclaré plus tot, empilé pour l'appel au
+		// constructeur)
+		fragment.add(_factory.createLoad(fr.n7.stl.tam.ast.Register.ST, -sizeArgs - 1, 1));
 
 		// Étape 3 : Appeler le constructeur de la classe
 		// Par convention (voir ton ConstructorDeclaration), l'étiquette est

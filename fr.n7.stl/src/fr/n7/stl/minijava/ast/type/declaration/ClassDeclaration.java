@@ -81,7 +81,7 @@ public class ClassDeclaration implements Instruction, Declaration {
             if (classElement instanceof ConstructorDeclaration) {
                 ConstructorDeclaration cd = (ConstructorDeclaration) classElement;
                 // This
-                cd.parameters.add(new ParameterDeclaration("this", this.getType()));
+                cd.parameters.add(0, new ParameterDeclaration("this", this.getType()));
 
                 cd.collectAndPartialResolve(this.classScope);
 
@@ -96,7 +96,7 @@ public class ClassDeclaration implements Instruction, Declaration {
             } else if (classElement instanceof MethodDeclaration) {
                 MethodDeclaration md = (MethodDeclaration) classElement;
                 // This
-                md.parameters.add(new ParameterDeclaration("this", this.getType()));
+                md.parameters.add(0, new ParameterDeclaration("this", this.getType()));
 
                 md.collectAndPartialResolve(this.classScope);
             } else {

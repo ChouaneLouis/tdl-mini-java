@@ -52,7 +52,8 @@ public class ParameterAccess extends AbstractAccess {
 		int offset = this.declaration.getOffset();
 		int size = this.declaration.getType().length();
 
-		_result.add(_factory.createLoad(Register.LB, offset, size));
+		// -1 car il y a toujours this en premier
+		_result.add(_factory.createLoad(Register.LB, offset - 1, size));
 
 		return _result;
 
