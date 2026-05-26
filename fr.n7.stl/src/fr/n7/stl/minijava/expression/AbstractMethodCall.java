@@ -15,6 +15,9 @@ import fr.n7.stl.minijava.ast.type.declaration.MethodDeclaration;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
+import fr.n7.stl.util.Logger;
+
+//Doit laisser la valeur de retour sur la pile Type a = methode.call()
 
 public abstract class AbstractMethodCall<ObjectKind extends Expression> implements Expression {
 
@@ -38,22 +41,39 @@ public abstract class AbstractMethodCall<ObjectKind extends Expression> implemen
 
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("collectAndPartialResolve in AbstractMethodCall");
+		/// EDITED
+
+		return this.target.collectAndPartialResolve(_scope);
 
 	}
 
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("completeResolve in AbstractMethodCall");
+		/// EDITED
+
+		if (!_scope.knows(name)) {
+			Logger.error(name + " n'est pas connu");
+			return false;
+		}
+		Declaration d = _scope.get(name);
+		if (d instanceof MethodDeclaration) {
+			this.declaration = (MethodDeclaration) d;
+
+			for (AccessibleExpression accessibleExpression : arguments) {
+				System.out.println(accessibleExpression.getClass().toString());
+			}
+
+			return this.target.completeResolve(_scope);
+		}
+		Logger.error(name + "n'est pas une methode");
+		return false;
 
 	}
 
 	@Override
 	public Type getType() {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("getType in AbstractMethodCall");
+		/// EDITED
+		return this.declaration.getType();
 
 	}
 

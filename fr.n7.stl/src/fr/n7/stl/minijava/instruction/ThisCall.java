@@ -20,6 +20,7 @@ public class ThisCall implements Instruction {
 
 	protected ConstructorDeclaration constructor;
 
+	// Argument dans le sens this.argument
 	protected List<AccessibleExpression> arguments;
 
 	public ThisCall(List<AccessibleExpression> _arguments) {
@@ -28,22 +29,30 @@ public class ThisCall implements Instruction {
 
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("collectAndPartialResolve in ThisCall");
+		/// EDITED
+		boolean ok = true;
+		for (AccessibleExpression accessibleExpression : arguments) {
+			ok = ok && accessibleExpression.collectAndPartialResolve(_scope);
+		}
+		return ok;
 
 	}
 
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope, FunctionDeclaration _container) {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("collectAndPartialResolve in ThisCall");
+		/// EDITED
+		return this.collectAndPartialResolve(_scope);
 
 	}
 
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("completeResolve in ThisCall");
+		/// EDITED
+		boolean ok = true;
+		for (AccessibleExpression accessibleExpression : arguments) {
+			ok = ok && accessibleExpression.completeResolve(_scope);
+		}
+		return ok;
 
 	}
 

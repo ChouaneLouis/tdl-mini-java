@@ -14,6 +14,10 @@ import fr.n7.stl.minijava.ast.type.declaration.MethodDeclaration;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
+import fr.n7.stl.util.Logger;
+
+//Se suffit dans l'appel ex : a.setV(9), ou on ignore la valeur;
+// target.method(arguments)
 
 public class MethodCall implements Instruction {
 
@@ -38,22 +42,37 @@ public class MethodCall implements Instruction {
 
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("collectAndPartialResolve in MethodCall");
+		/// EDITED
+		return this.target.collectAndPartialResolve(_scope);
 
 	}
 
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope, FunctionDeclaration _container) {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("collectAndPartialResolve in MethodCall");
+		/// EDITED
+		return this.collectAndPartialResolve(_scope);
 
 	}
 
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("completeResolve in MethodCall");
+		/// EDITED
+		if (!_scope.knows(name)) {
+			Logger.error(name + " n'est pas connu");
+			return false;
+		}
+		Declaration d = _scope.get(name);
+		if (d instanceof MethodDeclaration) {
+			this.method = (MethodDeclaration) d;
+
+			for (AccessibleExpression accessibleExpression : arguments) {
+				System.out.println(accessibleExpression.getClass().toString());
+			}
+
+			return this.target.completeResolve(_scope);
+		}
+		Logger.error(name + "n'est pas une methode");
+		return false;
 
 	}
 
