@@ -1,0 +1,20 @@
+class A {
+    private int secret;
+    public int public_val;
+    protected int prot_val;
+    
+    public A() {
+        this.secret = 42;
+    }
+    
+    private int getSecret() {
+        return this.secret;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        A a = new A();
+        int s = a.secret; // ERREUR : private
+    }
+}

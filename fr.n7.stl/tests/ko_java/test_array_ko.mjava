@@ -1,0 +1,15 @@
+class Point {
+    public int x;
+    public Point(int x) {
+        this.x = x;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Point[] pts = new Point[3];
+        
+        // Type incorrect
+        pts[0] = 5;
+    }
+}

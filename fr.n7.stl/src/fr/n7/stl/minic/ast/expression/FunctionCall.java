@@ -35,6 +35,10 @@ public class FunctionCall implements AccessibleExpression {
 	 * TODO : Should rely on the VariableUse class.
 	 */
 	protected FunctionDeclaration function;
+	
+	public void setFunction(FunctionDeclaration fd) {
+		this.function = fd;
+	}
 
 	/**
 	 * List of AST nodes that computes the values of the parameters for the function
@@ -106,20 +110,22 @@ public class FunctionCall implements AccessibleExpression {
 			ok = ok && arg.completeResolve(_scope);
 		}
 
-		if (_scope.knows(this.name)) {
-			Declaration decl = _scope.get(this.name);
+		if (this.function == null) {
+			if (_scope.knows(this.name)) {
+				Declaration decl = _scope.get(this.name);
 
-			if (decl instanceof FunctionDeclaration) {
-				this.function = (FunctionDeclaration) decl;
-			} else if (decl instanceof MethodDeclaration) {
-				this.function = ((MethodDeclaration) decl).getFunction();
+				if (decl instanceof FunctionDeclaration) {
+					this.function = (FunctionDeclaration) decl;
+				} else if (decl instanceof MethodDeclaration) {
+					this.function = ((MethodDeclaration) decl).getFunction();
+				} else {
+					fr.n7.stl.util.Logger.error("L'identifiant '" + this.name + "' n'est pas une fonction.");
+					ok = false;
+				}
 			} else {
-				fr.n7.stl.util.Logger.error("L'identifiant '" + this.name + "' n'est pas une fonction.");
+				fr.n7.stl.util.Logger.error("La fonction '" + this.name + "' n'est pas définie.");
 				ok = false;
 			}
-		} else {
-			fr.n7.stl.util.Logger.error("La fonction '" + this.name + "' n'est pas définie.");
-			ok = false;
 		}
 
 		return ok;

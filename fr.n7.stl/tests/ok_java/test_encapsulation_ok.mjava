@@ -1,0 +1,29 @@
+class A {
+    private int secret;
+    public int public_val;
+    protected int prot_val;
+    
+    public A() {
+        this.secret = 42;
+        this.public_val = 10;
+        this.prot_val = 20;
+    }
+    
+    private int getSecret() {
+        return this.secret;
+    }
+    
+    public int getPublicSecret() {
+        return this.getSecret(); // DOIT MARCHER car dans la même classe
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        A a = new A();
+        int val = a.public_val; // OK
+        // int s = a.secret; // ERREUR ATTENDUE
+        // int s2 = a.getSecret(); // ERREUR ATTENDUE
+        int s3 = a.getPublicSecret(); // OK
+    }
+}

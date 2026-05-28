@@ -68,6 +68,33 @@ public abstract class AbstractAttribute<ObjectKind extends Expression> implement
 			return false;
 		}
 
+		// --- ENCAPSULATION CHECK ---
+		fr.n7.stl.minijava.ast.type.declaration.AccessRight right = this.attribute.getAccessRight();
+		if (right == fr.n7.stl.minijava.ast.type.declaration.AccessRight.PRIVATE || right == fr.n7.stl.minijava.ast.type.declaration.AccessRight.PROTECTED) {
+			Declaration currentClassDecl = _scope.knows("$currentClass") ? _scope.get("$currentClass") : null;
+			String currentClassName = null;
+			if (currentClassDecl != null && currentClassDecl instanceof fr.n7.stl.minic.ast.instruction.declaration.VariableDeclaration) {
+				Type t = ((fr.n7.stl.minic.ast.instruction.declaration.VariableDeclaration) currentClassDecl).getType();
+				if (t instanceof ClassType) {
+					currentClassName = ((ClassType) t).getDeclaration().getName();
+				}
+			}
+
+			if (right == fr.n7.stl.minijava.ast.type.declaration.AccessRight.PRIVATE) {
+				if (currentClassName == null || !currentClassName.equals(classDecl.getName())) {
+					Logger.error("Encapsulation error: L'attribut " + this.name + " est privé dans la classe " + classDecl.getName() + " et ne peut pas être accédé ici.");
+					return false;
+				}
+			} else if (right == fr.n7.stl.minijava.ast.type.declaration.AccessRight.PROTECTED) {
+				// TODO: Gérer l'héritage pour PROTECTED (pour l'instant, on fait comme private)
+				if (currentClassName == null || !currentClassName.equals(classDecl.getName())) {
+					Logger.error("Encapsulation error: L'attribut " + this.name + " est protégé dans la classe " + classDecl.getName() + " et ne peut pas être accédé ici.");
+					return false;
+				}
+			}
+		}
+		// ---------------------------
+
 		return true;
 
 	}

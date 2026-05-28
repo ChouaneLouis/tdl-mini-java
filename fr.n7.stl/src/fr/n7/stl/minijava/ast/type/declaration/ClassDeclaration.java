@@ -73,6 +73,8 @@ public class ClassDeclaration implements Instruction, Declaration {
         _scope.register(this);
 
         this.classScope = new SymbolTable(_scope);
+        // Inject $currentClass in scope to know the current class during encapsulation checks
+        this.classScope.register(new fr.n7.stl.minic.ast.instruction.declaration.VariableDeclaration("$currentClass", getType(), null));
 
         // La déclaration de 'this' ne doit PAS être mise dans le scope de la classe, 
         // car elle n'existe pas pour les méthodes statiques. Elle sera injectée uniquement 

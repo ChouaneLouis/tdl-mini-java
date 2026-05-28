@@ -1,0 +1,20 @@
+public class Main {
+    public static void main(String[] args) {
+        // Allocation
+        int[] t = new int[5];
+        
+        // Ecriture
+        t[0] = 10;
+        t[1] = 20;
+        
+        // Lecture et expression
+        t[2] = t[0] + t[1];
+        
+        // Boucle sur un tableau
+        int i = 0;
+        while (i < 5) {
+            t[i] = i * 10;
+            i = i + 1;
+        }
+    }
+}

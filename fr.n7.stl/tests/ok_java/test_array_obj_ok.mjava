@@ -1,0 +1,27 @@
+class Point {
+    public int x;
+    public int y;
+    
+    public Point(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Point[] pts = new Point[3];
+        
+        // pts est un tableau de pointeurs, chaque case vaut null au début
+        pts[0] = new Point(10, 20);
+        pts[1] = new Point(30, 40);
+        pts[2] = new Point(50, 60);
+        
+        // Accès croisé (tableau -> objet -> attribut)
+        int px = pts[1].x;
+        int py = pts[2].y;
+        
+        // Affectation (tableau -> objet -> attribut)
+        pts[0].x = px + py;
+    }
+}
