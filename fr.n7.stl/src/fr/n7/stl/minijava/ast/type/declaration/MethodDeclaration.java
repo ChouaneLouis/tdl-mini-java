@@ -16,6 +16,10 @@ public class MethodDeclaration extends ClassElement {
 
     protected boolean concrete;
 
+    public boolean isConcrete() {
+        return this.concrete;
+    }
+
     protected List<ParameterDeclaration> parameters;
 
     protected Block body;
@@ -51,7 +55,7 @@ public class MethodDeclaration extends ClassElement {
         if (!this.concrete) {
             image += "abstract ";
         }
-        image += this.accessRight + " " + this.type + " " + this.name + "( ";
+        image += this.accessRight + " " + this.elementKind + this.type + " " + this.name + "( ";
         Iterator<ParameterDeclaration> iterator = this.parameters.iterator();
         if (iterator.hasNext()) {
             ParameterDeclaration parameter = iterator.next();
@@ -84,11 +88,17 @@ public class MethodDeclaration extends ClassElement {
         for (ParameterDeclaration parameterDeclaration : parameters) {
             consScope.register(parameterDeclaration);
         }
-        return this.body.collectAndPartialResolve(consScope, this.function);
+        if (this.concrete) {
+            return this.body.collectAndPartialResolve(consScope, this.function);
+        }
+        return true;
     }
 
     public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
-        return this.body.completeResolve(consScope);
+        if (this.concrete) {
+            return this.body.completeResolve(consScope);
+        }
+        return true;
     }
 
 }

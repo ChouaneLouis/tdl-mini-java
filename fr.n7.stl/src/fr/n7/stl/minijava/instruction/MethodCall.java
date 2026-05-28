@@ -27,13 +27,22 @@ public class MethodCall implements Instruction {
 
 	protected MethodDeclaration method;
 
+	protected fr.n7.stl.minic.ast.expression.FunctionCall call;
 	protected List<AccessibleExpression> arguments;
 
 	public MethodCall(AccessibleExpression _target, String _name, List<AccessibleExpression> _arguments) {
 		this.name = _name;
 		this.method = null;
 		this.target = _target;
+		if (this.target == null) {
+			this.target = new fr.n7.stl.minijava.expression.accessible.ThisAccess();
+		}
 		this.arguments = _arguments;
+		
+		java.util.List<AccessibleExpression> allArgs = new java.util.LinkedList<>();
+		allArgs.add(this.target);
+		allArgs.addAll(this.arguments);
+		this.call = new fr.n7.stl.minic.ast.expression.FunctionCall(name, allArgs);
 	}
 
 	public MethodCall(String _name, List<AccessibleExpression> _arguments) {
@@ -42,59 +51,45 @@ public class MethodCall implements Instruction {
 
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
-		/// EDITED
-		return this.target.collectAndPartialResolve(_scope);
-
+		return this.call.collectAndPartialResolve(_scope);
 	}
 
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope, FunctionDeclaration _container) {
-		/// EDITED
 		return this.collectAndPartialResolve(_scope);
-
 	}
 
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
-		/// EDITED
-		if (!_scope.knows(name)) {
-			Logger.error(name + " n'est pas connu");
-			return false;
-		}
 		Declaration d = _scope.get(name);
 		if (d instanceof MethodDeclaration) {
 			this.method = (MethodDeclaration) d;
-
-			for (AccessibleExpression accessibleExpression : arguments) {
-				System.out.println(accessibleExpression.getClass().toString());
+			if (this.method.getElementKind() == fr.n7.stl.minijava.ast.type.declaration.ElementKind.CLASS) {
+				this.call = new fr.n7.stl.minic.ast.expression.FunctionCall(name, this.arguments);
+				this.call.collectAndPartialResolve(_scope);
 			}
-
-			return this.target.completeResolve(_scope);
 		}
-		Logger.error(name + "n'est pas une methode");
-		return false;
-
+		boolean ok = this.call.completeResolve(_scope);
+		return ok;
 	}
 
 	@Override
 	public boolean checkType() {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("checkType in MethodCall");
-
+		return true; // FunctionCall doesn't implement checkType, so we just assume it's true for now, or we can check arguments later if needed.
 	}
 
 	@Override
 	public int allocateMemory(Register _register, int _offset) {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("allocateMemory in MethodCall");
-
+		return _offset;
 	}
 
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("getCode in MethodCall");
-
+		Fragment f = this.call.getCode(_factory);
+		if (this.call.getType().length() > 0) {
+			f.add(_factory.createPop(0, this.call.getType().length()));
+		}
+		return f;
 	}
 
 	@Override

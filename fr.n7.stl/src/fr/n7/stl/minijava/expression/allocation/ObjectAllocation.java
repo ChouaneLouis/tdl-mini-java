@@ -61,6 +61,12 @@ public class ObjectAllocation implements AccessibleExpression, AssignableExpress
 				ok = ok && ((Instruction) accessibleExpression).completeResolve(_scope);
 			}
 		}
+
+		if (ok && this.classType.getDeclaration() != null && !this.classType.getDeclaration().isConcrete()) {
+			Logger.error("Erreur : Impossible d'instancier la classe abstraite " + this.name);
+			return false;
+		}
+
 		return ok;
 
 	}
@@ -82,7 +88,7 @@ public class ObjectAllocation implements AccessibleExpression, AssignableExpress
 		// Récupération de la déclaration de la classe pour connaître sa taille et son
 		// constructeur
 		ClassDeclaration classDecl = this.classType.getDeclaration();
-		int objectSize = classDecl.getObjectSize();
+		int objectSize = Math.max(1, classDecl.getObjectSize());
 
 		// Étape 1 : Allouer l'espace pour l'objet sur le Tas (Heap)
 		// 1.1 On charge la taille nécessaire sur la pile

@@ -82,6 +82,10 @@ public class ParameterDeclaration implements Declaration {
 		return this.offset;
 	}
 
+	public void setOffset(int _offset) {
+		this.offset = _offset;
+	}
+
 	// EDITED
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
 		return this.type.completeResolve(_scope);

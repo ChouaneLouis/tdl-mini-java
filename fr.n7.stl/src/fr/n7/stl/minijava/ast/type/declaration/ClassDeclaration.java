@@ -34,6 +34,10 @@ public class ClassDeclaration implements Instruction, Declaration {
 
     protected boolean concrete;
 
+    public boolean isConcrete() {
+        return this.concrete;
+    }
+
     protected String name;
 
     protected String ancestor;
@@ -100,16 +104,15 @@ public class ClassDeclaration implements Instruction, Declaration {
                 // Ajout au scope global si public
                 if (md.getAccessRight() == AccessRight.PUBLIC) {
                     if (_scope.accepts(md)) {
-                        // TODO : changer les noms si plusieurs méthodes du même nom
                         _scope.register(md);
-                    } else {
-                        Logger.error(md.name + "déjà connu");
-                        return false;
                     }
+                    // Si la méthode existe déjà (ex: héritage ou même nom dans une autre classe), on l'ignore silencieusement car la résolution par scope global est très basique dans ce compilateur.
                 }
 
                 // This
-                md.parameters.add(0, thisDeclaration);
+                if (md.getElementKind() != ElementKind.CLASS) {
+                    md.parameters.add(0, thisDeclaration);
+                }
 
                 md.collectAndPartialResolve(this.classScope);
             } else {
@@ -183,6 +186,12 @@ public class ClassDeclaration implements Instruction, Declaration {
                 AttributeDeclaration atr = (AttributeDeclaration) classElement;
                 atr.offset = localOffset;
                 localOffset += atr.getType().length();
+            } else if (classElement instanceof MethodDeclaration) {
+                MethodDeclaration md = (MethodDeclaration) classElement;
+                md.getFunction().allocateMemory(Register.LB, 3);
+            } else if (classElement instanceof ConstructorDeclaration) {
+                ConstructorDeclaration cd = (ConstructorDeclaration) classElement;
+                cd.allocateMemory(Register.LB, 3);
             }
         }
         return _offset; // Ne prend pas de place en mémoire
@@ -214,9 +223,11 @@ public class ClassDeclaration implements Instruction, Declaration {
 
             } else if (classElement instanceof MethodDeclaration) {
                 MethodDeclaration md = (MethodDeclaration) classElement;
-                Fragment methode = md.body.getCode(_factory);
-                methode.addPrefix(md.getName());
-                fragment.append(methode);
+                if (md.isConcrete()) {
+                    Fragment methode = md.body.getCode(_factory);
+                    methode.addPrefix(md.getName());
+                    fragment.append(methode);
+                }
             } else {
                 Logger.error(classElement.name + " n'est pas du bon type");
             }

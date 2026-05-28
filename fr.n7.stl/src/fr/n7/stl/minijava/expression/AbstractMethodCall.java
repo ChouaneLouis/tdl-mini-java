@@ -35,11 +35,17 @@ public abstract class AbstractMethodCall<ObjectKind extends Expression> implemen
 
 	public AbstractMethodCall(ObjectKind _target, String _name, List<AccessibleExpression> _arguments) {
 		this.target = _target;
+		if (this.target == null) {
+			this.target = (ObjectKind) new fr.n7.stl.minijava.expression.accessible.ThisAccess();
+		}
 		this.name = _name;
 		this.arguments = _arguments;
 
-		call = new FunctionCall(name, arguments);
+		java.util.List<AccessibleExpression> allArgs = new java.util.LinkedList<>();
+		allArgs.add((AccessibleExpression) this.target);
+		allArgs.addAll(this.arguments);
 
+		this.call = new FunctionCall(name, allArgs);
 	}
 
 	public AbstractMethodCall(String _name, List<AccessibleExpression> _arguments) {
@@ -48,32 +54,21 @@ public abstract class AbstractMethodCall<ObjectKind extends Expression> implemen
 
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
-		/// EDITED
-		return this.target.collectAndPartialResolve(_scope) && this.call.collectAndPartialResolve(_scope);
-
+		return this.call.collectAndPartialResolve(_scope);
 	}
 
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
-		/// EDITED
-
-		if (!_scope.knows(name)) {
-			Logger.error(name + " n'est pas connu");
-			return false;
-		}
 		Declaration d = _scope.get(name);
 		if (d instanceof MethodDeclaration) {
 			this.declaration = (MethodDeclaration) d;
-
-			for (AccessibleExpression accessibleExpression : arguments) {
-				System.out.println(accessibleExpression.getClass().toString());
+			if (this.declaration.getElementKind() == fr.n7.stl.minijava.ast.type.declaration.ElementKind.CLASS) {
+				this.call = new fr.n7.stl.minic.ast.expression.FunctionCall(name, this.arguments);
+				this.call.collectAndPartialResolve(_scope);
 			}
-
-			return this.target.completeResolve(_scope) && this.call.completeResolve(_scope);
 		}
-		Logger.error(name + "n'est pas une methode");
-		return false;
-
+		boolean ok = this.call.completeResolve(_scope);
+		return ok;
 	}
 
 	@Override

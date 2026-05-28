@@ -66,6 +66,20 @@ public class ConstructorDeclaration extends ClassElement {
 		return this.body.completeResolve(consScope);
 	}
 
+	public int allocateMemory(fr.n7.stl.tam.ast.Register _register, int _offset) {
+		int totalParamSize = 0;
+		for (ParameterDeclaration param : this.parameters) {
+			totalParamSize += param.getType().length();
+		}
+		int paramOffset = -totalParamSize;
+		for (fr.n7.stl.minic.ast.instruction.declaration.ParameterDeclaration param : this.parameters) {
+			param.setOffset(paramOffset);
+			paramOffset += param.getType().length();
+		}
+		this.body.allocateMemory(fr.n7.stl.tam.ast.Register.LB, 3);
+		return _offset;
+	}
+
 	public Fragment getCode(TAMFactory _factory) {
 		Fragment cons = body.getCode(_factory);
 		cons.addPrefix("Constructor_" + this.name);
