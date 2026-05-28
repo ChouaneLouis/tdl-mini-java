@@ -30,7 +30,15 @@ public class AttributeAssignment extends AbstractAttribute<AssignableExpression>
 		 * this.of
 		 * }
 		 */
+		Fragment f = _factory.createFragment();
 		System.out.println(this.object.getClass().toString());
+
+		// @ de la struct
+		f.append(this.object.getCode(_factory));
+		// Get offset
+
+		// this.thisrecord
+
 		// TODO Auto-generated method stub
 		throw new SemanticsUndefinedException("Semantic getCode is undefined in AttributeAssignment");
 	}
