@@ -60,7 +60,7 @@ public abstract class AbstractField<RecordKind extends Expression> implements Ex
         while (_type instanceof NamedType) {
             _type = ((NamedType) _type).getType();
         }
-		
+
 		if (!(_type instanceof RecordType)) {
 			Logger.error("You're trying to access " + this.record + " as a record but it's not.");
             return false;

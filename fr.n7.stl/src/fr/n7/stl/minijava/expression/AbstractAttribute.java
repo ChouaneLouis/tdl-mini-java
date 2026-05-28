@@ -16,7 +16,6 @@ public abstract class AbstractAttribute<ObjectKind extends Expression> implement
 
 	protected ObjectKind object;
 	protected String name;
-    protected AbstractField<ObjectKind> field;
 
 
 	public AbstractAttribute(ObjectKind _object, String _name) {
@@ -27,18 +26,13 @@ public abstract class AbstractAttribute<ObjectKind extends Expression> implement
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
 		/// EDITED
-		return object.collectAndPartialResolve(_scope) && this.field.completeResolve(_scope);
+		return object.collectAndPartialResolve(_scope);
 	}
 
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
 		/// EDITED
-		boolean ok = this.object.completeResolve(_scope);
-		if (!ok)
-			return false;
-
-        ok &= this.field.completeResolve(_scope);
-        return ok;
+		return this.object.completeResolve(_scope);
 
 	}
 
