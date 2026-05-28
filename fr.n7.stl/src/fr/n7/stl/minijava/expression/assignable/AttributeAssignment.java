@@ -12,11 +12,21 @@ import fr.n7.stl.tam.ast.TAMFactory;
 public class AttributeAssignment extends AbstractAttribute<AssignableExpression> implements AssignableExpression {
 
 	public AttributeAssignment(AssignableExpression _object, String _name) {
-		super( _object, _name);
+		super(_object, _name);
 	}
 
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
+		/// EDITED : il faut remonter l'adresse de l'attribut
+		/// But : récupérer le record et faire un getcode du fieldAccess
+		if (this.object instanceof ThisAssignment){
+			ThisAssignment ta = (ThisAssignment) this.object;
+			ta.get
+			Fragment f = _factory.createFragment();
+			f.append(ta.getCode(_factory));
+			this.of
+		}
+		System.out.println(this.object.getClass().toString());
 		// TODO Auto-generated method stub
 		throw new SemanticsUndefinedException("Semantic getCode is undefined in AttributeAssignment");
 	}

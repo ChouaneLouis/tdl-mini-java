@@ -2,6 +2,7 @@ package fr.n7.stl.minijava.expression.accessible;
 
 import fr.n7.stl.minic.ast.SemanticsUndefinedException;
 import fr.n7.stl.minic.ast.expression.accessible.AccessibleExpression;
+import fr.n7.stl.minic.ast.expression.accessible.IdentifierAccess;
 import fr.n7.stl.minic.ast.scope.Declaration;
 import fr.n7.stl.minic.ast.scope.HierarchicalScope;
 import fr.n7.stl.minic.ast.type.Type;
@@ -9,28 +10,28 @@ import fr.n7.stl.minijava.expression.AbstractAttribute;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.TAMFactory;
 
-public class AttributeAccess extends AbstractAttribute<AccessibleExpression>  implements AccessibleExpression {
+public class AttributeAccess extends AbstractAttribute<AccessibleExpression> implements AccessibleExpression {
 
 	public AttributeAccess(AccessibleExpression _object, String _name) {
-		super(_object,_name);
+		super(_object, _name);
 	}
 
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("Semantic collectAndPartialResolve is undefined in AttributeAccess");
+		/// EDITED
+		return super.collectAndPartialResolve(_scope);
 	}
 
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("Semantic completeResolve is undefined in AttributeAccess");
+		/// EDITED
+		return super.completeResolve(_scope);
 	}
 
 	@Override
 	public Type getType() {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("getType is undefined in AttributeAccess");
+		/// EDITED
+		return super.getType();
 	}
 
 	@Override

@@ -10,16 +10,16 @@ import fr.n7.stl.minic.ast.type.Type;
 import fr.n7.stl.minic.ast.type.AtomicType;
 
 public class ConstructorDeclaration extends ClassElement {
-	
+
 	protected List<ParameterDeclaration> parameters;
-	
+
 	protected Block body;
 
-    protected ClassDeclaration owner;
-    protected FunctionDeclaration function;
+	protected ClassDeclaration owner;
+	protected FunctionDeclaration function;
 
 	public ConstructorDeclaration(String _name, List<ParameterDeclaration> _parameters, Block _body) {
-		super( _name);
+		super(_name);
 		this.parameters = _parameters;
 		this.body = _body;
 	}
@@ -33,12 +33,12 @@ public class ConstructorDeclaration extends ClassElement {
 			ParameterDeclaration parameter = iterator.next();
 			image += parameter;
 			while (iterator.hasNext()) {
-				 parameter = iterator.next();
-				 image += " ," + parameter;
+				parameter = iterator.next();
+				image += " ," + parameter;
 			}
 		}
 		image += ")";
-		image += this.body; 
+		image += this.body;
 		return image;
 	}
 
@@ -47,19 +47,18 @@ public class ConstructorDeclaration extends ClassElement {
 		return this.owner.getType();
 	}
 
-    public void declareFunction(ClassDeclaration _owner, int id) {
-        this.owner = _owner;
-        this.name = "_new_" + this.name + "_" + id;
-        this.parameters.addFirst(new ParameterDeclaration("this", this.getType()));
-        this.function = new FunctionDeclaration(
-                this.name,
-                AtomicType.VoidType,
-                this.parameters,
-                this.body
-            );
-    }
+	public void declareFunction(ClassDeclaration _owner, int id) {
+		this.owner = _owner;
+		this.name = "_new_" + this.name + "_" + id;
+		this.parameters.add(0, new ParameterDeclaration("this", this.getType()));
+		this.function = new FunctionDeclaration(
+				this.name,
+				AtomicType.VoidType,
+				this.parameters,
+				this.body);
+	}
 
-    public FunctionDeclaration getFunction() {
-        return this.function;
-    }
+	public FunctionDeclaration getFunction() {
+		return this.function;
+	}
 }
