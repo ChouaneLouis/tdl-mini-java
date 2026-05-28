@@ -15,7 +15,6 @@ public class AttributeAccess extends AbstractAttribute<AccessibleExpression> imp
 
 	public AttributeAccess(AccessibleExpression _object, String _name) {
 		super(_object, _name);
-        System.out.println("coucou : " + this.object.getType());
         this.field = new FieldAccess(this.object, this.name);
 	}
 

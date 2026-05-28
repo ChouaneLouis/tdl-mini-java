@@ -29,6 +29,7 @@ public abstract class AbstractThis<ObjectKind extends Expression> implements Exp
 
 		if (thisObject != null) {
             this.declaration = ((ClassType) thisObject.getType()).getClassDeclaration();
+            System.out.println("blabla : "+ this.declaration);
 			return true;
 		} else {
 			Logger.error("thisObject null");
