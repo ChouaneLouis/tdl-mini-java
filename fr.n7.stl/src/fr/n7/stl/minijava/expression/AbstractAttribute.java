@@ -16,7 +16,6 @@ public abstract class AbstractAttribute<ObjectKind extends Expression> implement
 
 	protected ObjectKind object;
 	protected String name;
-	protected AttributeDeclaration attribute;
     protected AbstractField<ObjectKind> field;
 
 
@@ -38,13 +37,6 @@ public abstract class AbstractAttribute<ObjectKind extends Expression> implement
 		if (!ok)
 			return false;
 
-		Type objectType = this.object.getType();
-		if (!(objectType instanceof ClassType)) {
-			Logger.error("L'expression " + this.object + " n'est pas un objet. Impossible d'accéder à l'attribut "
-					+ this.name);
-			return false;
-		}
-
         ok &= this.field.completeResolve(_scope);
         return ok;
 
@@ -53,7 +45,7 @@ public abstract class AbstractAttribute<ObjectKind extends Expression> implement
 	@Override
 	public Type getType() {
 		// . EDITED
-		return this.attribute.getType();
+		return this.field.getType();
 	}
 
 	@Override
