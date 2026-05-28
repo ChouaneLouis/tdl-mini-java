@@ -22,16 +22,27 @@ public class MethodDeclaration extends ClassElement {
 
     protected Type type;
 
+    protected FunctionDeclaration function;
+
+    public FunctionDeclaration getFunction() {
+        return function;
+    }
+
     public MethodDeclaration(String _name, Type _type, List<ParameterDeclaration> _parameters, Block _body) {
         super(_name);
         this.parameters = _parameters;
         this.body = _body;
         this.concrete = (_body != null);
         this.type = _type;
+
+        this.function = new FunctionDeclaration(this.name, this.type, this.parameters, this.body);
     }
 
     public MethodDeclaration(String _name, Type _type, List<ParameterDeclaration> _parameters) {
         this(_name, _type, _parameters, null);
+
+        this.function = new FunctionDeclaration(this.name, this.type, this.parameters, null);
+
     }
 
     @Override
@@ -61,8 +72,8 @@ public class MethodDeclaration extends ClassElement {
 
     @Override
     public Type getType() {
-        // TODO Auto-generated method stub
-        throw new SemanticsUndefinedException("Semantics getType is undefined in methoddeclaration.");
+        /// EDITED
+        return this.type;
 
     }
 
@@ -73,7 +84,7 @@ public class MethodDeclaration extends ClassElement {
         for (ParameterDeclaration parameterDeclaration : parameters) {
             consScope.register(parameterDeclaration);
         }
-        return this.body.collectAndPartialResolve(consScope);
+        return this.body.collectAndPartialResolve(consScope, this.function);
     }
 
     public boolean completeResolve(HierarchicalScope<Declaration> _scope) {

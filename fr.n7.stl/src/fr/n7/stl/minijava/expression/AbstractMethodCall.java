@@ -5,6 +5,7 @@ import java.util.List;
 
 import fr.n7.stl.minic.ast.SemanticsUndefinedException;
 import fr.n7.stl.minic.ast.expression.Expression;
+import fr.n7.stl.minic.ast.expression.FunctionCall;
 import fr.n7.stl.minic.ast.expression.accessible.AccessibleExpression;
 import fr.n7.stl.minic.ast.instruction.Instruction;
 import fr.n7.stl.minic.ast.instruction.declaration.FunctionDeclaration;
@@ -29,10 +30,16 @@ public abstract class AbstractMethodCall<ObjectKind extends Expression> implemen
 
 	protected List<AccessibleExpression> arguments;
 
+	// Vérifier que ses attributs sont màj
+	protected FunctionCall call;
+
 	public AbstractMethodCall(ObjectKind _target, String _name, List<AccessibleExpression> _arguments) {
 		this.target = _target;
 		this.name = _name;
 		this.arguments = _arguments;
+
+		call = new FunctionCall(name, arguments);
+
 	}
 
 	public AbstractMethodCall(String _name, List<AccessibleExpression> _arguments) {
@@ -42,8 +49,7 @@ public abstract class AbstractMethodCall<ObjectKind extends Expression> implemen
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
 		/// EDITED
-
-		return this.target.collectAndPartialResolve(_scope);
+		return this.target.collectAndPartialResolve(_scope) && this.call.collectAndPartialResolve(_scope);
 
 	}
 
@@ -63,7 +69,7 @@ public abstract class AbstractMethodCall<ObjectKind extends Expression> implemen
 				System.out.println(accessibleExpression.getClass().toString());
 			}
 
-			return this.target.completeResolve(_scope);
+			return this.target.completeResolve(_scope) && this.call.completeResolve(_scope);
 		}
 		Logger.error(name + "n'est pas une methode");
 		return false;

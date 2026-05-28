@@ -20,6 +20,7 @@ public abstract class AbstractThis<ObjectKind extends Expression> implements Exp
 
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
+		System.out.println("test");
 		this.declaration = _scope.get("this");
 		if (this.declaration == null) {
 			fr.n7.stl.util.Logger.error("L'utilisation de 'this' est interdite dans ce contexte.");
