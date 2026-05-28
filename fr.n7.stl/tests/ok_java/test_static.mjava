@@ -8,7 +8,6 @@ class MathUtil {
 
 public class Main {
 	public static void main(String[] args) {
-		MathUtil u = new MathUtil();
-		int res = u.add(10, 20);
+		int res = MathUtil.add(10, 20);
 	}
 }

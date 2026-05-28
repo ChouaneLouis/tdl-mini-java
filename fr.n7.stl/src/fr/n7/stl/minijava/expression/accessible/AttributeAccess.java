@@ -26,32 +26,9 @@ public class AttributeAccess extends AbstractAttribute<AccessibleExpression> imp
 		return true;
 	}
 
-	@Override
-	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
-		/// EDITED
-		if (((HierarchicalScope<Declaration>) _scope).knows(this.name)) {
-			Declaration _declaration = _scope.get(this.name);
 
-			// System.out.println(_declaration.getClass().toString());
-			if (_declaration instanceof AttributeDeclaration) {
-				this.attribute = ((AttributeDeclaration) _declaration);
-				return true;
-			} else {
-				Logger.error("The declaration for " + this.name + " is of the wrong kind.");
-				return false;
-			}
-		} else {
-			Logger.error("The identifier " + this.name + " has not been found.");
-			return false;
-		}
-	}
 
-	@Override
-	public Type getType() {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("getType in AttributeAccess");
 
-	}
 
 	@Override
 	public Fragment getCode(TAMFactory _factory) {

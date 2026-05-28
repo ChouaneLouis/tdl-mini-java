@@ -1,0 +1,19 @@
+class Calculator {
+    public Calculator() {}
+    public int compute(boolean add, int a, int b) {
+        int res = 0;
+        if (add) {
+            res = a + b;
+        } else {
+            res = a - b;
+        }
+        return res;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Calculator calc = new Calculator();
+        int res = calc.compute(true, 10, 5);
+    }
+}

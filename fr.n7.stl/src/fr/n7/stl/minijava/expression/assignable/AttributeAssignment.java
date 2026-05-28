@@ -21,8 +21,11 @@ public class AttributeAssignment extends AbstractAttribute<AssignableExpression>
 
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
-		// EDITED
-		return this.object.getCode(_factory);
+		Fragment f = _factory.createFragment();
+		f.append(this.object.getCode(_factory));
+		f.add(_factory.createLoadL(this.attribute.getOffset()));
+		f.add(fr.n7.stl.tam.ast.TAMFactory.createBinaryOperator(fr.n7.stl.minic.ast.expression.accessible.BinaryOperator.Add));
+		return f;
 	}
 
 }

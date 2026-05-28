@@ -74,9 +74,7 @@ public abstract class AbstractAttribute<ObjectKind extends Expression> implement
 
 	@Override
 	public Type getType() {
-		// EDITED
-		return object.getType();
-
+		return this.attribute.getType();
 	}
 
 	@Override

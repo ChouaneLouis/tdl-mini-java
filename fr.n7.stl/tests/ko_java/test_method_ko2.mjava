@@ -1,0 +1,15 @@
+class Counter {
+    public int count;
+    public Counter() {}
+    public int increment() {
+        count = count + 1; // ERROR: implicitly using attribute without 'this'
+        return count;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Counter c = new Counter();
+        int val = c.increment();
+    }
+}

@@ -74,9 +74,10 @@ public class ClassDeclaration implements Instruction, Declaration {
 
         this.classScope = new SymbolTable(_scope);
 
-        // This
+        // La déclaration de 'this' ne doit PAS être mise dans le scope de la classe, 
+        // car elle n'existe pas pour les méthodes statiques. Elle sera injectée uniquement 
+        // dans les paramètres des méthodes non-statiques plus bas.
         ParameterDeclaration thisDeclaration = new ParameterDeclaration("this", getType());
-        this.classScope.register(thisDeclaration);
 
         boolean isValid = true;
 

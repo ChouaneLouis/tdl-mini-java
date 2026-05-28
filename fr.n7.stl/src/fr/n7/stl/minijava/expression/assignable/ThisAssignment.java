@@ -23,19 +23,8 @@ public class ThisAssignment extends AbstractThis<AssignableExpression> implement
 
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
-		// TODO : ne fonctionne que si l'adresse de this est placé juste au dessus -> il
-		// faut systématiquement load avant d'appeler ici, ou ajouter un attribut
-		ParameterDeclaration pr = (ParameterDeclaration) this.declaration;
 		Fragment f = _factory.createFragment();
-		// On récupère l'adresse de this qui est toujours le premier paramètre de la
-		// méthode
 		f.add(_factory.createLoad(Register.LB, -1, 1));
-
-		f.add(_factory.createLoadL(pr.getOffset()));
-		// offset positif
-		f.add(_factory.createLoadL(-1));
-		f.add(TAMFactory.createBinaryOperator(BinaryOperator.Multiply));
-		f.add(TAMFactory.createBinaryOperator(BinaryOperator.Add));
 		return f;
 	}
 
