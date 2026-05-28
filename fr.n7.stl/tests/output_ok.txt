@@ -1,9 +1,10 @@
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test00.bloc
+Treating ./tests/ok/test00.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de type entier avec une valeur entière
    int i = 1;
 }
+
 
 void main() {
 int i = 1;
@@ -15,11 +16,12 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test03.bloc
+Treating ./tests/ok/test03.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de type entier avec le résultat du calcul d'une expression de type entier
    int i = 1 + 2;
 }
+
 
 void main() {
 int i = (1 + 2);
@@ -31,7 +33,7 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test100.bloc
+Treating ./tests/ok/test100.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de type tableau statique de booléens avec une valeur séquence de booléens de taille 2
    // 	   	    extraction du premier élément de la paire dans une condition de conditionnelle
@@ -40,6 +42,7 @@ void main() {
    if (*p) {
    }
 }
+
 
 void main() {
 boolean a = true;
@@ -54,7 +57,7 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test101.bloc
+Treating ./tests/ok/test101.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de type tableau dynamique de booléens avec une valeur séquence de booléens de taille 2
    // 	   	    extraction du premier élément de la paire dans une condition de conditionnelle
@@ -64,21 +67,20 @@ void main() {
 }
 
 
+
 void main() {
 (boolean *) p = new boolean;
 if (* p ){
 }
 }
 
-Exception in thread "main" fr.n7.stl.minic.ast.SemanticsUndefinedException: Semantics collect is undefined in PointerAllocation.
-	at fr.n7.stl.minic.ast.expression.allocation.PointerAllocation.collectAndPartialResolve(Unknown Source)
-	at fr.n7.stl.minic.ast.instruction.declaration.VariableDeclaration.collectAndPartialResolve(Unknown Source)
-	at fr.n7.stl.minic.ast.Block.collectAndPartialResolve(Unknown Source)
-	at fr.n7.stl.minic.ast.Program.collectAndPartialResolve(Unknown Source)
-	at fr.n7.stl.minic.ASTBuilder.startCompilation(Unknown Source)
-	at fr.n7.stl.minic.Driver.main(Unknown Source)
+collect succeeded
+Resolve succeeded.
+Type verification succeeded.
+Code generation ...
+Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test102.bloc
+Treating ./tests/ok/test102.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de type tableau statique de booléens avec une valeur séquence de booléens de taille 2
    // 	   	    extraction du premier élément de la paire dans une condition de répétition
@@ -87,6 +89,7 @@ void main() {
    while (*p) {
    }
 }
+
 
 void main() {
 boolean a = true;
@@ -101,7 +104,7 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test103.bloc
+Treating ./tests/ok/test103.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de type tableau dynamique de booléens avec une valeur séquence de booléens de taille 2
    // 	   	    extraction du premier élément de la paire dans une condition de répétition
@@ -111,21 +114,20 @@ void main() {
 }
 
 
+
 void main() {
 (boolean *) p = new boolean;
 while (* p ){
 }
 }
 
-Exception in thread "main" fr.n7.stl.minic.ast.SemanticsUndefinedException: Semantics collect is undefined in PointerAllocation.
-	at fr.n7.stl.minic.ast.expression.allocation.PointerAllocation.collectAndPartialResolve(Unknown Source)
-	at fr.n7.stl.minic.ast.instruction.declaration.VariableDeclaration.collectAndPartialResolve(Unknown Source)
-	at fr.n7.stl.minic.ast.Block.collectAndPartialResolve(Unknown Source)
-	at fr.n7.stl.minic.ast.Program.collectAndPartialResolve(Unknown Source)
-	at fr.n7.stl.minic.ASTBuilder.startCompilation(Unknown Source)
-	at fr.n7.stl.minic.Driver.main(Unknown Source)
+collect succeeded
+Resolve succeeded.
+Type verification succeeded.
+Code generation ...
+Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test10.bloc
+Treating ./tests/ok/test10.bloc
 void main() {
    // Correct : double déclaration dans un sous-bloc avec le même type.
    int i = 1 ;
@@ -133,6 +135,7 @@ void main() {
       int i = 1;
    }
 }
+
 
 void main() {
 int i = 1;
@@ -147,7 +150,7 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test11.bloc
+Treating ./tests/ok/test11.bloc
 void main() {
    // Correct : double déclaration dans un sous-bloc avec un type différent.
    int i = 1 ;
@@ -155,6 +158,7 @@ void main() {
       boolean i = true;
    }
 }
+
 
 void main() {
 int i = 1;
@@ -169,7 +173,7 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test12.bloc
+Treating ./tests/ok/test12.bloc
 void main() {
    // Correct : double déclaration dans deux sous-blocs avec le même type.
    int i = 1 ;
@@ -180,6 +184,7 @@ void main() {
    }
 }
 
+
 void main() {
 int i = 1;
 if (true ){
@@ -196,7 +201,7 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test13.bloc
+Treating ./tests/ok/test13.bloc
 void main() {
    // Correct : double déclaration dans un sous-bloc avec un type différent.
    int i = 1 ;
@@ -207,6 +212,7 @@ void main() {
    }
 }
 
+
 void main() {
 int i = 1;
 if (true ){
@@ -223,13 +229,14 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test16.bloc
+Treating ./tests/ok/test16.bloc
 void main() {
    // Sans erreur : utilisation d'une variable dans une condition.
    int i = 1 ;
    if (i == 1) {
    }
 }
+
 
 void main() {
 int i = 1;
@@ -243,7 +250,7 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test17.bloc
+Treating ./tests/ok/test17.bloc
 void main() {
    // Sans erreur : utilisation d'une variable dans un sous-bloc.
    int i = 1 ;
@@ -252,6 +259,7 @@ void main() {
    }
 }
 
+
 void main() {
 int i = 1;
 if (true ){
@@ -265,7 +273,7 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test18.bloc
+Treating ./tests/ok/test18.bloc
 void main() {
    // Sans erreur : utilisation d'une variable dans un sous bloc.
    int i = 1 ;
@@ -274,6 +282,7 @@ void main() {
    }
 }
 
+
 void main() {
 int i = 1;
 if (true ){
@@ -287,7 +296,7 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test19.bloc
+Treating ./tests/ok/test19.bloc
 void main() {
    // Sans erreur : utilisation d'une variable après un sous-bloc.
    int i = 1 ;
@@ -295,6 +304,7 @@ void main() {
    }
    int j = i;
 }
+
 
 void main() {
 int i = 1;
@@ -309,7 +319,7 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test20.bloc
+Treating ./tests/ok/test20.bloc
 void main() {
    // Sans erreur : utilisation d'une variable après un sous-bloc.
    int i = 1 ;
@@ -317,6 +327,7 @@ void main() {
    }
    i = 2;
 }
+
 
 void main() {
 int i = 1;
@@ -331,7 +342,7 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test26.bloc
+Treating ./tests/ok/test26.bloc
 void main() {
    // Correct : double déclaration dans un sous-bloc avec le même type.
    int i = 1 ;
@@ -339,6 +350,7 @@ void main() {
       int i = 1;
    }
 }
+
 
 void main() {
 int i = 1;
@@ -353,7 +365,7 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test27.bloc
+Treating ./tests/ok/test27.bloc
 void main() {
    // Correct : double déclaration dans un sous-bloc avec un type différent.
    int i = 1 ;
@@ -361,6 +373,7 @@ void main() {
       boolean i = true;
    }
 }
+
 
 void main() {
 int i = 1;
@@ -375,13 +388,14 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test31.bloc
+Treating ./tests/ok/test31.bloc
 void main() {
    // Sans erreur : utilisation d'une variable dans une condition.
    int i = 1 ;
    if (i == 1) {
    }
 }
+
 
 void main() {
 int i = 1;
@@ -395,7 +409,7 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test32.bloc
+Treating ./tests/ok/test32.bloc
 void main() {
    // Sans erreur : utilisation d'une variable dans un sous-bloc.
    int i = 1 ;
@@ -404,6 +418,7 @@ void main() {
    }
 }
 
+
 void main() {
 int i = 1;
 while (true ){
@@ -417,7 +432,7 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test33.bloc
+Treating ./tests/ok/test33.bloc
 void main() {
    // Sans erreur : utilisation d'une variable dans un sous bloc.
    int i = 1 ;
@@ -425,6 +440,7 @@ void main() {
       i = 2;
    }
 }
+
 
 void main() {
 int i = 1;
@@ -439,7 +455,7 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test34.bloc
+Treating ./tests/ok/test34.bloc
 void main() {
    // Sans erreur : utilisation d'une variable dans un sous bloc.
    int i = 1 ;
@@ -447,6 +463,7 @@ void main() {
       i = 2;
    }
 }
+
 
 void main() {
 int i = 1;
@@ -461,7 +478,7 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test35.bloc
+Treating ./tests/ok/test35.bloc
 void main() {
    // Sans erreur : utilisation d'une variable après un sous-bloc.
    int i = 1 ;
@@ -470,6 +487,7 @@ void main() {
    int j = i;
 }
 
+
 void main() {
 int i = 1;
 while (true ){
@@ -483,7 +501,7 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test36.bloc
+Treating ./tests/ok/test36.bloc
 void main() {
    // Sans erreur : utilisation d'une variable après un sous-bloc.
    int i = 1 ;
@@ -491,6 +509,7 @@ void main() {
    }
    i = 2;
 }
+
 
 void main() {
 int i = 1;
@@ -505,7 +524,7 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test37.bloc
+Treating ./tests/ok/test37.bloc
 void main() {
    // Sans erreur : utilisation d'une variable après un sous-bloc.
    int i = 1 ;
@@ -513,6 +532,7 @@ void main() {
    }
    i = 2;
 }
+
 
 void main() {
 int i = 1;
@@ -527,11 +547,12 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test42.bloc
+Treating ./tests/ok/test42.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de type paire d'entier avec une valeur séquence d'entiers de taille 2
    <int,int> p = { 1, 2};
 }
+
 
 void main() {
 < int, int> p = { 1 ,2 };
@@ -543,13 +564,14 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test43.bloc
+Treating ./tests/ok/test43.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de type paire d'entier avec une valeur séquence d'entiers de taille 2
    // 	   	    lecture de la première composante de la paire.
    <int,int> p = { 1, 2};
    int i = (fst p);
 }
+
 
 void main() {
 < int, int> p = { 1 ,2 };
@@ -562,13 +584,14 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test44.bloc
+Treating ./tests/ok/test44.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de type paire d'entier avec une valeur séquence d'entiers de taille 2
    // 	   	    lecture des deux composantes de la paire.
    <int,int> p = { 1, 2};
    int i = (fst p) + (snd p);
 }
+
 
 void main() {
 < int, int> p = { 1 ,2 };
@@ -581,13 +604,14 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test45.bloc
+Treating ./tests/ok/test45.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de type paire d'entier avec une valeur séquence d'entiers de taille 2
    // 	   	    initialisation d'une variable de type paire d'entier avec une valeur paire d'entiers
    <int,int> p = { 1, 2};
    <int,int> q = p;
 }
+
 
 void main() {
 < int, int> p = { 1 ,2 };
@@ -600,13 +624,14 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test46.bloc
+Treating ./tests/ok/test46.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de type paire d'entier avec une valeur séquence d'entiers de taille 2
    // 	   	    initialisation d'une variable de type paire d'entier avec une valeur paire d'entiers
    <int,int> p = { 1, 2};
    p = p;
 }
+
 
 void main() {
 < int, int> p = { 1 ,2 };
@@ -619,13 +644,14 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test47.bloc
+Treating ./tests/ok/test47.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de type paire d'entier avec une valeur séquence d'entiers de taille 2
    // 	   	    initialisation d'une variable de type paire d'entier avec une valeur paire d'entiers
    <int,int> p = { 1, 2};
    p = { (fst p), (snd p) };
 }
+
 
 
 void main() {
@@ -639,7 +665,7 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test48.bloc
+Treating ./tests/ok/test48.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de type paire de booléens avec une valeur séquence de booléens de taille 2
    // 	   	    extraction du premier élément dans la paire dans une condition de conditionnelle
@@ -647,6 +673,7 @@ void main() {
    if (fst p) {
    }
 }
+
 
 void main() {
 < boolean, boolean> p = { true ,false };
@@ -660,7 +687,7 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test49.bloc
+Treating ./tests/ok/test49.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de type paire de booléens avec une valeur séquence de booléens de taille 2
    // 	   	    extraction du premier élément dans la paire dans une condition de conditionnelle
@@ -668,6 +695,7 @@ void main() {
    while (fst p) {
    }
 }
+
 
 void main() {
 < boolean, boolean> p = { true ,false };
@@ -681,7 +709,7 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test50.bloc
+Treating ./tests/ok/test50.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de type paire composée d'un booléen et un entier avec une valeur séquence composée d'un booléen et un entier
    // 	   	    extraction du premier élément dans la paire dans une condition de conditionnelle
@@ -689,6 +717,7 @@ void main() {
    if (fst p) {
    }
 }
+
 
 void main() {
 < boolean, int> p = { true ,1 };
@@ -702,7 +731,7 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test51.bloc
+Treating ./tests/ok/test51.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de type paire composée d'un booléen et un entier avec une valeur séquence composée d'un booléen et un entier
    // 	   	    extraction du premier élément dans la paire dans une condition de conditionnelle
@@ -710,6 +739,7 @@ void main() {
    while (fst p) {
    }
 }
+
 
 void main() {
 < boolean, int> p = { true ,1 };
@@ -723,12 +753,13 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test52.bloc
+Treating ./tests/ok/test52.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de type tableau d'entier avec un tableau créé statiquement
    int p[] = { 1, 2};
 }
 
+
 void main() {
 (int []) p = { 1 ,2 };
 }
@@ -739,11 +770,12 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test53.bloc
+Treating ./tests/ok/test53.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de type tableau d'entier avec un tableau créé dynamiquement
    int p[] = new int[2];
 }
+
 
 void main() {
 (int []) p = new int[ 2 ];
@@ -755,13 +787,14 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test54.bloc
+Treating ./tests/ok/test54.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de type tableau d'entier avec un tableau créé statiquement, puis affectation du tableau
    int p[] = { 1, 2};
    p = { 3, 4};
 }
 
+
 void main() {
 (int []) p = { 1 ,2 };
  p  = { 3 ,4 };
@@ -773,12 +806,13 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test55.bloc
+Treating ./tests/ok/test55.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de type tableau d'entier avec un tableau créé dynamiquement
    int p[] = new int[2];
    p = { 3, 4};
 }
+
 
 
 void main() {
@@ -792,12 +826,13 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test56.bloc
+Treating ./tests/ok/test56.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de type tableau d'entier avec un tableau créé statiquement, puis affectation du tableau
    int p[] = { 1, 2};
    p[0] = 3;
 }
+
 
 void main() {
 (int []) p = { 1 ,2 };
@@ -810,12 +845,13 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test57.bloc
+Treating ./tests/ok/test57.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de type tableau d'entier avec un tableau créé statiquement, puis affectation du tableau
    int p[] = { 1, 2};
    int j = p[0];
 }
+
 
 
 void main() {
@@ -829,12 +865,13 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test58.bloc
+Treating ./tests/ok/test58.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de type tableau d'entier avec un tableau créé dynamiquement
    int p[] = new int[2];
    p[0] = 3;
 }
+
 
 void main() {
 (int []) p = new int[ 2 ];
@@ -847,12 +884,13 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test59.bloc
+Treating ./tests/ok/test59.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de type tableau d'entier avec un tableau créé dynamiquement
    int p[] = new int[2];
    int i = p[0];
 }
+
 
 void main() {
 (int []) p = new int[ 2 ];
@@ -865,7 +903,7 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test60.bloc
+Treating ./tests/ok/test60.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de type tableau statique de booléens avec une valeur séquence de booléens de taille 2
    // 	   	    extraction du premier élément de la paire dans une condition de conditionnelle
@@ -873,6 +911,7 @@ void main() {
    if (p[0]) {
    }
 }
+
 
 void main() {
 (boolean []) p = { true ,false };
@@ -886,7 +925,7 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test61.bloc
+Treating ./tests/ok/test61.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de type tableau dynamique de booléens avec une valeur séquence de booléens de taille 2
    // 	   	    extraction du premier élément de la paire dans une condition de conditionnelle
@@ -894,6 +933,7 @@ void main() {
    if (p[0]) {
    }
 }
+
 
 void main() {
 (boolean []) p = new boolean[ 2 ];
@@ -907,7 +947,7 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test62.bloc
+Treating ./tests/ok/test62.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de type tableau statique de booléens avec une valeur séquence de booléens de taille 2
    // 	   	    extraction du premier élément de la paire dans une condition de répétition
@@ -915,6 +955,7 @@ void main() {
    while (p[0]) {
    }
 }
+
 
 void main() {
 (boolean []) p = { true ,false };
@@ -928,7 +969,7 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test63.bloc
+Treating ./tests/ok/test63.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de type tableau dynamique de booléens avec une valeur séquence de booléens de taille 2
    // 	   	    extraction du premier élément de la paire dans une condition de répétition
@@ -936,6 +977,7 @@ void main() {
    while (p[0]) {
    }
 }
+
 
 void main() {
 (boolean []) p = new boolean[ 2 ];
@@ -949,11 +991,12 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test64.bloc
+Treating ./tests/ok/test64.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de enregistrement contenant deux champs entiers avec une valeur séquence d'entiers de taille 2
    struct P { int x; int y; } p = { 1, 2};
 }
+
 
 void main() {
 struct P { int x; int y;} p = { 1 ,2 };
@@ -965,13 +1008,14 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test65.bloc
+Treating ./tests/ok/test65.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de enregistrement contenant deux champs entiers avec une valeur séquence d'entiers de taille 2
    // 	   	    lecture du premier champs de l'enregistrement.
    struct P { int x; int y; } p = { 1, 2};
    int i = p.x;
 }
+
 
 void main() {
 struct P { int x; int y;} p = { 1 ,2 };
@@ -984,13 +1028,14 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test66.bloc
+Treating ./tests/ok/test66.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de enregistrement contenant deux champs entiers avec une valeur séquence d'entiers de taille 2
    // 	   	    lecture du premier champs de l'enregistrement.
    struct P { int x; int y; } p = { 1, 2};
    int i = p.x + p.y;
 }
+
 
 void main() {
 struct P { int x; int y;} p = { 1 ,2 };
@@ -1003,13 +1048,14 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test68.bloc
+Treating ./tests/ok/test68.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de enregistrement contenant deux champs entiers avec une valeur séquence d'entiers de taille 2
    // 	   	    initialisation d'une variable du même type avec l'enregistrement précédent.
    struct P { int x; int y; } p = { 1, 2};
    p.x = 3;
 }
+
 
 void main() {
 struct P { int x; int y;} p = { 1 ,2 };
@@ -1022,13 +1068,14 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test69.bloc
+Treating ./tests/ok/test69.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de enregistrement contenant deux champs entiers avec une valeur séquence d'entiers de taille 2
    // 	   	    initialisation d'une variable du même type avec l'enregistrement précédent.
    struct P { int x; int y; } p = { 1, 2};
    p = { p.x, p.y};
 }
+
 
 void main() {
 struct P { int x; int y;} p = { 1 ,2 };
@@ -1041,7 +1088,7 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test70.bloc
+Treating ./tests/ok/test70.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de type enregistrement contenant deux champs booléens avec une valeur séquence de booléens de taille 2
    // 	   	    extraction du premier champ de l'enregistrement dans une condition de conditionnelle
@@ -1049,6 +1096,7 @@ void main() {
    if (p.a) {
    }
 }
+
 
 void main() {
 struct B { boolean a; boolean b;} p = { true ,false };
@@ -1062,7 +1110,7 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test71.bloc
+Treating ./tests/ok/test71.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de type enregistrement contenant deux champs booléens avec une valeur séquence de booléens de taille 2
    // 	   	    extraction du premier champ de l'enregistrement dans une condition de conditionnelle
@@ -1070,6 +1118,7 @@ void main() {
    while (p.a) {
    }
 }
+
 
 void main() {
 struct B { boolean a; boolean b;} p = { true ,false };
@@ -1083,7 +1132,7 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test72.bloc
+Treating ./tests/ok/test72.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de type enregistrement contenant deux champs booléens avec une valeur séquence de booléens de taille 2
    // 	   	    extraction du premier champ de l'enregistrement dans une condition de conditionnelle
@@ -1091,6 +1140,7 @@ void main() {
    if (p.a) {
    }
 }
+
 
 void main() {
 struct B { boolean a; int n;} p = { true ,1 };
@@ -1104,7 +1154,7 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test73.bloc
+Treating ./tests/ok/test73.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de type enregistrement contenant deux champs booléens avec une valeur séquence de booléens de taille 2
    // 	   	    extraction du premier champ de l'enregistrement dans une condition de conditionnelle
@@ -1112,6 +1162,7 @@ void main() {
    while (p.a) {
    }
 }
+
 
 void main() {
 struct B { boolean a; int n;} p = { true ,1 };
@@ -1125,7 +1176,7 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test91.bloc
+Treating ./tests/ok/test91.bloc
 void main() {
    int n = 10;
    int r = 1;
@@ -1135,6 +1186,7 @@ void main() {
    }
    print (n);
 }
+
 
 
 void main() {
@@ -1153,12 +1205,13 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test92.bloc
+Treating ./tests/ok/test92.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de type pointeur sur entier avec une variable entière créé statiquement
    int i = 1;
    int *p = &i;
 }
+
 
 void main() {
 int i = 1;
@@ -1171,32 +1224,32 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test93.bloc
+Treating ./tests/ok/test93.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de type tableau d'entier avec un tableau créé dynamiquement
    int *p = new int ();
 }
 
 
+
 void main() {
 (int *) p = new int;
 }
 
-Exception in thread "main" fr.n7.stl.minic.ast.SemanticsUndefinedException: Semantics collect is undefined in PointerAllocation.
-	at fr.n7.stl.minic.ast.expression.allocation.PointerAllocation.collectAndPartialResolve(Unknown Source)
-	at fr.n7.stl.minic.ast.instruction.declaration.VariableDeclaration.collectAndPartialResolve(Unknown Source)
-	at fr.n7.stl.minic.ast.Block.collectAndPartialResolve(Unknown Source)
-	at fr.n7.stl.minic.ast.Program.collectAndPartialResolve(Unknown Source)
-	at fr.n7.stl.minic.ASTBuilder.startCompilation(Unknown Source)
-	at fr.n7.stl.minic.Driver.main(Unknown Source)
+collect succeeded
+Resolve succeeded.
+Type verification succeeded.
+Code generation ...
+Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test94.bloc
+Treating ./tests/ok/test94.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de type tableau d'entier avec un tableau créé statiquement, puis affectation du tableau
    int i = 1;
    int *p = &i;
    *p = 2;
 }
+
 
 void main() {
 int i = 1;
@@ -1210,7 +1263,7 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test95.bloc
+Treating ./tests/ok/test95.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de type tableau d'entier avec un tableau créé dynamiquement
    int *p = new int();
@@ -1218,26 +1271,26 @@ void main() {
 }
 
 
+
 void main() {
 (int *) p = new int;
 (*p) = 2;
 }
 
-Exception in thread "main" fr.n7.stl.minic.ast.SemanticsUndefinedException: Semantics collect is undefined in PointerAllocation.
-	at fr.n7.stl.minic.ast.expression.allocation.PointerAllocation.collectAndPartialResolve(Unknown Source)
-	at fr.n7.stl.minic.ast.instruction.declaration.VariableDeclaration.collectAndPartialResolve(Unknown Source)
-	at fr.n7.stl.minic.ast.Block.collectAndPartialResolve(Unknown Source)
-	at fr.n7.stl.minic.ast.Program.collectAndPartialResolve(Unknown Source)
-	at fr.n7.stl.minic.ASTBuilder.startCompilation(Unknown Source)
-	at fr.n7.stl.minic.Driver.main(Unknown Source)
+collect succeeded
+Resolve succeeded.
+Type verification succeeded.
+Code generation ...
+Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test96.bloc
+Treating ./tests/ok/test96.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de type tableau d'entier avec un tableau créé statiquement, puis affectation du tableau
    int i = 1;
    int *p = &i;
    *p = 2;
 }
+
 
 void main() {
 int i = 1;
@@ -1251,13 +1304,14 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test97.bloc
+Treating ./tests/ok/test97.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de type tableau d'entier avec un tableau créé statiquement, puis affectation du tableau
    int i = 1;
    int *p = &i;
    int j = *p;
 }
+
 
 void main() {
 int i = 1;
@@ -1271,7 +1325,7 @@ Type verification succeeded.
 Code generation ...
 Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test98.bloc
+Treating ./tests/ok/test98.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de type tableau d'entier avec un tableau créé dynamiquement
    int *p = new int();
@@ -1279,20 +1333,19 @@ void main() {
 }
 
 
+
 void main() {
 (int *) p = new int;
 (*p) = 1;
 }
 
-Exception in thread "main" fr.n7.stl.minic.ast.SemanticsUndefinedException: Semantics collect is undefined in PointerAllocation.
-	at fr.n7.stl.minic.ast.expression.allocation.PointerAllocation.collectAndPartialResolve(Unknown Source)
-	at fr.n7.stl.minic.ast.instruction.declaration.VariableDeclaration.collectAndPartialResolve(Unknown Source)
-	at fr.n7.stl.minic.ast.Block.collectAndPartialResolve(Unknown Source)
-	at fr.n7.stl.minic.ast.Program.collectAndPartialResolve(Unknown Source)
-	at fr.n7.stl.minic.ASTBuilder.startCompilation(Unknown Source)
-	at fr.n7.stl.minic.Driver.main(Unknown Source)
+collect succeeded
+Resolve succeeded.
+Type verification succeeded.
+Code generation ...
+Code generation finished
 -------------------------------------------------------------------------------------
-Treating ./tests/Test_OK/test99.bloc
+Treating ./tests/ok/test99.bloc
 void main() {
    // Sans erreur : initialisation d'une variable de type tableau d'entier avec un tableau créé dynamiquement
    int *p = new int();
@@ -1300,19 +1353,18 @@ void main() {
 }
 
 
+
 void main() {
 (int *) p = new int;
 int i = * p;
 }
 
-Exception in thread "main" fr.n7.stl.minic.ast.SemanticsUndefinedException: Semantics collect is undefined in PointerAllocation.
-	at fr.n7.stl.minic.ast.expression.allocation.PointerAllocation.collectAndPartialResolve(Unknown Source)
-	at fr.n7.stl.minic.ast.instruction.declaration.VariableDeclaration.collectAndPartialResolve(Unknown Source)
-	at fr.n7.stl.minic.ast.Block.collectAndPartialResolve(Unknown Source)
-	at fr.n7.stl.minic.ast.Program.collectAndPartialResolve(Unknown Source)
-	at fr.n7.stl.minic.ASTBuilder.startCompilation(Unknown Source)
-	at fr.n7.stl.minic.Driver.main(Unknown Source)
+collect succeeded
+Resolve succeeded.
+Type verification succeeded.
+Code generation ...
+Code generation finished
 
 ========================================================
-Bilan (ok) : 58 tests valides sur 64 tests au total.
+Bilan : 64 tests réussis sur 64 tests au total.
 ========================================================
