@@ -26,6 +26,8 @@ public abstract class AbstractThis<ObjectKind extends Expression> implements Exp
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
 		/// EDITED
 		thisObject = _scope.get("this");
+		// System.out.println(this.thisObject.getClass().toString());
+
 		if (thisObject != null) {
 			return true;
 		} else {

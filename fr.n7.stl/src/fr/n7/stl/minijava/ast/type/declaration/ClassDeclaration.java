@@ -226,7 +226,7 @@ public class ClassDeclaration implements Instruction, Declaration {
 
     public RecordType getRecordType() {
         // TODO
-        return new RecordType("_class_" + this.name, new ArrayList<>());
+        return this.assoiciatedRecordType;
     }
 
     // Quand tu fais un appel a object declaration : 1) instancie une struct en tant
