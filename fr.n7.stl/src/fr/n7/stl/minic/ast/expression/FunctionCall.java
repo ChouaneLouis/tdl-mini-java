@@ -11,6 +11,7 @@ import fr.n7.stl.minic.ast.instruction.declaration.FunctionDeclaration;
 import fr.n7.stl.minic.ast.scope.Declaration;
 import fr.n7.stl.minic.ast.scope.HierarchicalScope;
 import fr.n7.stl.minic.ast.type.Type;
+import fr.n7.stl.minijava.ast.type.declaration.MethodDeclaration;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
@@ -110,6 +111,8 @@ public class FunctionCall implements AccessibleExpression {
 
 			if (decl instanceof FunctionDeclaration) {
 				this.function = (FunctionDeclaration) decl;
+			} else if (decl instanceof MethodDeclaration) {
+				this.function = ((MethodDeclaration) decl).getFunction();
 			} else {
 				fr.n7.stl.util.Logger.error("L'identifiant '" + this.name + "' n'est pas une fonction.");
 				ok = false;

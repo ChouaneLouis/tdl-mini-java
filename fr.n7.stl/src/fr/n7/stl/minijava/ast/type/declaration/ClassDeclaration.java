@@ -71,7 +71,8 @@ public class ClassDeclaration implements Instruction, Declaration {
         this.classScope = new SymbolTable(_scope);
 
         // This
-        classScope.register(new ClassDeclaration(concrete, "this", elements));
+        ParameterDeclaration thisDeclaration = new ParameterDeclaration("this", getType());
+        this.classScope.register(thisDeclaration);
 
         boolean isValid = true;
 
@@ -81,7 +82,7 @@ public class ClassDeclaration implements Instruction, Declaration {
             if (classElement instanceof ConstructorDeclaration) {
                 ConstructorDeclaration cd = (ConstructorDeclaration) classElement;
                 // This
-                cd.parameters.add(0, new ParameterDeclaration("this", this.getType()));
+                cd.parameters.add(0, thisDeclaration);
 
                 cd.collectAndPartialResolve(this.classScope);
 
@@ -95,8 +96,20 @@ public class ClassDeclaration implements Instruction, Declaration {
 
             } else if (classElement instanceof MethodDeclaration) {
                 MethodDeclaration md = (MethodDeclaration) classElement;
+
+                // Ajout au scope global si public
+                if (md.getAccessRight() == AccessRight.PUBLIC) {
+                    if (_scope.accepts(md)) {
+                        // TODO : changer les noms si plusieurs méthodes du même nom
+                        _scope.register(md);
+                    } else {
+                        Logger.error(md.name + "déjà connu");
+                        return false;
+                    }
+                }
+
                 // This
-                md.parameters.add(0, new ParameterDeclaration("this", this.getType()));
+                md.parameters.add(0, thisDeclaration);
 
                 md.collectAndPartialResolve(this.classScope);
             } else {
@@ -130,6 +143,7 @@ public class ClassDeclaration implements Instruction, Declaration {
 
             if (classElement instanceof ConstructorDeclaration) {
                 ConstructorDeclaration cd = (ConstructorDeclaration) classElement;
+                // TODO names
                 cd.completeResolve(this.classScope);
 
             } else if (classElement instanceof AttributeDeclaration) {
@@ -162,8 +176,15 @@ public class ClassDeclaration implements Instruction, Declaration {
 
     @Override
     public int allocateMemory(Register _register, int _offset) {
-        // throw new SemanticsUndefinedException("Semantics allocation memory is
-        // undefined in ClassDeclaration.");
+        /// EDITED calcul des offsets
+        int localOffset = 0;
+        for (ClassElement classElement : elements) {
+            if (classElement instanceof AttributeDeclaration) {
+                AttributeDeclaration atr = (AttributeDeclaration) classElement;
+                atr.offset = localOffset;
+                localOffset += atr.getType().length();
+            }
+        }
         return _offset; // Ne prend pas de place en mémoire
     }
 
@@ -178,7 +199,7 @@ public class ClassDeclaration implements Instruction, Declaration {
         // On parcourt tous les éléments définis dans la classe
         for (ClassElement classElement : this.elements) {
 
-            // Seules les méthodes et les constructeurs (qui implémentent Instruction)
+            // Seules les méthodes et les constructeurs
             // ont du code exécutable à générer. Les attributs sont ignorés ici.
             // System.out.println(classElement.getClass().toString());
 
@@ -194,7 +215,7 @@ public class ClassDeclaration implements Instruction, Declaration {
             } else if (classElement instanceof MethodDeclaration) {
                 MethodDeclaration md = (MethodDeclaration) classElement;
                 Fragment methode = md.body.getCode(_factory);
-                methode.addPrefix(this.name + "_" + md.getName());
+                methode.addPrefix(md.getName());
                 fragment.append(methode);
             } else {
                 Logger.error(classElement.name + " n'est pas du bon type");

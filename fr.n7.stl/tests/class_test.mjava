@@ -6,6 +6,16 @@ class A {
 	public A(int val){
 		this.v = val;
 	}
+
+	public int getV(){
+		return this.v;
+	}
+
+	/*
+	public void setU(int val){
+		this.u = val;
+	}
+	*/
 	
 }
 
@@ -16,6 +26,7 @@ public class Main {
 	public static void main(String[] args) {
 		int i = 1;
 		A a = new A(10);
+		i = a.getV();
 		
 	}
 }

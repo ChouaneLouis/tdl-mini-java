@@ -5,6 +5,7 @@ import fr.n7.stl.minic.ast.type.Type;
 public class AttributeDeclaration extends ClassElement {
 
 	protected Type type;
+	protected int offset;
 
 	public AttributeDeclaration(String _name, Type _type) {
 		super(_name);
@@ -14,6 +15,10 @@ public class AttributeDeclaration extends ClassElement {
 	@Override
 	public Type getType() {
 		return this.type;
+	}
+
+	public int getOffset() {
+		return this.offset;
 	}
 
 	@Override
