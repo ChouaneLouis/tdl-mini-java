@@ -222,6 +222,14 @@ public class FunctionDeclaration implements DeclarationInstruction {
 		/// EDITED
 	}
 
+	public int parameterSize() {
+		int size = 0;
+		for (ParameterDeclaration parameterDeclaration : parameters) {
+			size += parameterDeclaration.getType().length();
+		}
+		return size;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -244,6 +252,9 @@ public class FunctionDeclaration implements DeclarationInstruction {
 		Fragment bodyCode = this.body.getCode(_factory);
 		bodyCode.addPrefix(this.name);
 		_result.append(bodyCode);
+
+		// On ajoute un return qui nettoie tout pour les fonctions void et les oublis
+		_result.add(_factory.createReturn(0, this.parameterSize()));
 
 		// Landing point after the jump — execution resumes here
 		_result.addSuffix(skipLabel);
