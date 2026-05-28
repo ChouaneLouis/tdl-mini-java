@@ -1,14 +1,9 @@
 package fr.n7.stl.minijava.expression.assignable;
 
-import fr.n7.stl.minic.ast.SemanticsUndefinedException;
 import fr.n7.stl.minic.ast.expression.assignable.AssignableExpression;
 import fr.n7.stl.minic.ast.scope.Declaration;
 import fr.n7.stl.minic.ast.scope.HierarchicalScope;
 import fr.n7.stl.minic.ast.type.Type;
-import fr.n7.stl.minijava.ast.type.ClassType;
-import fr.n7.stl.minijava.ast.type.declaration.AttributeDeclaration;
-import fr.n7.stl.minijava.ast.type.declaration.ClassDeclaration;
-import fr.n7.stl.minijava.ast.type.declaration.ClassElement;
 import fr.n7.stl.minijava.expression.AbstractAttribute;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.TAMFactory;
@@ -16,13 +11,13 @@ import fr.n7.stl.tam.ast.TAMFactory;
 public class AttributeAssignment extends AbstractAttribute<AssignableExpression> implements AssignableExpression {
 
 	public AttributeAssignment(AssignableExpression _object, String _name) {
-		super(_object, _name);
+		super( _object, _name);
 	}
 
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
-		// EDITED
-		return this.object.getCode(_factory);
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -3,7 +3,6 @@ package fr.n7.stl.minijava.instruction;
 import java.util.Iterator;
 import java.util.List;
 
-import fr.n7.stl.minic.ast.SemanticsUndefinedException;
 import fr.n7.stl.minic.ast.expression.accessible.AccessibleExpression;
 import fr.n7.stl.minic.ast.instruction.Instruction;
 import fr.n7.stl.minic.ast.instruction.declaration.FunctionDeclaration;
@@ -17,10 +16,9 @@ import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
 
 public class ThisCall implements Instruction {
-
+	
 	protected ConstructorDeclaration constructor;
-
-	// Argument dans le sens this.argument
+	
 	protected List<AccessibleExpression> arguments;
 
 	public ThisCall(List<AccessibleExpression> _arguments) {
@@ -29,54 +27,40 @@ public class ThisCall implements Instruction {
 
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
-		/// EDITED
-		boolean ok = true;
-		for (AccessibleExpression accessibleExpression : arguments) {
-			ok = ok && accessibleExpression.collectAndPartialResolve(_scope);
-		}
-		return ok;
-
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope, FunctionDeclaration _container) {
-		/// EDITED
-		return this.collectAndPartialResolve(_scope);
-
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
-		/// EDITED
-		boolean ok = true;
-		for (AccessibleExpression accessibleExpression : arguments) {
-			ok = ok && accessibleExpression.completeResolve(_scope);
-		}
-		return ok;
-
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override
 	public boolean checkType() {
 		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("checkType in ThisCall");
-
+		return false;
 	}
 
 	@Override
 	public int allocateMemory(Register _register, int _offset) {
 		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("allocateMemory in ThisCall");
-
+		return 0;
 	}
 
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
 		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("getCode in ThisCall");
-
+		return null;
 	}
-
+	
 	@Override
 	public String toString() {
 		String image = "";
@@ -86,8 +70,8 @@ public class ThisCall implements Instruction {
 			AccessibleExpression argument = iterator.next();
 			image += argument;
 			while (iterator.hasNext()) {
-				argument = iterator.next();
-				image += " ," + argument;
+				 argument = iterator.next();
+				 image += " ," + argument;
 			}
 		}
 		image += ");\n";

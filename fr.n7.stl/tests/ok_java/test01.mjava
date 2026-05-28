@@ -1,7 +1,8 @@
 public class Main {
+    static int i = 1;
 
     public static void main(String[] args) {
-        print 1;
+        print i;
     }
 
 }

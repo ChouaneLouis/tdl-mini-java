@@ -3,7 +3,6 @@ package fr.n7.stl.minijava.instruction;
 import java.util.Iterator;
 import java.util.List;
 
-import fr.n7.stl.minic.ast.SemanticsUndefinedException;
 import fr.n7.stl.minic.ast.expression.accessible.AccessibleExpression;
 import fr.n7.stl.minic.ast.instruction.Instruction;
 import fr.n7.stl.minic.ast.instruction.declaration.FunctionDeclaration;
@@ -17,9 +16,9 @@ import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
 
 public class SuperCall implements Instruction {
-
+	
 	protected ConstructorDeclaration constructor;
-
+	
 	protected List<AccessibleExpression> arguments;
 
 	public SuperCall(List<AccessibleExpression> _arguments) {
@@ -29,45 +28,39 @@ public class SuperCall implements Instruction {
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
 		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("collectAndPartialResolve in SuperCall");
-
+		return false;
 	}
 
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope, FunctionDeclaration _container) {
 		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("collectAndPartialResolve in SuperCall");
-
+		return false;
 	}
 
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
 		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("completeResolve in SuperCall");
-
+		return false;
 	}
 
 	@Override
 	public boolean checkType() {
 		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("check in SuperCall");
-
+		return false;
 	}
 
 	@Override
 	public int allocateMemory(Register _register, int _offset) {
 		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("allocateMemory in SuperCall");
-
+		return 0;
 	}
 
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
 		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("getCode in SuperCall");
-
+		return null;
 	}
-
+	
 	@Override
 	public String toString() {
 		String image = "";
@@ -77,8 +70,8 @@ public class SuperCall implements Instruction {
 			AccessibleExpression argument = iterator.next();
 			image += argument;
 			while (iterator.hasNext()) {
-				argument = iterator.next();
-				image += " ," + argument;
+				 argument = iterator.next();
+				 image += " ," + argument;
 			}
 		}
 		image += ");\n";

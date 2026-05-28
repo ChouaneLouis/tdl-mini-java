@@ -3,29 +3,23 @@ package fr.n7.stl.minijava.expression.allocation;
 import java.util.Iterator;
 import java.util.List;
 
-import fr.n7.stl.minic.ast.SemanticsUndefinedException;
 import fr.n7.stl.minic.ast.expression.accessible.AccessibleExpression;
 import fr.n7.stl.minic.ast.expression.assignable.AssignableExpression;
-import fr.n7.stl.minic.ast.instruction.Instruction;
 import fr.n7.stl.minic.ast.scope.Declaration;
 import fr.n7.stl.minic.ast.scope.HierarchicalScope;
-import fr.n7.stl.minic.ast.type.RecordType;
 import fr.n7.stl.minic.ast.type.Type;
-import fr.n7.stl.minijava.ast.type.ClassType;
 import fr.n7.stl.minijava.ast.type.declaration.ClassDeclaration;
 import fr.n7.stl.tam.ast.Fragment;
-import fr.n7.stl.tam.ast.Library;
 import fr.n7.stl.tam.ast.TAMFactory;
-import fr.n7.stl.tam.ast.TAMInstruction;
 import fr.n7.stl.util.Logger;
 
-public class ObjectAllocation implements AccessibleExpression, AssignableExpression {
-
+public class ObjectAllocation  implements AccessibleExpression, AssignableExpression {
+	
 	protected String name;
-
+	
 	protected List<AccessibleExpression> arguments;
 
-	protected ClassType classType;
+    protected ClassDeclaration classDeclaration;
 
 	public ObjectAllocation(String _name, List<AccessibleExpression> _arguments) {
 		this.name = _name;
@@ -34,88 +28,43 @@ public class ObjectAllocation implements AccessibleExpression, AssignableExpress
 
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
-		// TODO Auto-generated method stub
-		// throw new SemanticsUndefinedException("collectAndPartialResolve in
-		// ObjectAllocation");
-		boolean ok = true;
-		for (AccessibleExpression accessibleExpression : arguments) {
-			if (accessibleExpression instanceof Instruction) {
-				ok = ok && ((Instruction) accessibleExpression).collectAndPartialResolve(_scope);
-			}
-		}
+        /// EDITED
+        if (!_scope.knows(this.name) || !(_scope.get(this.name) instanceof ClassDeclaration)) {
+            Logger.error("The class " + this.name + " isn't defined.");
+            return false;
+        }
+        this.classDeclaration = (ClassDeclaration) _scope.get(this.name);
+        boolean ok = true;
+        for (AccessibleExpression accessibleExpression : this.arguments) {
+            ok &= accessibleExpression.collectAndPartialResolve(_scope);
+        }
+        
 		return ok;
-
 	}
 
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
-		// TODO Auto-generated method stub
-		// throw new SemanticsUndefinedException("completeResolve in ObjectAllocation");
-		boolean ok = true;
-
-		this.classType = new ClassType(this.name);
-		ok = ok && this.classType.completeResolve(_scope);
-
-		for (AccessibleExpression accessibleExpression : arguments) {
-			if (accessibleExpression instanceof Instruction) {
-				ok = ok && ((Instruction) accessibleExpression).completeResolve(_scope);
-			}
-		}
+        /// EDITED
+        boolean ok = true;
+        for (AccessibleExpression accessibleExpression : this.arguments) {
+            ok &= accessibleExpression.completeResolve(_scope);
+        }
+        
 		return ok;
-
 	}
 
 	@Override
 	public Type getType() {
 		// TODO Auto-generated method stub
-		// throw new SemanticsUndefinedException("getType in ObjectAllocation");
-		return this.classType != null ? this.classType : new ClassType(name);
-
+		return null;
 	}
 
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
 		// TODO Auto-generated method stub
-		// throw new SemanticsUndefinedException("getCode in ObjectAllocation");
-		Fragment fragment = _factory.createFragment();
-
-		// Récupération de la déclaration de la classe pour connaître sa taille et son
-		// constructeur
-		ClassDeclaration classDecl = this.classType.getDeclaration();
-		int objectSize = classDecl.getObjectSize();
-
-		// Étape 1 : Allouer l'espace pour l'objet sur le Tas (Heap)
-		// 1.1 On charge la taille nécessaire sur la pile
-		fragment.add(_factory.createLoadL(objectSize));
-		// 1.2 On appelle MAlloc. TAM retire la taille et la remplace par l'adresse
-		// mémoire allouée (le pointeur 'this')
-		fragment.add(Library.MAlloc);
-
-		// On génère et empile le code de chaque argument
-		int sizeArgs = 0;
-		for (AccessibleExpression arg : this.arguments) {
-			fragment.append(arg.getCode(_factory));
-			sizeArgs += arg.getType().length();
-		}
-
-		// On empile l'adresse de l'objet (déclaré plus tot, empilé pour l'appel au
-		// constructeur)
-		fragment.add(_factory.createLoad(fr.n7.stl.tam.ast.Register.ST, -sizeArgs - 1, 1));
-
-		// Étape 3 : Appeler le constructeur de la classe
-		// Par convention (voir ton ConstructorDeclaration), l'étiquette est
-		// "Constructor_NomDeLaClasse"
-		fragment.add(_factory.createCall("Constructor_" + this.name, fr.n7.stl.tam.ast.Register.SB));
-
-		// À la fin de cette exécution, le constructeur a fait son RETURN (en nettoyant
-		// ses paramètres et le 'this' dupliqué).
-		// Il ne reste sur la pile que le tout premier pointeur renvoyé par MAlloc.
-		// L'allocation de l'objet est terminée !
-
-		return fragment;
-
+		return null;
 	}
-
+	
 	@Override
 	public String toString() {
 		String image = "";
@@ -125,8 +74,8 @@ public class ObjectAllocation implements AccessibleExpression, AssignableExpress
 			AccessibleExpression argument = iterator.next();
 			image += argument;
 			while (iterator.hasNext()) {
-				argument = iterator.next();
-				image += " ," + argument;
+				 argument = iterator.next();
+				 image += " ," + argument;
 			}
 		}
 		image += ")";

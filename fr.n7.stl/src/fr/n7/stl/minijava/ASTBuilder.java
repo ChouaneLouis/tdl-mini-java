@@ -101,43 +101,43 @@ public class ASTBuilder extends MiniJavaParserBaseListener {
      * code generation.
      */
     public void startCompilation() {
-        for (ClassDeclaration c : this.classes) {
-            System.out.println(c);
-        }
+    	for (ClassDeclaration c : this.classes) {
+    		System.out.println(c);
+    	}
         System.out.println(this.main);
         SymbolTable tds = new SymbolTable();
         boolean okCollectAndPartialResolve = true;
         for (ClassDeclaration c : this.classes) {
-            okCollectAndPartialResolve = okCollectAndPartialResolve && c.collectAndPartialResolve(tds);
+        	okCollectAndPartialResolve = okCollectAndPartialResolve && c.collectAndPartialResolve(tds);
         }
         okCollectAndPartialResolve = okCollectAndPartialResolve && this.main.collectAndPartialResolve(tds);
         if (okCollectAndPartialResolve) {
             System.out.println("collect succeeded");
             boolean okCompleteResolve = true;
             for (ClassDeclaration c : this.classes) {
-                okCompleteResolve = okCompleteResolve && c.completeResolve(tds);
+            	okCompleteResolve = okCompleteResolve && c.completeResolve(tds);
             }
             okCompleteResolve = okCompleteResolve && this.main.completeResolve(tds);
             if (okCompleteResolve) {
                 System.out.println("Resolve succeeded.");
                 boolean okCheckType = true;
                 for (ClassDeclaration c : this.classes) {
-                    okCheckType = okCheckType && c.checkType();
+                	okCheckType = okCheckType && c.checkType();
                 }
                 okCheckType = okCheckType && this.main.checkType();
-
+                
                 if (okCheckType) {
                     System.out.println("Type verification succeeded.");
 
                     System.out.println("Code generation ...");
                     for (ClassDeclaration c : this.classes) {
-                        c.allocateMemory(Register.SB, 0);
+                    	c.allocateMemory(Register.SB, 0);
                     }
                     this.main.allocateMemory(Register.SB, 0);
                     TAMFactory factory = new TAMFactoryImpl();
                     Fragment f = factory.createFragment();
                     for (ClassDeclaration c : this.classes) {
-                        f.append(c.getCode(factory));
+                    	f.append(c.getCode(factory));
                     }
                     f.append(this.main.getCode(factory));
                     f.add(factory.createHalt());
@@ -166,159 +166,157 @@ public class ASTBuilder extends MiniJavaParserBaseListener {
         this.main = ctx.laPrincipale.unPrincipal;
         this.classes = ctx.lesClasses.desClasses;
     }
-
+    
     @Override
-    public void exitClasses(ClassesContext ctx) {
+	public void exitClasses(ClassesContext ctx) {
         List<ClassDeclaration> lesClasses = new LinkedList<ClassDeclaration>();
         for (ClasseContext uneClasse : ctx.lesClasses) {
-            lesClasses.add(uneClasse.uneClasse);
+        	lesClasses.add(uneClasse.uneClasse);
         }
-        ctx.desClasses = lesClasses;
+		ctx.desClasses = lesClasses;
+		
+	}
 
-    }
+	@Override
+	public void exitClasse(ClasseContext ctx) {
+		boolean estConcrete = (ctx.estAbstraite == null);
+		if (ctx.heriteDe != null) {
+			ctx.uneClasse = new ClassDeclaration( estConcrete, ctx.leNom.getText(), ctx.heriteDe.getText(), ctx.lesElements.desElements);
+		} else {
+			ctx.uneClasse = new ClassDeclaration( estConcrete, ctx.leNom.getText(), ctx.lesElements.desElements);
+		}
+	}
 
-    @Override
-    public void exitClasse(ClasseContext ctx) {
-        boolean estConcrete = (ctx.estAbstraite == null);
-        if (ctx.heriteDe != null) {
-            ctx.uneClasse = new ClassDeclaration(estConcrete, ctx.leNom.getText(), ctx.heriteDe.getText(),
-                    ctx.lesElements.desElements);
-        } else {
-            ctx.uneClasse = new ClassDeclaration(estConcrete, ctx.leNom.getText(), ctx.lesElements.desElements);
-        }
-    }
-
-    @Override
-    public void exitPrincipale(PrincipaleContext ctx) {
+	@Override
+	public void exitPrincipale(PrincipaleContext ctx) {
         List<Declaration> lesDeclarations = new LinkedList<Declaration>();
         for (DeclarationContext uneDeclaration : ctx.lesDeclarations) {
-            lesDeclarations.add(uneDeclaration.uneDeclaration);
+        	lesDeclarations.add(uneDeclaration.uneDeclaration);
         }
-        ctx.unPrincipal = new MainDeclaration(ctx.leNom.getText(), lesDeclarations, ctx.leCorps.unBloc);
-    }
+		ctx.unPrincipal = new MainDeclaration( ctx.leNom.getText(), lesDeclarations, ctx.leCorps.unBloc);
+	}
 
-    @Override
-    public void exitMethodeMain(MethodeMainContext ctx) {
-        String leNom = ctx.laSignature.leNom.getText();
-        Type leType = ctx.laSignature.leRetour.unType;
-        List<ParameterDeclaration> lesParametres = ctx.laSignature.lesParametres.desParametres;
-        Block leCorps = ctx.leCorps.unBloc;
-        ctx.uneDeclaration = new FunctionDeclaration(leNom, leType, lesParametres, leCorps);
-    }
+	@Override
+	public void exitMethodeMain(MethodeMainContext ctx) {
+		String leNom = ctx.laSignature.leNom.getText();
+		Type leType = ctx.laSignature.leRetour.unType;
+		List<ParameterDeclaration> lesParametres = ctx.laSignature.lesParametres.desParametres;
+		Block leCorps = ctx.leCorps.unBloc;
+		ctx.uneDeclaration = new FunctionDeclaration( leNom, leType, lesParametres, leCorps);
+	}
 
-    @Override
-    public void exitAttributMain(AttributMainContext ctx) {
-        String leNom = ctx.leNom.getText();
-        Type leType = ctx.leType.unType;
-        AccessibleExpression laValeur = ctx.laValeur.uneExpression;
-        if (ctx.estDefinitif != null) {
-            ctx.uneDeclaration = new ConstantDeclaration(leNom, leType, laValeur);
-        } else {
-            ctx.uneDeclaration = new VariableDeclaration(leNom, leType, laValeur);
-        }
-    }
+	@Override
+	public void exitAttributMain(AttributMainContext ctx) {
+		String leNom = ctx.leNom.getText();
+		Type leType = ctx.leType.unType;
+		AccessibleExpression laValeur = ctx.laValeur.uneExpression;
+		if (ctx.estDefinitif != null) {
+			ctx.uneDeclaration = new ConstantDeclaration( leNom, leType, laValeur);
+		} else {
+			ctx.uneDeclaration = new VariableDeclaration( leNom, leType, laValeur);
+		}
+	}
 
-    @Override
-    public void exitSignature(SignatureContext ctx) {
-        // TODO Auto-generated method stub
-        super.exitSignature(ctx);
-    }
+	@Override
+	public void exitSignature(SignatureContext ctx) {
+		// TODO Auto-generated method stub
+		super.exitSignature(ctx);
+	}
 
-    @Override
-    public void exitElements(ElementsContext ctx) {
+	@Override
+	public void exitElements(ElementsContext ctx) {
         List<ClassElement> lesElements = new LinkedList<ClassElement>();
         for (ElementContext unElement : ctx.lesElements) {
-            lesElements.add(unElement.unElement);
+        	lesElements.add(unElement.unElement);
         }
-        ctx.desElements = lesElements;
-    }
+		ctx.desElements = lesElements;
+	}
+	
+	@Override
+	public void exitElement(ElementContext ctx) {
+		ClassElement unElement = null;
+		if (ctx.attribut() != null) {
+			unElement = ctx.attribut().unAttribut;
+		} else {
+			if (ctx.methode() != null) {
+				unElement = ctx.methode().uneMethode;
+			} else {
+				if (ctx.constructeur() != null) {
+					unElement = ctx.constructeur().unConstructeur;
+				} else {
+					throw new RuntimeException("Missing Element.");
+				}
+			}
+		}
+		unElement.setAccessRight(ctx.leDroit.unDroit);
+		ctx.unElement = unElement;
+	}
 
-    @Override
-    public void exitElement(ElementContext ctx) {
-        ClassElement unElement = null;
-        if (ctx.attribut() != null) {
-            unElement = ctx.attribut().unAttribut;
-        } else {
-            if (ctx.methode() != null) {
-                unElement = ctx.methode().uneMethode;
-            } else {
-                if (ctx.constructeur() != null) {
-                    unElement = ctx.constructeur().unConstructeur;
-                } else {
-                    throw new RuntimeException("Missing Element.");
-                }
-            }
-        }
-        unElement.setAccessRight(ctx.leDroit.unDroit);
-        ctx.unElement = unElement;
-    }
+	@Override
+	public void exitAccessRight(AccessRightContext ctx) {
+		if (ctx.Public() != null) {
+			ctx.unDroit = AccessRight.PUBLIC;
+		} else {
+			if (ctx.Protege() != null) {
+				ctx.unDroit = AccessRight.PROTECTED;
+			} else {
+				if (ctx.Prive() != null) {
+					ctx.unDroit = AccessRight.PRIVATE;
+				} else {
+					ctx.unDroit = AccessRight.PACKAGE;
+				}
+			}
+		}
+	}
 
-    @Override
-    public void exitAccessRight(AccessRightContext ctx) {
-        if (ctx.Public() != null) {
-            ctx.unDroit = AccessRight.PUBLIC;
-        } else {
-            if (ctx.Protege() != null) {
-                ctx.unDroit = AccessRight.PROTECTED;
-            } else {
-                if (ctx.Prive() != null) {
-                    ctx.unDroit = AccessRight.PRIVATE;
-                } else {
-                    ctx.unDroit = AccessRight.PACKAGE;
-                }
-            }
-        }
-    }
+	@Override
+	public void exitAttributObjet(AttributObjetContext ctx) {
+		ctx.unAttribut = new AttributeDeclaration( ctx.leNom.getText(), ctx.leType.unType);
+	}
 
-    @Override
-    public void exitAttributObjet(AttributObjetContext ctx) {
-        ctx.unAttribut = new AttributeDeclaration(ctx.leNom.getText(), ctx.leType.unType);
-    }
+	@Override
+	public void exitAttributClasse(AttributClasseContext ctx) {
+		ctx.unAttribut = new AttributeDeclaration( ctx.leNom.getText(), ctx.leType.unType);
+		ctx.unAttribut.setElementKind(ElementKind.CLASS);
+	}
 
-    @Override
-    public void exitAttributClasse(AttributClasseContext ctx) {
-        ctx.unAttribut = new AttributeDeclaration(ctx.leNom.getText(), ctx.leType.unType);
-        ctx.unAttribut.setElementKind(ElementKind.CLASS);
-    }
+	@Override
+	public void exitMethodeObjet(MethodeObjetContext ctx) {
+		String leNom = ctx.laSignature.leNom.getText();
+		Type leType = ctx.laSignature.leRetour.unType;
+		List<ParameterDeclaration> lesParametres = ctx.laSignature.lesParametres.desParametres;
+		Block leCorps = ctx.leCorps.unBloc;
+		ctx.uneMethode = new MethodDeclaration( leNom, leType, lesParametres, leCorps);
+	}
 
-    @Override
-    public void exitMethodeObjet(MethodeObjetContext ctx) {
-        String leNom = ctx.laSignature.leNom.getText();
-        Type leType = ctx.laSignature.leRetour.unType;
-        List<ParameterDeclaration> lesParametres = ctx.laSignature.lesParametres.desParametres;
-        Block leCorps = ctx.leCorps.unBloc;
-        ctx.uneMethode = new MethodDeclaration(leNom, leType, lesParametres, leCorps);
-    }
+	@Override
+	public void exitMethodeClasse(MethodeClasseContext ctx) {
+		String leNom = ctx.laSignature.leNom.getText();
+		Type leType = ctx.laSignature.leRetour.unType;
+		List<ParameterDeclaration> lesParametres = ctx.laSignature.lesParametres.desParametres;
+		Block leCorps = ctx.leCorps.unBloc;
+		ctx.uneMethode = new MethodDeclaration( leNom, leType, lesParametres, leCorps);
+		ctx.uneMethode.setElementKind(ElementKind.CLASS);
+	}
 
-    @Override
-    public void exitMethodeClasse(MethodeClasseContext ctx) {
-        String leNom = ctx.laSignature.leNom.getText();
-        Type leType = ctx.laSignature.leRetour.unType;
-        List<ParameterDeclaration> lesParametres = ctx.laSignature.lesParametres.desParametres;
-        Block leCorps = ctx.leCorps.unBloc;
-        ctx.uneMethode = new MethodDeclaration(leNom, leType, lesParametres, leCorps);
-        ctx.uneMethode.setElementKind(ElementKind.CLASS);
-    }
+	@Override
+	public void exitMethodeAbstraite(MethodeAbstraiteContext ctx) {
+		String leNom = ctx.laSignature.leNom.getText();
+		Type leType = ctx.laSignature.leRetour.unType;
+		List<ParameterDeclaration> lesParametres = ctx.laSignature.lesParametres.desParametres;
+		ctx.uneMethode = new MethodDeclaration( leNom, leType, lesParametres);
+	}
 
-    @Override
-    public void exitMethodeAbstraite(MethodeAbstraiteContext ctx) {
-        String leNom = ctx.laSignature.leNom.getText();
-        Type leType = ctx.laSignature.leRetour.unType;
-        List<ParameterDeclaration> lesParametres = ctx.laSignature.lesParametres.desParametres;
-        ctx.uneMethode = new MethodDeclaration(leNom, leType, lesParametres);
-    }
+	@Override
+	public void exitConstructeur(ConstructeurContext ctx) {
+		ctx.unConstructeur = new ConstructorDeclaration( ctx.leNom.getText(), ctx.lesParametres.desParametres, ctx.leCorps.unBloc);
+	}
 
-    @Override
-    public void exitConstructeur(ConstructeurContext ctx) {
-        ctx.unConstructeur = new ConstructorDeclaration(ctx.leNom.getText(), ctx.lesParametres.desParametres,
-                ctx.leCorps.unBloc);
-    }
-
-    @Override
+	@Override
     public void exitBloc(MiniJavaParser.BlocContext ctx) {
         List<Instruction> instructionList = new LinkedList<Instruction>();
         for (MiniJavaParser.InstructionContext iCtx : ctx.lesInstructions) {
-            instructionList.add(iCtx.uneInstruction);
+        	instructionList.add(iCtx.uneInstruction);
         }
         ctx.unBloc = new Block(instructionList);
     }
@@ -327,15 +325,15 @@ public class ASTBuilder extends MiniJavaParserBaseListener {
     public void exitParametres(MiniJavaParser.ParametresContext ctx) {
         List<ParameterDeclaration> lesParametres = new LinkedList<ParameterDeclaration>();
         for (ParametreContext parametre : ctx.lesParametres) {
-            lesParametres.add(parametre.unParametre);
+        	lesParametres.add(parametre.unParametre);
         }
         ctx.desParametres = lesParametres;
     }
-
-    @Override
-    public void exitParametre(ParametreContext ctx) {
-        ctx.unParametre = new ParameterDeclaration(ctx.leNom.getText(), ctx.leType.unType);
-    }
+    
+	@Override
+	public void exitParametre(ParametreContext ctx) {
+		ctx.unParametre = new ParameterDeclaration( ctx.leNom.getText(), ctx.leType.unType);
+	}
 
     @Override
     public void exitInstructionDeclaration(MiniJavaParser.InstructionDeclarationContext ctx) {
@@ -354,68 +352,67 @@ public class ASTBuilder extends MiniJavaParserBaseListener {
     public void exitInstructionAffichage(MiniJavaParser.InstructionAffichageContext ctx) {
         ctx.uneInstruction = new Printer(ctx.laValeur.uneExpression);
     }
-
-    @Override
-    public void exitInstructionSi(InstructionSiContext ctx) {
-        ctx.uneInstruction = new Conditional(ctx.laCondition.uneExpression, ctx.leBlocAlors.unBloc);
-    }
+    
+	@Override
+	public void exitInstructionSi(InstructionSiContext ctx) {
+		ctx.uneInstruction = new Conditional(ctx.laCondition.uneExpression, ctx.leBlocAlors.unBloc);
+	}
 
     @Override
     public void exitInstructionSiSinon(MiniJavaParser.InstructionSiSinonContext ctx) {
-        ctx.uneInstruction = new Conditional(ctx.laCondition.uneExpression, ctx.leBlocAlors.unBloc,
-                ctx.leBlocSinon.unBloc);
+        ctx.uneInstruction = new Conditional(ctx.laCondition.uneExpression, ctx.leBlocAlors.unBloc, ctx.leBlocSinon.unBloc);
     }
+    
+	@Override
+	public void exitInstructionIteration(InstructionIterationContext ctx) {
+		ctx.uneInstruction = new Iteration(ctx.laCondition.uneExpression, ctx.leCorps.unBloc);
+	}
 
-    @Override
-    public void exitInstructionIteration(InstructionIterationContext ctx) {
-        ctx.uneInstruction = new Iteration(ctx.laCondition.uneExpression, ctx.leCorps.unBloc);
-    }
 
     @Override
     public void exitInstructionReturn(MiniJavaParser.InstructionReturnContext ctx) {
         ctx.uneInstruction = new Return(ctx.laValeur.uneExpression);
     }
-
+    
     @Override
     public void exitInstructionAppelMethodeExplicite(InstructionAppelMethodeExpliciteContext ctx) {
-        ctx.uneInstruction = new MethodCall(ctx.lObjet.uneExpression, ctx.leNom.getText(),
-                ctx.lesArguments.desArguments);
+        ctx.uneInstruction = new MethodCall(ctx.lObjet.uneExpression, ctx.leNom.getText(), ctx.lesArguments.desArguments);
     }
-
+    
     @Override
     public void exitInstructionAppelMethodeImplicite(InstructionAppelMethodeImpliciteContext ctx) {
         ctx.uneInstruction = new MethodCall(ctx.leNom.getText(), ctx.lesArguments.desArguments);
     }
+    
+	@Override
+	public void exitInstructionAppelConstructeurAlternatif(InstructionAppelConstructeurAlternatifContext ctx) {
+		ctx.uneInstruction = new ThisCall( ctx.lesArguments.desArguments );
+	}
 
-    @Override
-    public void exitInstructionAppelConstructeurAlternatif(InstructionAppelConstructeurAlternatifContext ctx) {
-        ctx.uneInstruction = new ThisCall(ctx.lesArguments.desArguments);
-    }
+	@Override
+	public void exitInstructionAppelConstructeurParent(InstructionAppelConstructeurParentContext ctx) {
+		ctx.uneInstruction = new SuperCall( ctx.lesArguments.desArguments );
+	}
 
-    @Override
-    public void exitInstructionAppelConstructeurParent(InstructionAppelConstructeurParentContext ctx) {
-        ctx.uneInstruction = new SuperCall(ctx.lesArguments.desArguments);
-    }
+	@Override
+	public void exitEcritureThis(EcritureThisContext ctx) {
+		ctx.uneExpressionAffectable = new ThisAssignment();
+	}
 
-    @Override
-    public void exitEcritureThis(EcritureThisContext ctx) {
-        ctx.uneExpressionAffectable = new ThisAssignment();
-    }
+	@Override
+	public void exitEcritureSuper(EcritureSuperContext ctx) {
+		ctx.uneExpressionAffectable = new SuperAssignment();
+	}
 
-    @Override
-    public void exitEcritureSuper(EcritureSuperContext ctx) {
-        ctx.uneExpressionAffectable = new SuperAssignment();
-    }
+	@Override
+	public void exitLectureThis(LectureThisContext ctx) {
+		ctx.uneExpression = new ThisAccess();
+	}
 
-    @Override
-    public void exitLectureThis(LectureThisContext ctx) {
-        ctx.uneExpression = new ThisAccess();
-    }
-
-    @Override
-    public void exitLectureSuper(LectureSuperContext ctx) {
-        ctx.uneExpression = new SuperAccess();
-    }
+	@Override
+	public void exitLectureSuper(LectureSuperContext ctx) {
+		ctx.uneExpression = new SuperAccess();
+	}
 
     @Override
     public void exitAtomique(MiniJavaParser.AtomiqueContext ctx) {
@@ -438,11 +435,11 @@ public class ASTBuilder extends MiniJavaParserBaseListener {
     public void exitTypeAtomique(MiniJavaParser.TypeAtomiqueContext ctx) {
         ctx.unType = ctx.atomique().unTypeAtomique;
     }
-
-    @Override
-    public void exitTypeTableau(TypeTableauContext ctx) {
-        ctx.unType = new ArrayType(ctx.leTypeValeur.unType);
-    }
+    
+	@Override
+	public void exitTypeTableau(TypeTableauContext ctx) {
+		ctx.unType = new ArrayType(ctx.leTypeValeur.unType);
+	}
 
     @Override
     public void exitTypeClasse(MiniJavaParser.TypeClasseContext ctx) {
@@ -456,8 +453,7 @@ public class ASTBuilder extends MiniJavaParserBaseListener {
 
     @Override
     public void exitEcritureConversion(EcritureConversionContext ctx) {
-        ctx.uneExpressionAffectable = new AssignableConversion(ctx.lAffectable.uneExpressionAffectable,
-                ctx.leType.unType);
+    	ctx.uneExpressionAffectable = new AssignableConversion(ctx.lAffectable.uneExpressionAffectable, ctx.leType.unType);
     }
 
     @Override
@@ -467,16 +463,14 @@ public class ASTBuilder extends MiniJavaParserBaseListener {
 
     @Override
     public void exitEcritureTableau(EcritureTableauContext ctx) {
-        ctx.uneExpressionAffectable = new ArrayAssignment(ctx.leTableau.uneExpressionAffectable,
-                ctx.lIndice.uneExpression);
+        ctx.uneExpressionAffectable = new ArrayAssignment(ctx.leTableau.uneExpressionAffectable, ctx.lIndice.uneExpression);
     }
-
+    
     @Override
     public void exitEcritureAppelMethodeExplicite(EcritureAppelMethodeExpliciteContext ctx) {
-        ctx.uneExpressionAffectable = new MethodCallAssignment(ctx.lObjet.uneExpressionAffectable, ctx.leNom.getText(),
-                ctx.lesArguments.desArguments);
+        ctx.uneExpressionAffectable = new MethodCallAssignment(ctx.lObjet.uneExpressionAffectable, ctx.leNom.getText(), ctx.lesArguments.desArguments);
     }
-
+    
     @Override
     public void exitEcritureAppelMethodeImplicite(EcritureAppelMethodeImpliciteContext ctx) {
         ctx.uneExpressionAffectable = new MethodCallAssignment(ctx.leNom.getText(), ctx.lesArguments.desArguments);
@@ -495,9 +489,9 @@ public class ASTBuilder extends MiniJavaParserBaseListener {
     public void exitArguments(MiniJavaParser.ArgumentsContext ctx) {
         List<AccessibleExpression> expressions = new LinkedList<AccessibleExpression>();
         if (ctx.lesExpressions != null) {
-            for (MiniJavaParser.ExpressionContext expressionCtx : ctx.lesExpressions.lesExpressions) {
-                expressions.add(expressionCtx.uneExpression);
-            }
+        	for (MiniJavaParser.ExpressionContext expressionCtx : ctx.lesExpressions.lesExpressions) {
+        		expressions.add(expressionCtx.uneExpression);
+        	}
         }
         ctx.desArguments = expressions;
     }
@@ -544,8 +538,7 @@ public class ASTBuilder extends MiniJavaParserBaseListener {
 
     @Override
     public void exitExpressionConjonction(MiniJavaParser.ExpressionConjonctionContext ctx) {
-        ctx.uneExpression = new BinaryExpression(ctx.gauche.uneExpression, BinaryOperator.And,
-                ctx.droite.uneExpression);
+        ctx.uneExpression = new BinaryExpression(ctx.gauche.uneExpression, BinaryOperator.And, ctx.droite.uneExpression);
     }
 
     @Override
@@ -555,8 +548,7 @@ public class ASTBuilder extends MiniJavaParserBaseListener {
 
     @Override
     public void exitExpressionConditionelle(ExpressionConditionelleContext ctx) {
-        ctx.uneExpression = new AccessibleConditional(ctx.laCondition.uneExpression, ctx.lExpressionAlors.uneExpression,
-                ctx.lExpressionSinon.uneExpression);
+        ctx.uneExpression = new AccessibleConditional(ctx.laCondition.uneExpression, ctx.lExpressionAlors.uneExpression, ctx.lExpressionSinon.uneExpression);
     }
 
     @Override
@@ -649,25 +641,24 @@ public class ASTBuilder extends MiniJavaParserBaseListener {
 
     @Override
     public void exitExpressionConversion(MiniJavaParser.ExpressionConversionContext ctx) {
-        ctx.uneExpression = new AccessibleConversion(ctx.uneExpression, ctx.leType.unType);
+    	ctx.uneExpression = new AccessibleConversion(ctx.uneExpression, ctx.leType.unType );
     }
 
     @Override
     public void exitLectureTableau(LectureTableauContext ctx) {
         ctx.uneExpression = new ArrayAccess(ctx.leTableau.uneExpression, ctx.lIndice.uneExpression);
     }
-
+    
     @Override
     public void exitLectureAttribut(LectureAttributContext ctx) {
         ctx.uneExpression = new AttributeAccess(ctx.lObjet.uneExpression, ctx.leNom.getText());
     }
-
+    
     @Override
     public void exitLectureAppelMethodeExplicite(MiniJavaParser.LectureAppelMethodeExpliciteContext ctx) {
-        ctx.uneExpression = new MethodCallAccess(ctx.lobjet.uneExpression, ctx.leNom.getText(),
-                ctx.lesArguments.desArguments);
+        ctx.uneExpression = new MethodCallAccess(ctx.lobjet.uneExpression, ctx.leNom.getText(), ctx.lesArguments.desArguments);
     }
-
+    
     @Override
     public void exitLectureAppelMethodeImplicite(MiniJavaParser.LectureAppelMethodeImpliciteContext ctx) {
         ctx.uneExpression = new MethodCallAccess(ctx.leNom.getText(), ctx.lesArguments.desArguments);
@@ -675,7 +666,7 @@ public class ASTBuilder extends MiniJavaParserBaseListener {
 
     @Override
     public void exitCreationTableau(MiniJavaParser.CreationTableauContext ctx) {
-        ctx.uneExpression = new ArrayAllocation(ctx.leType.unType, ctx.laTaille.uneExpression);
+        ctx.uneExpression = new ArrayAllocation(ctx.leType.unType, ctx.laTaille.uneExpression);     
     }
 
     @Override
