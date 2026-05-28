@@ -76,9 +76,13 @@ public class ClassDeclaration implements Instruction, Declaration {
                     // Attention : les constructeurs ont le même nom que la classe !
                     // Si on les met dans la table des symboles, ils vont écraser le type de la classe en cas de recherche !
                     // Donc on les ignore ici.
-                    if (!(classElement instanceof fr.n7.stl.minijava.ast.type.declaration.ConstructorDeclaration)) {
+                    if (!(classElement instanceof ConstructorDeclaration)) {
                         Declaration declaration = (Declaration) classElement;
-                        this.classScope.register(declaration);
+                        if (this.classScope.accepts(declaration)) { 
+                            this.classScope.register(declaration);
+                        } else {
+                            Logger.error("Declaration of " + declaration.getName() + " already exists in class " + this.name);
+                        } 
                     }
                 } else {
                     Logger.error("ClassElement " + classElement.toString() + " is not a Declaration\n");
