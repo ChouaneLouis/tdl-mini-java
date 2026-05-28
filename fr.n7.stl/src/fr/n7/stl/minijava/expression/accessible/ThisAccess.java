@@ -16,7 +16,12 @@ public class ThisAccess extends AbstractThis<AccessibleExpression> implements Ac
 
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
-		return (new ParameterAccess((ParameterDeclaration) (this.thisObject))).getCode(_factory);
+		ParameterAccess pa = new ParameterAccess((ParameterDeclaration) (this.thisObject));
+		Fragment f = _factory.createFragment();
+		f.append(pa.getCode(_factory));
+		throw new SemanticsUndefinedException("GETCODE THIS ACCESS");
+		// f.add(_factory.createLoadI(this.thisObject.));
+		// return pa.getCode(_factory);
 	}
 
 }
