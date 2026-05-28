@@ -22,8 +22,7 @@ public class AttributeAccess extends AbstractAttribute<AccessibleExpression> imp
 
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
-		/// EDITED
-		return true;
+		return this.object.collectAndPartialResolve(_scope);
 	}
 
 

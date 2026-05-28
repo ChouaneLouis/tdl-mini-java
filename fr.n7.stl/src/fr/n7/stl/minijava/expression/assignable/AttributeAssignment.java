@@ -23,6 +23,9 @@ public class AttributeAssignment extends AbstractAttribute<AssignableExpression>
 	public Fragment getCode(TAMFactory _factory) {
 		Fragment f = _factory.createFragment();
 		f.append(this.object.getCode(_factory));
+		// L'objet est une expression affectable, donc son getCode() renvoie l'adresse de la variable.
+		// En MiniJava, les objets sont des pointeurs. Il faut donc lire cette adresse pour récupérer le pointeur !
+		f.add(_factory.createLoadI(1));
 		f.add(_factory.createLoadL(this.attribute.getOffset()));
 		f.add(fr.n7.stl.tam.ast.TAMFactory.createBinaryOperator(fr.n7.stl.minic.ast.expression.accessible.BinaryOperator.Add));
 		return f;

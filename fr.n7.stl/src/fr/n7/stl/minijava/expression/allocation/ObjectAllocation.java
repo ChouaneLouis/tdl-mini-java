@@ -39,9 +39,7 @@ public class ObjectAllocation implements AccessibleExpression, AssignableExpress
 		// ObjectAllocation");
 		boolean ok = true;
 		for (AccessibleExpression accessibleExpression : arguments) {
-			if (accessibleExpression instanceof Instruction) {
-				ok = ok && ((Instruction) accessibleExpression).collectAndPartialResolve(_scope);
-			}
+			ok = ok && accessibleExpression.collectAndPartialResolve(_scope);
 		}
 		return ok;
 
@@ -57,9 +55,7 @@ public class ObjectAllocation implements AccessibleExpression, AssignableExpress
 		ok = ok && this.classType.completeResolve(_scope);
 
 		for (AccessibleExpression accessibleExpression : arguments) {
-			if (accessibleExpression instanceof Instruction) {
-				ok = ok && ((Instruction) accessibleExpression).completeResolve(_scope);
-			}
+			ok = ok && accessibleExpression.completeResolve(_scope);
 		}
 
 		if (ok && this.classType.getDeclaration() != null && !this.classType.getDeclaration().isConcrete()) {
@@ -108,10 +104,8 @@ public class ObjectAllocation implements AccessibleExpression, AssignableExpress
 		// constructeur)
 		fragment.add(_factory.createLoad(fr.n7.stl.tam.ast.Register.ST, -sizeArgs - 1, 1));
 
-		// Étape 3 : Appeler le constructeur de la classe
-		// Par convention (voir ton ConstructorDeclaration), l'étiquette est
-		// "Constructor_NomDeLaClasse"
-		fragment.add(_factory.createCall("Constructor_" + this.name, fr.n7.stl.tam.ast.Register.SB));
+		int totalParams = this.arguments.size() + 1; // +1 pour 'this'
+		fragment.add(_factory.createCall("Constructor_" + this.name + "_" + totalParams, fr.n7.stl.tam.ast.Register.SB));
 
 		// À la fin de cette exécution, le constructeur a fait son RETURN (en nettoyant
 		// ses paramètres et le 'this' dupliqué).

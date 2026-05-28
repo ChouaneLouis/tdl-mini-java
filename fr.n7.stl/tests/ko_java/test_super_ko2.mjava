@@ -1,0 +1,15 @@
+class A {
+    public A() { }
+}
+
+class B extends A {
+    public B() { }
+    public int error() {
+        return super.x;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+    }
+}

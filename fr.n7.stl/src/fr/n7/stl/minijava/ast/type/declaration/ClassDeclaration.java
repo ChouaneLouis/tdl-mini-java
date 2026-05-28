@@ -87,9 +87,9 @@ public class ClassDeclaration implements Instruction, Declaration {
             if (classElement instanceof ConstructorDeclaration) {
                 ConstructorDeclaration cd = (ConstructorDeclaration) classElement;
                 // This
-                cd.parameters.add(0, thisDeclaration);
+                cd.parameters.add(thisDeclaration);
 
-                cd.collectAndPartialResolve(this.classScope);
+                isValid = isValid && cd.collectAndPartialResolve(this.classScope);
 
             } else if (classElement instanceof AttributeDeclaration) {
                 AttributeDeclaration ad = (AttributeDeclaration) classElement;
@@ -115,7 +115,7 @@ public class ClassDeclaration implements Instruction, Declaration {
                     md.parameters.add(0, thisDeclaration);
                 }
 
-                md.collectAndPartialResolve(this.classScope);
+                isValid = isValid && md.collectAndPartialResolve(this.classScope);
             } else {
                 Logger.error(classElement.name + " n'est pas du bon type");
             }
@@ -147,8 +147,7 @@ public class ClassDeclaration implements Instruction, Declaration {
 
             if (classElement instanceof ConstructorDeclaration) {
                 ConstructorDeclaration cd = (ConstructorDeclaration) classElement;
-                // TODO names
-                cd.completeResolve(this.classScope);
+                isValid = isValid && cd.completeResolve(this.classScope);
 
             } else if (classElement instanceof AttributeDeclaration) {
                 AttributeDeclaration attribute = (AttributeDeclaration) classElement;
@@ -156,7 +155,7 @@ public class ClassDeclaration implements Instruction, Declaration {
 
             } else if (classElement instanceof MethodDeclaration) {
                 MethodDeclaration md = (MethodDeclaration) classElement;
-                md.completeResolve(this.classScope);
+                isValid = isValid && md.completeResolve(this.classScope);
 
             } else {
                 Logger.error(classElement.name + " n'est pas du bon type");

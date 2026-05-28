@@ -1,0 +1,19 @@
+class Point {
+    public int x;
+    public int y;
+
+    public Point() {
+        this(0, 0, 0); // Appel à un constructeur avec 3 paramètres qui n'existe pas !
+    }
+
+    public Point(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Point p1 = new Point();
+    }
+}

@@ -18,6 +18,10 @@ public class ConstructorDeclaration extends ClassElement {
 
 	protected List<ParameterDeclaration> parameters;
 
+	public List<ParameterDeclaration> getParameters() {
+		return parameters;
+	}
+
 	protected Block body;
 
 	public ConstructorDeclaration(String _name, List<ParameterDeclaration> _parameters, Block _body) {
@@ -82,8 +86,7 @@ public class ConstructorDeclaration extends ClassElement {
 
 	public Fragment getCode(TAMFactory _factory) {
 		Fragment cons = body.getCode(_factory);
-		cons.addPrefix("Constructor_" + this.name);
-
+		cons.addPrefix("Constructor_" + this.name + "_" + parameters.size());
 		int sizeOfParams = 0;
 		for (ParameterDeclaration parameterDeclaration : parameters) {
 			sizeOfParams += parameterDeclaration.getType().length();
