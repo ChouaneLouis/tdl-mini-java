@@ -4,6 +4,7 @@ import fr.n7.stl.minic.ast.SemanticsUndefinedException;
 import fr.n7.stl.minic.ast.expression.Expression;
 import fr.n7.stl.minic.ast.instruction.declaration.TypeDeclaration;
 import fr.n7.stl.minic.ast.scope.Declaration;
+import fr.n7.stl.minic.ast.expression.AbstractField;
 import fr.n7.stl.minic.ast.scope.HierarchicalScope;
 import fr.n7.stl.minic.ast.type.Type;
 import fr.n7.stl.minijava.ast.type.ClassType;
@@ -16,8 +17,8 @@ public abstract class AbstractAttribute<ObjectKind extends Expression> implement
 	protected ObjectKind object;
 	protected String name;
 	protected AttributeDeclaration attribute;
+    protected AbstractField<ObjectKind> field;
 
-	protected TypeDeclaration thisrecord;
 
 	public AbstractAttribute(ObjectKind _object, String _name) {
 		this.object = _object;
@@ -27,7 +28,7 @@ public abstract class AbstractAttribute<ObjectKind extends Expression> implement
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
 		/// EDITED
-		return object.collectAndPartialResolve(_scope);
+		return object.collectAndPartialResolve(_scope) && this.field.completeResolve(_scope);
 	}
 
 	@Override
@@ -44,24 +45,8 @@ public abstract class AbstractAttribute<ObjectKind extends Expression> implement
 			return false;
 		}
 
-		ClassType classType = (ClassType) objectType;
-		for (ClassElement element : classType.getClassDeclaration().getElements()) {
-			if (element instanceof AttributeDeclaration) {
-				AttributeDeclaration a = (AttributeDeclaration) element;
-				if (a.getName().equals(this.name)) {
-					this.attribute = a;
-					break;
-				}
-			}
-		}
-
-		if (this.attribute != null) {
-			return true;
-		} else {
-			Logger.error("Attribut " + this.name + " introuvable dans la classe "
-					+ classType.getClassDeclaration().getName());
-			return false;
-		}
+        ok &= this.field.completeResolve(_scope);
+        return ok;
 
 	}
 

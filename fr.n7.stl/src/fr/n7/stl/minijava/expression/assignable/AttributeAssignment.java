@@ -15,11 +15,14 @@ public class AttributeAssignment extends AbstractAttribute<AssignableExpression>
 
 	public AttributeAssignment(AssignableExpression _object, String _name) {
 		super(_object, _name);
+        System.out.println(this.object);
+        System.out.println(this.object.getClass().toString());
+        this.field = new FieldAssignment(this.object, this.name);
 	}
 
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
-		return (new FieldAssignment(object, name)).getCode(_factory);
+		return this.field.getCode(_factory);
 	}
 
 }

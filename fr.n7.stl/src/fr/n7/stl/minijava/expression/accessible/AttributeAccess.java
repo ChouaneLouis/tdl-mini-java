@@ -3,6 +3,7 @@ package fr.n7.stl.minijava.expression.accessible;
 import fr.n7.stl.minic.ast.SemanticsUndefinedException;
 import fr.n7.stl.minic.ast.expression.accessible.AccessibleExpression;
 import fr.n7.stl.minic.ast.expression.accessible.IdentifierAccess;
+import fr.n7.stl.minic.ast.expression.accessible.FieldAccess;
 import fr.n7.stl.minic.ast.scope.Declaration;
 import fr.n7.stl.minic.ast.scope.HierarchicalScope;
 import fr.n7.stl.minic.ast.type.Type;
@@ -14,24 +15,8 @@ public class AttributeAccess extends AbstractAttribute<AccessibleExpression> imp
 
 	public AttributeAccess(AccessibleExpression _object, String _name) {
 		super(_object, _name);
-	}
-
-	@Override
-	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
-		/// EDITED
-		return super.collectAndPartialResolve(_scope);
-	}
-
-	@Override
-	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
-		/// EDITED
-		return super.completeResolve(_scope);
-	}
-
-	@Override
-	public Type getType() {
-		/// EDITED
-		return super.getType();
+        System.out.println("coucou : " + this.object.getType());
+        this.field = new FieldAccess(this.object, this.name);
 	}
 
 	@Override
