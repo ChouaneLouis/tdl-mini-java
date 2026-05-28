@@ -7,6 +7,7 @@ import fr.n7.stl.minic.ast.Block;
 import fr.n7.stl.minic.ast.instruction.declaration.FunctionDeclaration;
 import fr.n7.stl.minic.ast.instruction.declaration.ParameterDeclaration;
 import fr.n7.stl.minic.ast.type.Type;
+import fr.n7.stl.minic.ast.type.AtomicType;
 
 public class ConstructorDeclaration extends ClassElement {
 	
@@ -46,11 +47,13 @@ public class ConstructorDeclaration extends ClassElement {
 		return this.owner.getType();
 	}
 
-    public void declareFunction(ClassDeclaration _owner) {
+    public void declareFunction(ClassDeclaration _owner, int id) {
         this.owner = _owner;
+        this.name = "_new_" + this.name + "_" + id;
+        this.parameters.addFirst(new ParameterDeclaration("this", this.getType()));
         this.function = new FunctionDeclaration(
-                "_new_" + this.name,
-                this.getType(),
+                this.name,
+                AtomicType.VoidType,
                 this.parameters,
                 this.body
             );

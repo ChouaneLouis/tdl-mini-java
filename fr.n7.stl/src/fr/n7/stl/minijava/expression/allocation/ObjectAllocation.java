@@ -8,7 +8,9 @@ import fr.n7.stl.minic.ast.expression.assignable.AssignableExpression;
 import fr.n7.stl.minic.ast.scope.Declaration;
 import fr.n7.stl.minic.ast.scope.HierarchicalScope;
 import fr.n7.stl.minic.ast.type.Type;
+import fr.n7.stl.minic.ast.expression.allocation.PointerAllocation;
 import fr.n7.stl.minijava.ast.type.declaration.ClassDeclaration;
+import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.TAMFactory;
 import fr.n7.stl.util.Logger;
@@ -20,6 +22,8 @@ public class ObjectAllocation  implements AccessibleExpression, AssignableExpres
 	protected List<AccessibleExpression> arguments;
 
     protected ClassDeclaration classDeclaration;
+
+    protected String constructorName;
 
 	public ObjectAllocation(String _name, List<AccessibleExpression> _arguments) {
 		this.name = _name;
@@ -45,6 +49,11 @@ public class ObjectAllocation  implements AccessibleExpression, AssignableExpres
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
         /// EDITED
+        this.constructorName = this.classDeclaration.getConstructorName(this.arguments);
+        if (this.constructorName == null) {
+            Logger.error("Pas de constructeur dans la classe " + this.name + " avec les parmetre fourni");
+            return false;
+        }
         boolean ok = true;
         for (AccessibleExpression accessibleExpression : this.arguments) {
             ok &= accessibleExpression.completeResolve(_scope);
@@ -55,14 +64,21 @@ public class ObjectAllocation  implements AccessibleExpression, AssignableExpres
 
 	@Override
 	public Type getType() {
-		// TODO Auto-generated method stub
-		return null;
+        /// EDITED
+        return this.classDeclaration.getType();
 	}
 
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
-		// TODO Auto-generated method stub
-		return null;
+        Fragment _result = _factory.createFragment();
+        _result.append((new PointerAllocation(this.classDeclaration.getRecordType())).getCode(_factory));
+        _result.add(_factory.createLoad(Register.ST, -1, 1)); // copie de l'adresse de l'objet
+        for (AccessibleExpression arg : this.arguments) {
+            _result.append(arg.getCode(_factory));
+        }
+        _result.add(_factory.createCall(this.constructorName, Register.SB));
+        return _result;
+        /// EDITED
 	}
 	
 	@Override
