@@ -1,5 +1,6 @@
 package fr.n7.stl.minijava.expression.assignable;
 
+import fr.n7.stl.minic.ast.SemanticsUndefinedException;
 import fr.n7.stl.minic.ast.expression.assignable.AssignableExpression;
 import fr.n7.stl.minic.ast.scope.Declaration;
 import fr.n7.stl.minic.ast.scope.HierarchicalScope;
@@ -17,7 +18,7 @@ public class AttributeAssignment extends AbstractAttribute<AssignableExpression>
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
 		// TODO Auto-generated method stub
-		return null;
+		throw new SemanticsUndefinedException("Semantic getCode is undefined in AttributeAssignment");
 	}
 
 }

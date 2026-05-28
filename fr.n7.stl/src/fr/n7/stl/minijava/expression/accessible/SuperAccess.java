@@ -1,5 +1,6 @@
 package fr.n7.stl.minijava.expression.accessible;
 
+import fr.n7.stl.minic.ast.SemanticsUndefinedException;
 import fr.n7.stl.minic.ast.expression.accessible.AccessibleExpression;
 import fr.n7.stl.minic.ast.scope.Declaration;
 import fr.n7.stl.minic.ast.scope.HierarchicalScope;
@@ -17,7 +18,7 @@ public class SuperAccess extends AbstractSuper<AccessibleExpression> implements 
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
 		// TODO Auto-generated method stub
-		return null;
+		throw new SemanticsUndefinedException("Semantic getCode is undefined in SuperAccess");
 	}
 
 }

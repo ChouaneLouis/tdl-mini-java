@@ -3,6 +3,7 @@ package fr.n7.stl.minijava.instruction;
 import java.util.Iterator;
 import java.util.List;
 
+import fr.n7.stl.minic.ast.SemanticsUndefinedException;
 import fr.n7.stl.minic.ast.expression.accessible.AccessibleExpression;
 import fr.n7.stl.minic.ast.instruction.Instruction;
 import fr.n7.stl.minic.ast.instruction.declaration.FunctionDeclaration;
@@ -28,37 +29,37 @@ public class SuperCall implements Instruction {
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
 		// TODO Auto-generated method stub
-		return false;
+		throw new SemanticsUndefinedException("Semantic collectAndPartialResolve is undefined in SuperCall");
 	}
 
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope, FunctionDeclaration _container) {
 		// TODO Auto-generated method stub
-		return false;
+		throw new SemanticsUndefinedException("Semantic collectAndPartialResolve is undefined in SuperCall");
 	}
 
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
 		// TODO Auto-generated method stub
-		return false;
+		throw new SemanticsUndefinedException("Semantic completeResolve is undefined in SuperCall");
 	}
 
 	@Override
 	public boolean checkType() {
 		// TODO Auto-generated method stub
-		return false;
+		throw new SemanticsUndefinedException("Semantic checkType is undefined in SuperCall");
 	}
 
 	@Override
 	public int allocateMemory(Register _register, int _offset) {
 		// TODO Auto-generated method stub
-		return 0;
+		throw new SemanticsUndefinedException("Semantic allocateMemory is undefined in SuperCall");
 	}
 
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
 		// TODO Auto-generated method stub
-		return null;
+		throw new SemanticsUndefinedException("Semantic getCode is undefined in SuperCall");
 	}
 	
 	@Override

@@ -3,6 +3,7 @@ package fr.n7.stl.minijava.expression;
 import java.util.Iterator;
 import java.util.List;
 
+import fr.n7.stl.minic.ast.SemanticsUndefinedException;
 import fr.n7.stl.minic.ast.expression.Expression;
 import fr.n7.stl.minic.ast.expression.accessible.AccessibleExpression;
 import fr.n7.stl.minic.ast.instruction.Instruction;
@@ -38,19 +39,19 @@ public abstract class AbstractMethodCall <ObjectKind extends Expression> impleme
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
 		// TODO Auto-generated method stub
-		return false;
+		throw new SemanticsUndefinedException("Semantic collectAndPartialResolve is undefined in AbstractMethodCall");
 	}
 
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
 		// TODO Auto-generated method stub
-		return false;
+		throw new SemanticsUndefinedException("Semantic completeResolve is undefined in AbstractMethodCall");
 	}
 
 	@Override
 	public Type getType() {
 		// TODO Auto-generated method stub
-		return null;
+		throw new SemanticsUndefinedException("getType is undefined in AbstractMethodCall");
 	}
 	
 	@Override

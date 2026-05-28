@@ -1,5 +1,6 @@
 package fr.n7.stl.minijava.expression.accessible;
 
+import fr.n7.stl.minic.ast.SemanticsUndefinedException;
 import fr.n7.stl.minic.ast.expression.accessible.AccessibleExpression;
 import fr.n7.stl.minic.ast.scope.Declaration;
 import fr.n7.stl.minic.ast.scope.HierarchicalScope;
@@ -17,25 +18,25 @@ public class AttributeAccess extends AbstractAttribute<AccessibleExpression>  im
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
 		// TODO Auto-generated method stub
-		return false;
+		throw new SemanticsUndefinedException("Semantic collectAndPartialResolve is undefined in AttributeAccess");
 	}
 
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
 		// TODO Auto-generated method stub
-		return false;
+		throw new SemanticsUndefinedException("Semantic completeResolve is undefined in AttributeAccess");
 	}
 
 	@Override
 	public Type getType() {
 		// TODO Auto-generated method stub
-		return null;
+		throw new SemanticsUndefinedException("getType is undefined in AttributeAccess");
 	}
 
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
 		// TODO Auto-generated method stub
-		return null;
+		throw new SemanticsUndefinedException("Semantic getCode is undefined in AttributeAccess");
 	}
 
 }

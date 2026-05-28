@@ -3,7 +3,10 @@ package fr.n7.stl.minijava.ast.type.declaration;
 import java.util.Iterator;
 import java.util.List;
 
+import org.antlr.v4.semantics.SemanticPipeline;
+
 import fr.n7.stl.minic.ast.Block;
+import fr.n7.stl.minic.ast.SemanticsUndefinedException;
 import fr.n7.stl.minic.ast.instruction.declaration.FunctionDeclaration;
 import fr.n7.stl.minic.ast.instruction.declaration.ParameterDeclaration;
 import fr.n7.stl.minic.ast.type.Type;
@@ -59,7 +62,7 @@ public class MethodDeclaration  extends ClassElement {
 	@Override
 	public Type getType() {
 		// TODO Auto-generated method stub
-		return null;
+		throw new SemanticsUndefinedException("getType undefined in MethodDeclaration");
 	}
 
 }

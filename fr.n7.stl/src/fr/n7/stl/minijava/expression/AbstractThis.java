@@ -1,5 +1,6 @@
 package fr.n7.stl.minijava.expression;
 
+import fr.n7.stl.minic.ast.SemanticsUndefinedException;
 import fr.n7.stl.minic.ast.expression.Expression;
 import fr.n7.stl.minic.ast.scope.Declaration;
 import fr.n7.stl.minic.ast.scope.HierarchicalScope;
@@ -14,19 +15,19 @@ public abstract class AbstractThis <ObjectKind extends Expression> implements Ex
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
 		// TODO Auto-generated method stub
-		return false;
+		throw new SemanticsUndefinedException("Semantic collecteAndpartialResolve is undefined in AstractThis");
 	}
 
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
 		// TODO Auto-generated method stub
-		return false;
+		throw new SemanticsUndefinedException("Semantic completeResolve is undefined in AstractThis");
 	}
 
 	@Override
 	public Type getType() {
 		// TODO Auto-generated method stub
-		return null;
+		throw new SemanticsUndefinedException("getType is undefined in AstractThis");
 	}
 	
 	@Override

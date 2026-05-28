@@ -2,6 +2,7 @@ package fr.n7.stl.minijava.expression.accessible;
 
 import java.util.List;
 
+import fr.n7.stl.minic.ast.SemanticsUndefinedException;
 import fr.n7.stl.minic.ast.expression.Expression;
 import fr.n7.stl.minic.ast.expression.accessible.AccessibleExpression;
 import fr.n7.stl.minic.ast.instruction.Instruction;
@@ -28,7 +29,7 @@ public class MethodCallAccess extends AbstractMethodCall<AccessibleExpression> i
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
 		// TODO Auto-generated method stub
-		return null;
+		throw new SemanticsUndefinedException("Semantic getCode is undefined in MethodCallAccess");
 	}
 	
 }
