@@ -1,0 +1,14 @@
+class MyClass {
+	public MyClass() {}
+
+	public int getValue(int x) {
+		return x + 10;
+	}
+}
+
+public class Main {
+	public static void main(String[] args) {
+		MyClass obj = new MyClass();
+		int res = obj.getValue(5);
+	}
+}

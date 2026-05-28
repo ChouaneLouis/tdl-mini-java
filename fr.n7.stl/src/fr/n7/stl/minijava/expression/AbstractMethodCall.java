@@ -5,6 +5,7 @@ import java.util.List;
 
 import fr.n7.stl.minic.ast.SemanticsUndefinedException;
 import fr.n7.stl.minic.ast.expression.Expression;
+import fr.n7.stl.minic.ast.expression.FunctionCall;
 import fr.n7.stl.minic.ast.expression.accessible.AccessibleExpression;
 import fr.n7.stl.minic.ast.instruction.Instruction;
 import fr.n7.stl.minic.ast.instruction.declaration.FunctionDeclaration;
@@ -15,6 +16,9 @@ import fr.n7.stl.minijava.ast.type.declaration.MethodDeclaration;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
+import fr.n7.stl.util.Logger;
+
+//Doit laisser la valeur de retour sur la pile Type a = methode.call()
 
 public abstract class AbstractMethodCall<ObjectKind extends Expression> implements Expression {
 
@@ -26,10 +30,22 @@ public abstract class AbstractMethodCall<ObjectKind extends Expression> implemen
 
 	protected List<AccessibleExpression> arguments;
 
+	// Vérifier que ses attributs sont màj
+	protected FunctionCall call;
+
 	public AbstractMethodCall(ObjectKind _target, String _name, List<AccessibleExpression> _arguments) {
 		this.target = _target;
+		if (this.target == null) {
+			this.target = (ObjectKind) new fr.n7.stl.minijava.expression.accessible.ThisAccess();
+		}
 		this.name = _name;
 		this.arguments = _arguments;
+
+		java.util.List<AccessibleExpression> allArgs = new java.util.LinkedList<>();
+		allArgs.add((AccessibleExpression) this.target);
+		allArgs.addAll(this.arguments);
+
+		this.call = new FunctionCall(name, allArgs);
 	}
 
 	public AbstractMethodCall(String _name, List<AccessibleExpression> _arguments) {
@@ -38,6 +54,7 @@ public abstract class AbstractMethodCall<ObjectKind extends Expression> implemen
 
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
+<<<<<<< HEAD
 		boolean isValid = true;
 		if (this.target != null) {
 			isValid = isValid && this.target.collectAndPartialResolve(_scope);
@@ -46,10 +63,14 @@ public abstract class AbstractMethodCall<ObjectKind extends Expression> implemen
 			isValid = isValid && arg.collectAndPartialResolve(_scope);
 		}
 		return isValid;
+=======
+		return this.call.collectAndPartialResolve(_scope);
+>>>>>>> alexis_temp
 	}
 
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
+<<<<<<< HEAD
 		boolean isValid = true;
 		if (this.target != null) {
 			isValid = isValid && this.target.completeResolve(_scope);
@@ -96,14 +117,32 @@ public abstract class AbstractMethodCall<ObjectKind extends Expression> implemen
 		
 		fr.n7.stl.util.Logger.error("Method " + this.name + " not found or invalid target.");
 		return false;
+=======
+		Declaration d = _scope.get(name);
+		if (d instanceof MethodDeclaration) {
+			this.declaration = (MethodDeclaration) d;
+			if (this.declaration.getElementKind() == fr.n7.stl.minijava.ast.type.declaration.ElementKind.CLASS) {
+				this.call = new fr.n7.stl.minic.ast.expression.FunctionCall(name, this.arguments);
+				this.call.collectAndPartialResolve(_scope);
+			}
+		}
+		boolean ok = this.call.completeResolve(_scope);
+		return ok;
+>>>>>>> alexis_temp
 	}
 
 	@Override
 	public Type getType() {
+<<<<<<< HEAD
 		if (this.declaration != null) {
 			return this.declaration.getType();
 		}
 		return null;
+=======
+		/// EDITED
+		return this.declaration.getType();
+
+>>>>>>> alexis_temp
 	}
 
 	@Override

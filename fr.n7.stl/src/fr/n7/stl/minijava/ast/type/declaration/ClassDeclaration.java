@@ -7,7 +7,9 @@ import java.util.List;
 
 import fr.n7.stl.minic.ast.SemanticsUndefinedException;
 import fr.n7.stl.minic.ast.instruction.Instruction;
+import fr.n7.stl.minic.ast.instruction.Return;
 import fr.n7.stl.minic.ast.instruction.declaration.FunctionDeclaration;
+import fr.n7.stl.minic.ast.instruction.declaration.ParameterDeclaration;
 import fr.n7.stl.minic.ast.scope.Declaration;
 import fr.n7.stl.minic.ast.scope.HierarchicalScope;
 import fr.n7.stl.minic.ast.scope.SymbolTable;
@@ -16,6 +18,7 @@ import fr.n7.stl.minijava.ast.type.ClassType;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
+import fr.n7.stl.tam.ast.TAMInstruction;
 import fr.n7.stl.util.Logger;
 
 /**
@@ -25,6 +28,7 @@ public class ClassDeclaration implements Instruction, Declaration {
 
     protected List<ClassElement> elements;
 
+<<<<<<< HEAD
     protected boolean concrete;
 
     protected String name;
@@ -136,10 +140,148 @@ public class ClassDeclaration implements Instruction, Declaration {
         }
 
         return result;
+=======
+    public List<ClassElement> getElements() {
+        return elements;
+    }
+
+    protected boolean concrete;
+
+    public boolean isConcrete() {
+        return this.concrete;
+    }
+
+    protected String name;
+
+    protected String ancestor;
+
+    private SymbolTable classScope;
+
+    /**
+     * 
+     */
+    public ClassDeclaration(boolean _concrete, String _name, String _ancestor, List<ClassElement> _elements) {
+        this.concrete = _concrete;
+        this.name = _name;
+        this.ancestor = _ancestor;
+        this.elements = _elements;
+    }
+
+    /**
+     * 
+     */
+    public ClassDeclaration(boolean _concrete, String _name, List<ClassElement> _elements) {
+        this(_concrete, _name, null, _elements);
+    }
+
+    @Override
+    public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
+        // throw new SemanticsUndefinedException("Semantics collect is undefined in
+        // ClassDeclaration.");
+        if (!_scope.accepts(this)) {
+            Logger.error("Erreur de collecte : La classe " + this.name + " est déjà définie.");
+            return false;
+        }
+
+        _scope.register(this);
+
+        this.classScope = new SymbolTable(_scope);
+
+        // La déclaration de 'this' ne doit PAS être mise dans le scope de la classe, 
+        // car elle n'existe pas pour les méthodes statiques. Elle sera injectée uniquement 
+        // dans les paramètres des méthodes non-statiques plus bas.
+        ParameterDeclaration thisDeclaration = new ParameterDeclaration("this", getType());
+
+        boolean isValid = true;
+
+        for (ClassElement classElement : this.elements) {
+            // System.out.println(classElement.getClass().toString());
+
+            if (classElement instanceof ConstructorDeclaration) {
+                ConstructorDeclaration cd = (ConstructorDeclaration) classElement;
+                // This
+                cd.parameters.add(thisDeclaration);
+
+                isValid = isValid && cd.collectAndPartialResolve(this.classScope);
+
+            } else if (classElement instanceof AttributeDeclaration) {
+                AttributeDeclaration ad = (AttributeDeclaration) classElement;
+                if (!_scope.accepts(ad)) {
+                    Logger.error(ad.name + " déjà défini");
+                    return false;
+                }
+                _scope.register(ad);
+
+            } else if (classElement instanceof MethodDeclaration) {
+                MethodDeclaration md = (MethodDeclaration) classElement;
+
+                // Ajout au scope global si public
+                if (md.getAccessRight() == AccessRight.PUBLIC) {
+                    if (_scope.accepts(md)) {
+                        _scope.register(md);
+                    }
+                    // Si la méthode existe déjà (ex: héritage ou même nom dans une autre classe), on l'ignore silencieusement car la résolution par scope global est très basique dans ce compilateur.
+                }
+
+                // This
+                if (md.getElementKind() != ElementKind.CLASS) {
+                    md.parameters.add(0, thisDeclaration);
+                }
+
+                isValid = isValid && md.collectAndPartialResolve(this.classScope);
+            } else {
+                Logger.error(classElement.name + " n'est pas du bon type");
+            }
+        }
+
+        return isValid;
+    }
+
+    @Override
+    public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope, FunctionDeclaration _container) {
+        return this.collectAndPartialResolve(_scope);
+    }
+
+    @Override
+    public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
+        // throw new SemanticsUndefinedException("Semantics resolve is undefined in
+        // ClassDeclaration.")
+
+        boolean isValid = true;
+
+        if (this.ancestor != null) {
+            if (!_scope.knows(this.ancestor)) {
+                Logger.error("La classe mère '" + this.ancestor + "' de " + this.name + " n'existe pas.");
+                isValid = false;
+            }
+        }
+
+        for (ClassElement classElement : this.elements) {
+
+            if (classElement instanceof ConstructorDeclaration) {
+                ConstructorDeclaration cd = (ConstructorDeclaration) classElement;
+                isValid = isValid && cd.completeResolve(this.classScope);
+
+            } else if (classElement instanceof AttributeDeclaration) {
+                AttributeDeclaration attribute = (AttributeDeclaration) classElement;
+                isValid = isValid && attribute.getType().completeResolve(this.classScope);
+
+            } else if (classElement instanceof MethodDeclaration) {
+                MethodDeclaration md = (MethodDeclaration) classElement;
+                isValid = isValid && md.completeResolve(this.classScope);
+
+            } else {
+                Logger.error(classElement.name + " n'est pas du bon type");
+            }
+        }
+
+        return isValid;
+>>>>>>> alexis_temp
     }
 
     @Override
     public boolean checkType() {
+<<<<<<< HEAD
         boolean result = true;
         // On vérifie le bon typage de chaque attribut, méthode ou constructeur
         for (ClassElement element : elements) {
@@ -148,10 +290,21 @@ public class ClassDeclaration implements Instruction, Declaration {
             }
         }
         return result;
+=======
+        // throw new SemanticsUndefinedException("Semantics check type is undefined in
+        // ClassDeclaration.");
+        boolean ok = true;
+        for (ClassElement classElement : elements) {
+            if (classElement instanceof Instruction)
+                ok = ok && ((Instruction) classElement).checkType();
+        }
+        return ok;
+>>>>>>> alexis_temp
     }
 
     @Override
     public int allocateMemory(Register _register, int _offset) {
+<<<<<<< HEAD
         // La déclaration de la classe en soi ne prend pas de place sur la pile
         // principale.
         // Cependant, on peut déclencher l'allocation mémoire pour ses éléments
@@ -164,10 +317,29 @@ public class ClassDeclaration implements Instruction, Declaration {
             }
         }
         return 0; // Retourne 0 car la taille de la classe n'impacte pas l'offset du bloc courant
+=======
+        /// EDITED calcul des offsets
+        int localOffset = 0;
+        for (ClassElement classElement : elements) {
+            if (classElement instanceof AttributeDeclaration) {
+                AttributeDeclaration atr = (AttributeDeclaration) classElement;
+                atr.offset = localOffset;
+                localOffset += atr.getType().length();
+            } else if (classElement instanceof MethodDeclaration) {
+                MethodDeclaration md = (MethodDeclaration) classElement;
+                md.getFunction().allocateMemory(Register.LB, 3);
+            } else if (classElement instanceof ConstructorDeclaration) {
+                ConstructorDeclaration cd = (ConstructorDeclaration) classElement;
+                cd.allocateMemory(Register.LB, 3);
+            }
+        }
+        return _offset; // Ne prend pas de place en mémoire
+>>>>>>> alexis_temp
     }
 
     @Override
     public Fragment getCode(TAMFactory _factory) {
+<<<<<<< HEAD
         Fragment fragment = _factory.createFragment();
         // On récupère le code de chaque élément (notamment les corps des méthodes)
         for (ClassElement element : elements) {
@@ -175,6 +347,43 @@ public class ClassDeclaration implements Instruction, Declaration {
                 fragment.append(((Instruction) element).getCode(_factory));
             }
         }
+=======
+        // throw new SemanticsUndefinedException("Semantics get code is undefined in
+        // ClassDeclaration.");
+        Fragment fragment = _factory.createFragment();
+        String skipLabel = "skip_" + this.name;
+        fragment.add(_factory.createJump(skipLabel));
+
+        // On parcourt tous les éléments définis dans la classe
+        for (ClassElement classElement : this.elements) {
+
+            // Seules les méthodes et les constructeurs
+            // ont du code exécutable à générer. Les attributs sont ignorés ici.
+            // System.out.println(classElement.getClass().toString());
+
+            if (classElement instanceof ConstructorDeclaration) {
+                ConstructorDeclaration cd = (ConstructorDeclaration) classElement;
+
+                fragment.append(cd.getCode(_factory));
+
+            } else if (classElement instanceof AttributeDeclaration) {
+                AttributeDeclaration attribute = (AttributeDeclaration) classElement;
+                // TODO : attribute getCode dans class declaration ?
+
+            } else if (classElement instanceof MethodDeclaration) {
+                MethodDeclaration md = (MethodDeclaration) classElement;
+                if (md.isConcrete()) {
+                    Fragment methode = md.body.getCode(_factory);
+                    methode.addPrefix(md.getName());
+                    fragment.append(methode);
+                }
+            } else {
+                Logger.error(classElement.name + " n'est pas du bon type");
+            }
+        }
+        fragment.addSuffix(skipLabel);
+
+>>>>>>> alexis_temp
         return fragment;
     }
 
@@ -185,6 +394,10 @@ public class ClassDeclaration implements Instruction, Declaration {
 
     @Override
     public Type getType() {
+<<<<<<< HEAD
+=======
+        /// EDITED
+>>>>>>> alexis_temp
         return new ClassType(this);
     }
 
@@ -206,12 +419,23 @@ public class ClassDeclaration implements Instruction, Declaration {
         return image;
     }
 
+<<<<<<< HEAD
     public List<ClassElement> getElements() {
         return elements;
     }
 
     public String getAncestor() {
         return ancestor;
+=======
+    public int getObjectSize() {
+        int size = 0;
+        for (ClassElement element : this.elements) {
+            if (element instanceof AttributeDeclaration) {
+                size += ((AttributeDeclaration) element).getType().length();
+            }
+        }
+        return size;
+>>>>>>> alexis_temp
     }
 
 }

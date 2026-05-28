@@ -14,6 +14,10 @@ import fr.n7.stl.minijava.ast.type.declaration.MethodDeclaration;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
+import fr.n7.stl.util.Logger;
+
+//Se suffit dans l'appel ex : a.setV(9), ou on ignore la valeur;
+// target.method(arguments)
 
 public class MethodCall implements Instruction {
 
@@ -23,13 +27,22 @@ public class MethodCall implements Instruction {
 
 	protected MethodDeclaration method;
 
+	protected fr.n7.stl.minic.ast.expression.FunctionCall call;
 	protected List<AccessibleExpression> arguments;
 
 	public MethodCall(AccessibleExpression _target, String _name, List<AccessibleExpression> _arguments) {
 		this.name = _name;
 		this.method = null;
 		this.target = _target;
+		if (this.target == null) {
+			this.target = new fr.n7.stl.minijava.expression.accessible.ThisAccess();
+		}
 		this.arguments = _arguments;
+		
+		java.util.List<AccessibleExpression> allArgs = new java.util.LinkedList<>();
+		allArgs.add(this.target);
+		allArgs.addAll(this.arguments);
+		this.call = new fr.n7.stl.minic.ast.expression.FunctionCall(name, allArgs);
 	}
 
 	public MethodCall(String _name, List<AccessibleExpression> _arguments) {
@@ -38,6 +51,7 @@ public class MethodCall implements Instruction {
 
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
+<<<<<<< HEAD
 		boolean isValid = true;
 		if (this.target != null) {
 			isValid = isValid && this.target.collectAndPartialResolve(_scope);
@@ -46,6 +60,9 @@ public class MethodCall implements Instruction {
 			isValid = isValid && arg.collectAndPartialResolve(_scope);
 		}
 		return isValid;
+=======
+		return this.call.collectAndPartialResolve(_scope);
+>>>>>>> alexis_temp
 	}
 
 	@Override
@@ -55,6 +72,7 @@ public class MethodCall implements Instruction {
 
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
+<<<<<<< HEAD
 		boolean isValid = true;
 		if (this.target != null) {
 			isValid = isValid && this.target.completeResolve(_scope);
@@ -101,10 +119,23 @@ public class MethodCall implements Instruction {
 		
 		fr.n7.stl.util.Logger.error("Method " + this.name + " not found or invalid target in instruction.");
 		return false;
+=======
+		Declaration d = _scope.get(name);
+		if (d instanceof MethodDeclaration) {
+			this.method = (MethodDeclaration) d;
+			if (this.method.getElementKind() == fr.n7.stl.minijava.ast.type.declaration.ElementKind.CLASS) {
+				this.call = new fr.n7.stl.minic.ast.expression.FunctionCall(name, this.arguments);
+				this.call.collectAndPartialResolve(_scope);
+			}
+		}
+		boolean ok = this.call.completeResolve(_scope);
+		return ok;
+>>>>>>> alexis_temp
 	}
 
 	@Override
 	public boolean checkType() {
+<<<<<<< HEAD
 		boolean isValid = true;
 		if (this.method == null) return false;
 
@@ -124,15 +155,23 @@ public class MethodCall implements Instruction {
 			}
 		}
 		return isValid;
+=======
+		return true; // FunctionCall doesn't implement checkType, so we just assume it's true for now, or we can check arguments later if needed.
+>>>>>>> alexis_temp
 	}
 
 	@Override
 	public int allocateMemory(Register _register, int _offset) {
+<<<<<<< HEAD
 		return 0;
+=======
+		return _offset;
+>>>>>>> alexis_temp
 	}
 
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
+<<<<<<< HEAD
 		Fragment result = _factory.createFragment();
 
 		if (this.method != null && this.method.getElementKind() == fr.n7.stl.minijava.ast.type.declaration.ElementKind.CLASS) {
@@ -163,6 +202,13 @@ public class MethodCall implements Instruction {
 		}
 
 		return result;
+=======
+		Fragment f = this.call.getCode(_factory);
+		if (this.call.getType().length() > 0) {
+			f.add(_factory.createPop(0, this.call.getType().length()));
+		}
+		return f;
+>>>>>>> alexis_temp
 	}
 
 	@Override

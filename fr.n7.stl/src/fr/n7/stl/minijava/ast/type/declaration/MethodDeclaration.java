@@ -4,7 +4,11 @@ import java.util.Iterator;
 import java.util.List;
 
 import fr.n7.stl.minic.ast.Block;
+<<<<<<< HEAD
 import fr.n7.stl.minic.ast.instruction.Instruction;
+=======
+import fr.n7.stl.minic.ast.SemanticsUndefinedException;
+>>>>>>> alexis_temp
 import fr.n7.stl.minic.ast.instruction.declaration.FunctionDeclaration;
 import fr.n7.stl.minic.ast.instruction.declaration.ParameterDeclaration;
 import fr.n7.stl.minic.ast.scope.Declaration;
@@ -15,26 +19,52 @@ import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
 
+<<<<<<< HEAD
 public class MethodDeclaration extends ClassElement implements Instruction {
 
     protected boolean concrete;
 
+=======
+public class MethodDeclaration extends ClassElement {
+
+    protected boolean concrete;
+
+    public boolean isConcrete() {
+        return this.concrete;
+    }
+
+>>>>>>> alexis_temp
     protected List<ParameterDeclaration> parameters;
 
     protected Block body;
 
     protected Type type;
 
+<<<<<<< HEAD
+=======
+    protected FunctionDeclaration function;
+
+    public FunctionDeclaration getFunction() {
+        return function;
+    }
+
+>>>>>>> alexis_temp
     public MethodDeclaration(String _name, Type _type, List<ParameterDeclaration> _parameters, Block _body) {
         super(_name);
         this.parameters = _parameters;
         this.body = _body;
         this.concrete = (_body != null);
         this.type = _type;
+<<<<<<< HEAD
+=======
+
+        this.function = new FunctionDeclaration(this.name, this.type, this.parameters, this.body);
+>>>>>>> alexis_temp
     }
 
     public MethodDeclaration(String _name, Type _type, List<ParameterDeclaration> _parameters) {
         this(_name, _type, _parameters, null);
+<<<<<<< HEAD
     }
 
     @Override
@@ -112,6 +142,11 @@ public class MethodDeclaration extends ClassElement implements Instruction {
         }
 
         return fragment;
+=======
+
+        this.function = new FunctionDeclaration(this.name, this.type, this.parameters, null);
+
+>>>>>>> alexis_temp
     }
 
     @Override
@@ -120,7 +155,11 @@ public class MethodDeclaration extends ClassElement implements Instruction {
         if (!this.concrete) {
             image += "abstract ";
         }
+<<<<<<< HEAD
         image += this.accessRight + " " + this.type + " " + this.name + "( ";
+=======
+        image += this.accessRight + " " + this.elementKind + this.type + " " + this.name + "( ";
+>>>>>>> alexis_temp
         Iterator<ParameterDeclaration> iterator = this.parameters.iterator();
         if (iterator.hasNext()) {
             ParameterDeclaration parameter = iterator.next();
@@ -141,6 +180,7 @@ public class MethodDeclaration extends ClassElement implements Instruction {
 
     @Override
     public Type getType() {
+<<<<<<< HEAD
         return this.type;
     }
 
@@ -148,6 +188,31 @@ public class MethodDeclaration extends ClassElement implements Instruction {
         // J'ai ajouté cette méthode pour pouvoir récupérer les paramètres d'une méthode déclarée
         // et vérifier lors d'un appel (MethodCall) si les arguments passés sont du bon type.
         return this.parameters;
+=======
+        /// EDITED
+        return this.type;
+
+    }
+
+    protected HierarchicalScope<Declaration> consScope;
+
+    public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
+        this.consScope = new SymbolTable(_scope);
+        for (ParameterDeclaration parameterDeclaration : parameters) {
+            consScope.register(parameterDeclaration);
+        }
+        if (this.concrete) {
+            return this.body.collectAndPartialResolve(consScope, this.function);
+        }
+        return true;
+    }
+
+    public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
+        if (this.concrete) {
+            return this.body.completeResolve(consScope);
+        }
+        return true;
+>>>>>>> alexis_temp
     }
 
 }

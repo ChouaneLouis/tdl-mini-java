@@ -1,0 +1,13 @@
+class MathUtil {
+    public MathUtil() {}
+    public static int add(int a, int b) {
+        return a + b;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        MathUtil m = new MathUtil();
+        int res = m.multiply(2, 3); // ERROR: multiply does not exist
+    }
+}

@@ -1,0 +1,16 @@
+int sum(int tab[]) {
+    // precondition tab est de taille 4
+    int s = 0;
+    int i = 0;
+    while (i<4) {
+        s = s + tab[i];
+    }
+    return s
+}
+
+void main() {
+    int s = sum({1,2,3,4});
+    print s;
+    print sum({1,1,1,1});
+    print sum({2,1,0,-1});
+}

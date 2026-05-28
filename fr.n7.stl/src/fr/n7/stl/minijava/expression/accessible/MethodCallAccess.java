@@ -4,6 +4,7 @@ import java.util.List;
 
 import fr.n7.stl.minic.ast.SemanticsUndefinedException;
 import fr.n7.stl.minic.ast.expression.Expression;
+import fr.n7.stl.minic.ast.expression.FunctionCall;
 import fr.n7.stl.minic.ast.expression.accessible.AccessibleExpression;
 import fr.n7.stl.minic.ast.instruction.Instruction;
 import fr.n7.stl.minic.ast.instruction.declaration.FunctionDeclaration;
@@ -12,6 +13,7 @@ import fr.n7.stl.minic.ast.scope.HierarchicalScope;
 import fr.n7.stl.minic.ast.type.Type;
 import fr.n7.stl.minijava.ast.type.declaration.MethodDeclaration;
 import fr.n7.stl.minijava.expression.AbstractMethodCall;
+import fr.n7.stl.minijava.instruction.MethodCall;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
@@ -30,7 +32,13 @@ public class MethodCallAccess extends AbstractMethodCall<AccessibleExpression> i
 
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
+<<<<<<< HEAD
 		Fragment result = _factory.createFragment();
+=======
+		/// EDITED
+		/// Dernière chose sur la pile devrait être la valeur renvoyée
+		return this.call.getCode(_factory);
+>>>>>>> alexis_temp
 
 		if (this.declaration != null && this.declaration.getElementKind() == fr.n7.stl.minijava.ast.type.declaration.ElementKind.CLASS) {
 			// STATIC METHOD

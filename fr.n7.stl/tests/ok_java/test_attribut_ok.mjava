@@ -1,0 +1,33 @@
+class A {
+    public int x;
+    public int y;
+
+    public A(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+
+class B {
+    public A a;
+    public int z;
+
+    public B(A a, int z) {
+        this.a = a;
+        this.z = z;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        A objA = new A(10, 20);
+        B objB = new B(objA, 30);
+        
+        int val_x = objB.a.x;
+        int val_y = objA.y;
+        
+        objB.z = val_x + val_y;
+        
+        objA.x = 99;
+    }
+}

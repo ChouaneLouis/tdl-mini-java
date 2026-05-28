@@ -1,0 +1,7 @@
+void f(int i) {
+    print i;
+}
+
+void main() {
+    f(3);
+}

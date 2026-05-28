@@ -8,7 +8,10 @@ import fr.n7.stl.minic.ast.scope.HierarchicalScope;
 import fr.n7.stl.minic.ast.type.AtomicType;
 import fr.n7.stl.minic.ast.type.Type;
 import fr.n7.stl.minijava.ast.type.declaration.ClassDeclaration;
+<<<<<<< HEAD
 import fr.n7.stl.util.Logger;
+=======
+>>>>>>> alexis_temp
 
 public class ClassType implements Type {
 
@@ -21,6 +24,7 @@ public class ClassType implements Type {
 	}
 
 	public ClassType(ClassDeclaration _declaration) {
+<<<<<<< HEAD
         this.name = _declaration.getName();
         this.declaration = _declaration;
     }
@@ -32,10 +36,25 @@ public class ClassType implements Type {
 		} else {
 			return false;
 		} 
+=======
+		this.declaration = _declaration;
+		this.name = _declaration.getName();
+	}
+
+	@Override
+	public boolean equalsTo(Type _other) {
+		// TODO Auto-generated method stub
+		if (_other instanceof ClassType) {
+			return this.name.equals(((ClassType) _other).name);
+		}
+		return false;
+
+>>>>>>> alexis_temp
 	}
 
 	@Override
 	public boolean compatibleWith(Type _other) {
+<<<<<<< HEAD
 		if (this.equalsTo(_other) || _other == AtomicType.NullType) {
 			return true;
 		}
@@ -55,6 +74,13 @@ public class ClassType implements Type {
 			}
 		}
 		return false;
+=======
+		// TODO Auto-generated method stub
+		// throw new SemanticsUndefinedException("compatibleWith in Type");
+		// TODO héritage
+		return this.equalsTo(_other);
+
+>>>>>>> alexis_temp
 	}
 
 	@Override
@@ -73,11 +99,17 @@ public class ClassType implements Type {
 
 	@Override
 	public int length() {
+<<<<<<< HEAD
 		return 1;
+=======
+		// throw new SemanticsUndefinedException("length in Type");
+		return 1; // C'est une adresse
+>>>>>>> alexis_temp
 
 	}
 
 	@Override
+<<<<<<< HEAD
     public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
         // C'est ici qu'on relie le nom de la classe lu par le parser à sa vraie déclaration !
         Declaration decl = _scope.get(this.name);
@@ -89,11 +121,42 @@ public class ClassType implements Type {
             return false;
         }
     }
+=======
+	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
+		// TODO Auto-generated method stub
+		// throw new SemanticsUndefinedException("completeResolve in Type");
+		// 1. Si la classe est déjà résolue, on ne fait rien
+		if (this.declaration != null) {
+			return true;
+		}
+
+		// 2. On vérifie si le nom de la classe est connu dans le scope
+		if (!_scope.knows(this.name)) {
+			fr.n7.stl.util.Logger.error("Le type identificateur '" + this.name + "' n'est pas défini.");
+			return false;
+		}
+
+		// 3. On récupère la déclaration associée
+		Declaration decl = _scope.get(this.name);
+
+		// 4. On s'assure que cette déclaration est bien une classe (et pas une variable
+		// locale ou autre)
+		if (decl instanceof ClassDeclaration) {
+			this.declaration = (ClassDeclaration) decl;
+			return true;
+		} else {
+			fr.n7.stl.util.Logger.error("L'identificateur '" + this.name + "' n'est pas une classe.");
+			return false;
+		}
+
+	}
+>>>>>>> alexis_temp
 
 	public String toString() {
 		return " " + this.name + " ";
 	}
 
+<<<<<<< HEAD
 	public String getName() {
 		return name;
 	}
@@ -101,6 +164,10 @@ public class ClassType implements Type {
 	public ClassDeclaration getDeclaration() {
 		// On ajoute ça pour récupérer la déclaration de la classe directement au lieu de chercher par le nom, ça évite les conflits avec le nom des constructeurs !
 		return declaration;
+=======
+	public ClassDeclaration getDeclaration() {
+		return this.declaration;
+>>>>>>> alexis_temp
 	}
 
 }
