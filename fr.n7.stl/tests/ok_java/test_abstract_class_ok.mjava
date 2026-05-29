@@ -1,0 +1,21 @@
+abstract class Shape {
+    public int color;
+    public abstract int getArea();
+}
+
+class Square extends Shape {
+    public int size;
+    public Square(int _s) {
+        this.size = _s;
+    }
+    public int getArea() {
+        return this.size * this.size;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Square s = new Square(10);
+        int area = s.getArea();
+    }
+}

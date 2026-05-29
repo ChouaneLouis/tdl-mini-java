@@ -1,18 +1,16 @@
-abstract class Shape {
-	public Shape() {}
-	public abstract int area();
+abstract class Animal {
+    public abstract int getLegs();
 }
 
-class Square extends Shape {
-	public int side;
-	public Square() {}
-	public int area() { 
-		return this.side * this.side; 
-	}
+class Dog extends Animal {
+    public int getLegs() {
+        return 4;
+    }
 }
 
 public class Main {
-	public static void main(String[] args) {
-		Shape s = new Shape();
-	}
+    public static void main(String[] args) {
+        Animal a = new Animal(); // Should fail
+        Dog d = new Dog(); // Should succeed
+    }
 }

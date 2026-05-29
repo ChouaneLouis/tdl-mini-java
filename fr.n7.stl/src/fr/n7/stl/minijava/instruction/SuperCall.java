@@ -26,46 +26,77 @@ public class SuperCall implements Instruction {
 		this.arguments = _arguments;
 	}
 
+	protected String ancestorName;
+	protected Declaration thisDeclaration;
+
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("collectAndPartialResolve in SuperCall");
-
+		boolean ok = true;
+		for (AccessibleExpression arg : this.arguments) {
+			ok = ok && arg.collectAndPartialResolve(_scope);
+		}
+		return ok;
 	}
 
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope, FunctionDeclaration _container) {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("collectAndPartialResolve in SuperCall");
-
+		return collectAndPartialResolve(_scope);
 	}
 
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("completeResolve in SuperCall");
+		boolean ok = true;
+		for (AccessibleExpression arg : this.arguments) {
+			ok = ok && arg.completeResolve(_scope);
+		}
+		
+		if (_scope.knows("this")) {
+			this.thisDeclaration = _scope.get("this");
+			fr.n7.stl.minic.ast.type.Type currentType = this.thisDeclaration.getType();
+			if (currentType instanceof fr.n7.stl.minijava.ast.type.ClassType) {
+				fr.n7.stl.minijava.ast.type.declaration.ClassDeclaration currentClass = ((fr.n7.stl.minijava.ast.type.ClassType) currentType).getDeclaration();
+				if (currentClass != null && currentClass.getAncestor() != null) {
+					this.ancestorName = currentClass.getAncestor();
+				} else {
+					fr.n7.stl.util.Logger.error("Impossible d'utiliser 'super()' car la classe n'a pas d'ancêtre.");
+					return false;
+				}
+			}
+		} else {
+			fr.n7.stl.util.Logger.error("Impossible d'utiliser 'super()' hors d'un constructeur.");
+			return false;
+		}
 
+		return ok;
 	}
 
 	@Override
 	public boolean checkType() {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("check in SuperCall");
-
+		return true;
 	}
 
 	@Override
 	public int allocateMemory(Register _register, int _offset) {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("allocateMemory in SuperCall");
-
+		return _offset;
 	}
 
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("getCode in SuperCall");
-
+		Fragment fragment = _factory.createFragment();
+		for (AccessibleExpression arg : this.arguments) {
+			fragment.append(arg.getCode(_factory));
+		}
+		if (this.thisDeclaration instanceof fr.n7.stl.minic.ast.instruction.declaration.ParameterDeclaration) {
+			int offset = ((fr.n7.stl.minic.ast.instruction.declaration.ParameterDeclaration) this.thisDeclaration).getOffset();
+			fragment.add(_factory.createLoad(fr.n7.stl.tam.ast.Register.LB, offset, 1));
+		} else {
+			fragment.add(_factory.createLoad(fr.n7.stl.tam.ast.Register.LB, -1, 1));
+		}
+		
+		int totalParams = this.arguments.size() + 1; // +1 pour 'this'
+		fragment.add(_factory.createCall("Constructor_" + this.ancestorName + "_" + totalParams, fr.n7.stl.tam.ast.Register.SB));
+		
+		return fragment;
 	}
 
 	@Override

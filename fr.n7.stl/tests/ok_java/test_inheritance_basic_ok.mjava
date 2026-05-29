@@ -1,0 +1,21 @@
+class Parent {
+    public int a;
+    public void setA(int _a) {
+        this.a = _a;
+    }
+}
+
+class Child extends Parent {
+    public int b;
+    public int getSum() {
+        return this.a + this.b;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Child c = new Child();
+        c.setA(10);
+        c.b = 20;
+    }
+}

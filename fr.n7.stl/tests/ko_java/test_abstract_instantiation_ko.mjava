@@ -1,0 +1,9 @@
+abstract class Concept {
+    public abstract int think();
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Concept c = new Concept(); // Error: Cannot instantiate abstract class
+    }
+}

@@ -27,6 +27,10 @@ public class FunctionDeclaration implements DeclarationInstruction {
 	 * Name of the function
 	 */
 	protected String name;
+	
+	public void setName(String _name) {
+		this.name = _name;
+	}
 
 	/**
 	 * AST node for the returned type of the function

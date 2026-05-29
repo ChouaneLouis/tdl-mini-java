@@ -1,0 +1,13 @@
+class Parent {
+    private int secret;
+}
+
+class Child extends Parent {
+    public int getSecret() {
+        return this.secret; // Error: secret is private in Parent
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {}
+}

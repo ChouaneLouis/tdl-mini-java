@@ -1,0 +1,20 @@
+class A {
+    public int x;
+    public A(int _x) {
+        this.x = _x;
+    }
+}
+
+class B extends A {
+    public int y;
+    public B(int _x, int _y) {
+        super(_x);
+        this.y = _y;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        B b = new B(5, 10);
+    }
+}

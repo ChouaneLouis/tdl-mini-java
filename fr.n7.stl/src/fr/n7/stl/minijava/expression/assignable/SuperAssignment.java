@@ -9,16 +9,19 @@ import fr.n7.stl.tam.ast.TAMFactory;
 public class SuperAssignment extends AbstractSuper<AssignableExpression> implements AssignableExpression {
 
 	public SuperAssignment() {
-		// TODO Auto-generated constructor stub
-		throw new SemanticsUndefinedException("SuperAssignment constructor");
-
+		super();
 	}
 
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("getCode in SuperAssignment");
-
+		Fragment fragment = _factory.createFragment();
+		if (this.thisDeclaration instanceof fr.n7.stl.minic.ast.instruction.declaration.ParameterDeclaration) {
+			int offset = ((fr.n7.stl.minic.ast.instruction.declaration.ParameterDeclaration) this.thisDeclaration).getOffset();
+			fragment.add(_factory.createLoadA(fr.n7.stl.tam.ast.Register.LB, offset));
+		} else {
+			fragment.add(_factory.createLoadA(fr.n7.stl.tam.ast.Register.LB, -1));
+		}
+		return fragment;
 	}
 
 }

@@ -1,0 +1,13 @@
+class Animal {
+    public int x;
+}
+
+class Dog extends Animal {
+    public int y;
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Animal a = new Dog(); // Polymorphic assignment
+    }
+}

@@ -32,11 +32,28 @@ public class ClassType implements Type {
 
 	@Override
 	public boolean compatibleWith(Type _other) {
-		// TODO Auto-generated method stub
-		// throw new SemanticsUndefinedException("compatibleWith in Type");
-		// TODO héritage
-		return this.equalsTo(_other);
-
+		if (this.equalsTo(_other)) return true;
+		
+		if (_other instanceof ClassType && this.declaration != null) {
+			String parentName = this.declaration.getAncestor();
+			if (parentName != null) {
+				// We need to resolve the parent type to check it
+				ClassType parentType = new ClassType(parentName);
+				// To do it properly we should resolve it, but since we might not have the scope here,
+				// we just compare names recursively if the declarations are linked.
+				// Since we don't have scope here, we just check if parentName equals the other's name
+				// But we need to go up the chain!
+				// We can navigate up the declarations if we have them.
+				ClassDeclaration current = this.declaration;
+				while (current != null) {
+					if (current.getName().equals(((ClassType)_other).name)) {
+						return true;
+					}
+					current = current.getAncestorDecl();
+				}
+			}
+		}
+		return false;
 	}
 
 	@Override

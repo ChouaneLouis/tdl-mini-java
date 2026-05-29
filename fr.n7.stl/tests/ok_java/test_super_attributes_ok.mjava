@@ -1,0 +1,17 @@
+class Animal {
+    public int age;
+}
+
+class Dog extends Animal {
+    public int age; // Shadows parent age
+    public void setParentAge(int _age) {
+        super.age = _age;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Dog d = new Dog();
+        d.setParentAge(5);
+    }
+}

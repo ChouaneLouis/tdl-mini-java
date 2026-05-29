@@ -41,6 +41,15 @@ public class ClassDeclaration implements Instruction, Declaration {
     protected String name;
 
     protected String ancestor;
+    protected ClassDeclaration ancestorDecl;
+
+    public String getAncestor() {
+        return this.ancestor;
+    }
+    
+    public ClassDeclaration getAncestorDecl() {
+        return this.ancestorDecl;
+    }
 
     private SymbolTable classScope;
 
@@ -52,6 +61,19 @@ public class ClassDeclaration implements Instruction, Declaration {
         this.name = _name;
         this.ancestor = _ancestor;
         this.elements = _elements;
+        boolean hasConstructor = false;
+        for (ClassElement el : this.elements) {
+            if (el instanceof ConstructorDeclaration) {
+                hasConstructor = true;
+            }
+            if (el instanceof MethodDeclaration) {
+                ((MethodDeclaration) el).setClassName(this.name);
+            }
+        }
+        if (!hasConstructor && !this.name.equals("Main")) { // Main doesn't need it usually, but it won't hurt. Still, let's keep it clean
+            ConstructorDeclaration defaultCons = new ConstructorDeclaration(this.name, new java.util.LinkedList<>(), new fr.n7.stl.minic.ast.Block(new java.util.LinkedList<>()));
+            this.elements.add(defaultCons);
+        }
     }
 
     /**
@@ -79,7 +101,6 @@ public class ClassDeclaration implements Instruction, Declaration {
         // La déclaration de 'this' ne doit PAS être mise dans le scope de la classe, 
         // car elle n'existe pas pour les méthodes statiques. Elle sera injectée uniquement 
         // dans les paramètres des méthodes non-statiques plus bas.
-        ParameterDeclaration thisDeclaration = new ParameterDeclaration("this", getType());
 
         boolean isValid = true;
 
@@ -88,18 +109,18 @@ public class ClassDeclaration implements Instruction, Declaration {
 
             if (classElement instanceof ConstructorDeclaration) {
                 ConstructorDeclaration cd = (ConstructorDeclaration) classElement;
-                // This
-                cd.parameters.add(thisDeclaration);
+                // This is passed LAST for constructors
+                cd.parameters.add(new ParameterDeclaration("this", getType()));
 
                 isValid = isValid && cd.collectAndPartialResolve(this.classScope);
 
             } else if (classElement instanceof AttributeDeclaration) {
                 AttributeDeclaration ad = (AttributeDeclaration) classElement;
-                if (!_scope.accepts(ad)) {
+                if (!this.classScope.accepts(ad)) {
                     Logger.error(ad.name + " déjà défini");
                     return false;
                 }
-                _scope.register(ad);
+                this.classScope.register(ad);
 
             } else if (classElement instanceof MethodDeclaration) {
                 MethodDeclaration md = (MethodDeclaration) classElement;
@@ -114,7 +135,7 @@ public class ClassDeclaration implements Instruction, Declaration {
 
                 // This
                 if (md.getElementKind() != ElementKind.CLASS) {
-                    md.parameters.add(0, thisDeclaration);
+                    md.parameters.add(0, new ParameterDeclaration("this", getType()));
                 }
 
                 isValid = isValid && md.collectAndPartialResolve(this.classScope);
@@ -142,6 +163,14 @@ public class ClassDeclaration implements Instruction, Declaration {
             if (!_scope.knows(this.ancestor)) {
                 Logger.error("La classe mère '" + this.ancestor + "' de " + this.name + " n'existe pas.");
                 isValid = false;
+            } else {
+                Declaration decl = _scope.get(this.ancestor);
+                if (decl instanceof ClassDeclaration) {
+                    this.ancestorDecl = (ClassDeclaration) decl;
+                } else {
+                    Logger.error("L'ancêtre '" + this.ancestor + "' n'est pas une classe.");
+                    isValid = false;
+                }
             }
         }
 
@@ -182,7 +211,7 @@ public class ClassDeclaration implements Instruction, Declaration {
     @Override
     public int allocateMemory(Register _register, int _offset) {
         /// EDITED calcul des offsets
-        int localOffset = 0;
+        int localOffset = (this.ancestorDecl != null) ? this.ancestorDecl.getObjectSize() : 0;
         for (ClassElement classElement : elements) {
             if (classElement instanceof AttributeDeclaration) {
                 AttributeDeclaration atr = (AttributeDeclaration) classElement;
@@ -190,7 +219,9 @@ public class ClassDeclaration implements Instruction, Declaration {
                 localOffset += atr.getType().length();
             } else if (classElement instanceof MethodDeclaration) {
                 MethodDeclaration md = (MethodDeclaration) classElement;
-                md.getFunction().allocateMemory(Register.LB, 3);
+                if (md.isConcrete()) {
+                    md.getFunction().allocateMemory(Register.LB, 3);
+                }
             } else if (classElement instanceof ConstructorDeclaration) {
                 ConstructorDeclaration cd = (ConstructorDeclaration) classElement;
                 cd.allocateMemory(Register.LB, 3);
@@ -227,7 +258,12 @@ public class ClassDeclaration implements Instruction, Declaration {
                 MethodDeclaration md = (MethodDeclaration) classElement;
                 if (md.isConcrete()) {
                     Fragment methode = md.body.getCode(_factory);
-                    methode.addPrefix(md.getName());
+                    methode.addPrefix("Method_" + this.name + "_" + md.getName());
+                    int paramSize = 0;
+                    for (fr.n7.stl.minic.ast.instruction.declaration.ParameterDeclaration p : md.getParameters()) {
+                        paramSize += p.getType().length();
+                    }
+                    methode.add(_factory.createReturn(0, paramSize));
                     fragment.append(methode);
                 }
             } else {
@@ -269,7 +305,7 @@ public class ClassDeclaration implements Instruction, Declaration {
     }
 
     public int getObjectSize() {
-        int size = 0;
+        int size = (this.ancestorDecl != null) ? this.ancestorDecl.getObjectSize() : 0;
         for (ClassElement element : this.elements) {
             if (element instanceof AttributeDeclaration) {
                 size += ((AttributeDeclaration) element).getType().length();

@@ -21,6 +21,10 @@ public class MethodDeclaration extends ClassElement {
     }
 
     protected List<ParameterDeclaration> parameters;
+    
+    public List<ParameterDeclaration> getParameters() {
+        return parameters;
+    }
 
     protected Block body;
 
@@ -42,11 +46,12 @@ public class MethodDeclaration extends ClassElement {
         this.function = new FunctionDeclaration(this.name, this.type, this.parameters, this.body);
     }
 
+    public void setClassName(String _className) {
+        this.function.setName("Method_" + _className + "_" + this.name);
+    }
+
     public MethodDeclaration(String _name, Type _type, List<ParameterDeclaration> _parameters) {
         this(_name, _type, _parameters, null);
-
-        this.function = new FunctionDeclaration(this.name, this.type, this.parameters, null);
-
     }
 
     @Override

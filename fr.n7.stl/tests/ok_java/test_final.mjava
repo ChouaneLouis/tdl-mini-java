@@ -1,0 +1,67 @@
+abstract class Entity {
+    public int id;
+    
+    public Entity(int _id) {
+        this.id = _id;
+    }
+    
+    public abstract int computeScore();
+}
+
+class Player extends Entity {
+    public int health;
+    public int scoreMultiplier;
+    
+    public Player(int _id, int _health) {
+        super(_id);
+        this.health = _health;
+        this.scoreMultiplier = 2;
+    }
+    
+    public int computeScore() {
+        return this.health * this.scoreMultiplier;
+    }
+    
+    public void heal(int _amount) {
+        this.health = this.health + _amount;
+    }
+}
+
+class VIPPlayer extends Player {
+    public int id; // Shadowing de l'attribut 'id' de Entity
+    public int bonus;
+    
+    public VIPPlayer(int _id, int _health, int _bonus) {
+        super(_id, _health);
+        this.id = _id + 1000; // Le 'id' de VIPPlayer
+        super.id = _id;       // Le 'id' caché de Entity
+        this.bonus = _bonus;
+    }
+    
+    // Override de computeScore
+    public int computeScore() {
+        int baseScore = this.health * this.scoreMultiplier;
+        return baseScore + this.bonus;
+    }
+    
+    public int getBaseId() {
+        return super.id; // Accès à l'attribut caché
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // Allocation et appel des constructeurs en chaine
+        VIPPlayer vip = new VIPPlayer(42, 100, 500);
+        
+        // Appel d'une méthode héritée (void method)
+        vip.heal(50);
+        
+        // Appel d'une méthode redéfinie (polymorphisme statique)
+        int score = vip.computeScore();
+        
+        // Vérification du shadowing
+        int baseId = vip.getBaseId();
+        int vipId = vip.id;
+    }
+}

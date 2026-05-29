@@ -17,9 +17,14 @@ public class SuperAccess extends AbstractSuper<AccessibleExpression> implements 
 
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("getCode in SuperAccess");
-
+		Fragment fragment = _factory.createFragment();
+		if (this.thisDeclaration instanceof fr.n7.stl.minic.ast.instruction.declaration.ParameterDeclaration) {
+			int offset = ((fr.n7.stl.minic.ast.instruction.declaration.ParameterDeclaration) this.thisDeclaration).getOffset();
+			fragment.add(_factory.createLoad(fr.n7.stl.tam.ast.Register.LB, offset, 1));
+		} else {
+			fragment.add(_factory.createLoad(fr.n7.stl.tam.ast.Register.LB, -1, 1));
+		}
+		return fragment;
 	}
 
 }

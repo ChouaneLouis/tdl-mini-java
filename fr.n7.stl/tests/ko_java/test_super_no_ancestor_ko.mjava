@@ -1,0 +1,9 @@
+class A {
+    public A() {
+        super(); // Error: A has no ancestor
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {}
+}

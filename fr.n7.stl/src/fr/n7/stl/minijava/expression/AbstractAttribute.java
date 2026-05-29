@@ -50,16 +50,21 @@ public abstract class AbstractAttribute<ObjectKind extends Expression> implement
 		ClassType classType = (ClassType) objectType;
 		ClassDeclaration classDecl = classType.getDeclaration();
 
-		// 3. Chercher l'attribut dans les éléments de la classe
-		for (ClassElement element : classDecl.getElements()) {
-
-			if (element instanceof AttributeDeclaration) {
-				AttributeDeclaration attrDecl = (AttributeDeclaration) element;
-				if (attrDecl.getName().equals(this.name)) {
-					// ÇA Y EST ! On a trouvé l'attribut, on le sauvegarde enfin !
-					this.attribute = attrDecl;
-					break;
+		// 3. Chercher l'attribut dans la classe ou ses ancêtres
+		ClassDeclaration currentDecl = classDecl;
+		while (currentDecl != null && this.attribute == null) {
+			for (fr.n7.stl.minijava.ast.type.declaration.ClassElement element : currentDecl.getElements()) {
+				if (element instanceof AttributeDeclaration) {
+					AttributeDeclaration attrDecl = (AttributeDeclaration) element;
+					if (attrDecl.getName().equals(this.name)) {
+						// ÇA Y EST ! On a trouvé l'attribut
+						this.attribute = attrDecl;
+						break;
+					}
 				}
+			}
+			if (this.attribute == null) {
+				currentDecl = currentDecl.getAncestorDecl();
 			}
 		}
 
@@ -86,8 +91,21 @@ public abstract class AbstractAttribute<ObjectKind extends Expression> implement
 					return false;
 				}
 			} else if (right == fr.n7.stl.minijava.ast.type.declaration.AccessRight.PROTECTED) {
-				// TODO: Gérer l'héritage pour PROTECTED (pour l'instant, on fait comme private)
-				if (currentClassName == null || !currentClassName.equals(classDecl.getName())) {
+				boolean isSubclass = false;
+				if (currentClassDecl != null && currentClassDecl instanceof fr.n7.stl.minic.ast.instruction.declaration.VariableDeclaration) {
+					Type t = ((fr.n7.stl.minic.ast.instruction.declaration.VariableDeclaration) currentClassDecl).getType();
+					if (t instanceof ClassType) {
+						ClassDeclaration curr = ((ClassType) t).getDeclaration();
+						while (curr != null) {
+							if (curr.getName().equals(classDecl.getName())) {
+								isSubclass = true;
+								break;
+							}
+							curr = curr.getAncestorDecl();
+						}
+					}
+				}
+				if (!isSubclass) {
 					Logger.error("Encapsulation error: L'attribut " + this.name + " est protégé dans la classe " + classDecl.getName() + " et ne peut pas être accédé ici.");
 					return false;
 				}

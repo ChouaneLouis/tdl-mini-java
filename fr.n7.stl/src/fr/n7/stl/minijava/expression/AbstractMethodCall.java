@@ -72,13 +72,19 @@ public abstract class AbstractMethodCall<ObjectKind extends Expression> implemen
 
 		ClassDeclaration classDecl = ((ClassType) targetType).getDeclaration();
 		
-		for (fr.n7.stl.minijava.ast.type.declaration.ClassElement element : classDecl.getElements()) {
-			if (element instanceof MethodDeclaration) {
-				MethodDeclaration md = (MethodDeclaration) element;
-				if (md.getName().equals(this.name)) {
-					this.declaration = md;
-					break;
+		ClassDeclaration currentDecl = classDecl;
+		while (currentDecl != null && this.declaration == null) {
+			for (fr.n7.stl.minijava.ast.type.declaration.ClassElement element : currentDecl.getElements()) {
+				if (element instanceof MethodDeclaration) {
+					MethodDeclaration md = (MethodDeclaration) element;
+					if (md.getName().equals(this.name)) {
+						this.declaration = md;
+						break;
+					}
 				}
+			}
+			if (this.declaration == null) {
+				currentDecl = currentDecl.getAncestorDecl();
 			}
 		}
 
@@ -105,8 +111,21 @@ public abstract class AbstractMethodCall<ObjectKind extends Expression> implemen
 					return false;
 				}
 			} else if (right == fr.n7.stl.minijava.ast.type.declaration.AccessRight.PROTECTED) {
-				// TODO: Gérer l'héritage pour PROTECTED (pour l'instant on limite à la même classe)
-				if (currentClassName == null || !currentClassName.equals(classDecl.getName())) {
+				boolean isSubclass = false;
+				if (currentClassDecl != null && currentClassDecl instanceof fr.n7.stl.minic.ast.instruction.declaration.VariableDeclaration) {
+					Type t = ((fr.n7.stl.minic.ast.instruction.declaration.VariableDeclaration) currentClassDecl).getType();
+					if (t instanceof ClassType) {
+						ClassDeclaration curr = ((ClassType) t).getDeclaration();
+						while (curr != null) {
+							if (curr.getName().equals(classDecl.getName())) {
+								isSubclass = true;
+								break;
+							}
+							curr = curr.getAncestorDecl();
+						}
+					}
+				}
+				if (!isSubclass) {
 					Logger.error("Encapsulation error: La méthode " + this.name + " est protégée dans la classe " + classDecl.getName() + " et ne peut pas être appelée ici.");
 					return false;
 				}

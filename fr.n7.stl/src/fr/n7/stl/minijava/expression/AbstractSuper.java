@@ -8,31 +8,41 @@ import fr.n7.stl.minic.ast.type.Type;
 
 public abstract class AbstractSuper<ObjectKind extends Expression> implements Expression {
 
-	public AbstractSuper() {
-		// TODO Auto-generated constructor stub
-		throw new SemanticsUndefinedException("constructor in AbstractSuper");
+	protected Declaration thisDeclaration;
+	protected fr.n7.stl.minijava.ast.type.ClassType superType;
 
+	public AbstractSuper() {
 	}
 
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("collectAndPartialResolve in AbstractSuper");
-
+		return true;
 	}
 
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("completeResolve in AbstractSuper");
-
+		if (_scope.knows("this")) {
+			this.thisDeclaration = _scope.get("this");
+			Type currentType = this.thisDeclaration.getType();
+			if (currentType instanceof fr.n7.stl.minijava.ast.type.ClassType) {
+				fr.n7.stl.minijava.ast.type.declaration.ClassDeclaration currentClass = ((fr.n7.stl.minijava.ast.type.ClassType) currentType)
+						.getDeclaration();
+				if (currentClass != null && currentClass.getAncestor() != null) {
+					this.superType = new fr.n7.stl.minijava.ast.type.ClassType(currentClass.getAncestor());
+					return this.superType.completeResolve(_scope);
+				} else {
+					fr.n7.stl.util.Logger.error("Impossible d'utiliser 'super' car la classe n'a pas d'ancêtre.");
+					return false;
+				}
+			}
+		}
+		fr.n7.stl.util.Logger.error("Impossible d'utiliser 'super' dans ce contexte.");
+		return false;
 	}
 
 	@Override
 	public Type getType() {
-		// TODO Auto-generated method stub
-		throw new SemanticsUndefinedException("getType in AbstractSuper");
-
+		return this.superType;
 	}
 
 	@Override
