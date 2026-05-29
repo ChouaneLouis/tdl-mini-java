@@ -70,6 +70,7 @@ public class VariableAssignment extends AbstractIdentifier implements Assignable
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
         Fragment _result = _factory.createFragment();
+<<<<<<< HEAD
 		if (this.classDeclaration != null) {
 			return _result;
 		}
@@ -78,6 +79,9 @@ public class VariableAssignment extends AbstractIdentifier implements Assignable
 			return _result;
 		}
         _result.add(_factory.createLoadL(this.declaration.getOffset()));
+=======
+        _result.add(_factory.createLoadA(this.declaration.getRegister(), this.declaration.getOffset()));
+>>>>>>> alexis_temp
         return _result;
 	}
 

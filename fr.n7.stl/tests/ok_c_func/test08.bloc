@@ -1,0 +1,19 @@
+<int, int> f(int *p, int i, <int, bool> p) {
+    if (scd p) {
+        *p = fst p;
+        return {1, 2};
+    } else {
+        return {i, *p};
+    }
+}
+
+void main() {
+    int *p = new int();
+    <int, int> p = f(p, 15, {13, true});
+    print fst p; // 1
+    print scd p; // 2
+    print *p;    // 3
+    p = f(p, 5, {14, false});
+    print fst p; // 5
+    print scd p; // 3
+}

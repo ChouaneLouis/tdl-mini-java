@@ -1,0 +1,254 @@
+-------------------------------------------------------------------------------------
+Treating ./tests/ok_c_func/test00.bloc
+int f() {
+    return 6;
+}
+
+void main() {
+    int i = f();
+    print i;
+}
+
+
+
+int f(  ){
+return 6;
+}
+
+void main() {
+int i = f( );
+print i;
+}
+
+collect succeeded
+Resolve succeeded.
+Type verification succeeded.
+Code generation ...
+Code generation finished
+-------------------------------------------------------------------------------------
+Treating ./tests/ok_c_func/test01.bloc
+void f() {
+    print 0;
+}
+
+void main() {
+    f();
+}
+
+
+
+line 6:6 mismatched input ')' expecting {'(', '*', Identificateur}
+line 6:7 mismatched input ';' expecting {'=', '(', '['}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unIdentifiant" because the return value of "fr.n7.stl.minic.parser.MiniCParser$IdentifiantContext.identifiant()" is null
+	at fr.n7.stl.minic.ASTBuilder.exitIdentifiant(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$IdentifiantContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:36)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:36)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:36)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:36)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests/ok_c_func/test02.bloc
+void f(int i) {
+    print i;
+}
+
+void main() {
+    f(3);
+}
+
+
+
+line 6:6 mismatched input '3' expecting {'(', '*', Identificateur}
+line 6:8 mismatched input ';' expecting {'=', '(', '['}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unIdentifiant" because the return value of "fr.n7.stl.minic.parser.MiniCParser$IdentifiantContext.identifiant()" is null
+	at fr.n7.stl.minic.ASTBuilder.exitIdentifiant(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$IdentifiantContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:36)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:36)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:36)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:36)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests/ok_c_func/test03.bloc
+void f() {
+    int i = 1;
+    print i;
+}
+
+void g() {
+    int i = 2;
+    print i;
+}
+
+void main() {
+    int i = 3;
+    f();
+    g();
+    print i;
+}
+
+
+
+line 13:6 mismatched input ')' expecting {'(', '*', Identificateur}
+line 13:7 mismatched input ';' expecting {'=', '(', '['}
+line 14:6 mismatched input ')' expecting {'(', '*', Identificateur}
+line 14:7 mismatched input ';' expecting {'=', '(', '['}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unIdentifiant" because the return value of "fr.n7.stl.minic.parser.MiniCParser$IdentifiantContext.identifiant()" is null
+	at fr.n7.stl.minic.ASTBuilder.exitIdentifiant(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$IdentifiantContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:36)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:36)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:36)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:36)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests/ok_c_func/test04.bloc
+void f(int i) {
+    if (i != 1) {
+        print 7;
+    }
+}
+
+void main() {
+    f(1);
+    print 6;
+    f(2);
+}
+
+
+
+line 8:6 mismatched input '1' expecting {'(', '*', Identificateur}
+line 8:8 mismatched input ';' expecting {'=', '(', '['}
+line 10:6 mismatched input '2' expecting {'(', '*', Identificateur}
+line 10:8 mismatched input ';' expecting {'=', '(', '['}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unIdentifiant" because the return value of "fr.n7.stl.minic.parser.MiniCParser$IdentifiantContext.identifiant()" is null
+	at fr.n7.stl.minic.ASTBuilder.exitIdentifiant(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$IdentifiantContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:36)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:36)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:36)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:36)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests/ok_c_func/test05.bloc
+void f(<int, int> p) {
+    print (fst p);
+    print (scd p);
+}
+
+void main() {
+    f({4, 2});
+}
+
+
+
+line 3:15 no viable alternative at input '(scdp'
+line 3:15 extraneous input 'p' expecting ')'
+line 3:17 mismatched input ';' expecting {'(', '*', Identificateur}
+line 7:6 mismatched input '{' expecting {'(', '*', Identificateur}
+line 7:13 mismatched input ';' expecting {'=', '(', '['}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "uneExpression" because "<parameter1>.valeur" is null
+	at fr.n7.stl.minic.ASTBuilder.exitInstructionAffectation(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$InstructionAffectationContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:36)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:36)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:36)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests/ok_c_func/test06.bloc
+int sum(int tab[]) {
+    // precondition tab est de taille 4
+    int s = 0;
+    int i = 0;
+    while (i<4) {
+        s = s + tab[i];
+    }
+    return s
+}
+
+void main() {
+    int s = sum({1,2,3,4});
+    print s;
+    print sum({1,1,1,1});
+    print sum({2,1,0,-1});
+}
+
+
+
+line 9:0 missing ';' at '}'
+Errors in parsing phase.
+-------------------------------------------------------------------------------------
+Treating ./tests/ok_c_func/test07.bloc
+void f(int a, int b, int c) {
+    print a;
+    print b;
+    print c;
+}
+
+void main() {
+    f(1,2,3);
+    f(4,5,6);
+}
+
+
+
+line 8:6 mismatched input '1' expecting {'(', '*', Identificateur}
+line 8:12 mismatched input ';' expecting {'=', '(', '['}
+line 9:6 mismatched input '4' expecting {'(', '*', Identificateur}
+line 9:12 mismatched input ';' expecting {'=', '(', '['}
+Exception in thread "main" java.lang.NullPointerException: Cannot read field "unIdentifiant" because the return value of "fr.n7.stl.minic.parser.MiniCParser$IdentifiantContext.identifiant()" is null
+	at fr.n7.stl.minic.ASTBuilder.exitIdentifiant(Unknown Source)
+	at fr.n7.stl.minic.parser.MiniCParser$IdentifiantContext.exitRule(Unknown Source)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.exitRule(ParseTreeWalker.java:62)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:38)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:36)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:36)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:36)
+	at org.antlr.v4.runtime.tree.ParseTreeWalker.walk(ParseTreeWalker.java:36)
+	at fr.n7.stl.minic.Driver.main(Unknown Source)
+-------------------------------------------------------------------------------------
+Treating ./tests/ok_c_func/test08.bloc
+<int, int> f(int *p, int i, <int, bool> p) {
+    if (scd p) {
+        *p = fst p;
+        return {1, 2};
+    } else {
+        return {i, *p};
+    }
+}
+
+void main() {
+    int *p = new int();
+    <int, int> p = f(p, 15, {13, true});
+    print fst p; // 1
+    print scd p; // 2
+    print *p;    // 3
+    p = f(p, 5, {14, false});
+    print fst p; // 5
+    print scd p; // 3
+}
+
+
+
+line 2:12 no viable alternative at input 'if(scdp'
+line 2:12 extraneous input 'p' expecting ')'
+line 2:15 extraneous input '{' expecting {'(', '*', Identificateur}
+line 5:6 extraneous input 'else' expecting {'const', 'typedef', 'struct', 'enum', '<', 'int', 'float', 'boolean', 'char', 'String', 'void', Identificateur}
+line 14:14 extraneous input 'p' expecting ';'
+line 18:14 extraneous input 'p' expecting ';'
+Errors in parsing phase.
+
+========================================================
+Bilan : 3 tests réussis sur 9 tests au total.
+========================================================

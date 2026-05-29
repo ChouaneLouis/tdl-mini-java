@@ -1,0 +1,18 @@
+class A {
+    public int x;
+    public A(int x) { this.x = x; }
+}
+
+class B {
+    public A a;
+    public B(A a) { this.a = a; }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        A objA = new A(10);
+        B objB = new B(objA);
+        
+        objB.a.x = 42;
+    }
+}

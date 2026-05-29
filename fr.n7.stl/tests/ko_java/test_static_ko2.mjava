@@ -1,0 +1,14 @@
+class MathUtil {
+    public int offset;
+    public MathUtil() {}
+    public static int add(int a, int b) {
+        return a + b + this.offset; // ERROR: cannot use 'this' in static context
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        MathUtil m = new MathUtil();
+        int res = m.add(2, 3);
+    }
+}

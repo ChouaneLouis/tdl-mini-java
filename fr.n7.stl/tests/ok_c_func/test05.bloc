@@ -1,0 +1,8 @@
+void f(<int, int> p) {
+    print (fst p);
+    print (scd p);
+}
+
+void main() {
+    f({4, 2});
+}

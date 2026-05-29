@@ -1,0 +1,13 @@
+class Calculator {
+    public Calculator() {}
+    public int compute(int a) {
+        return a * 2;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Calculator calc = new Calculator();
+        int res = calc.doMath(10); // ERROR: doMath does not exist
+    }
+}
