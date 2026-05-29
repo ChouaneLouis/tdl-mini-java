@@ -4,7 +4,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import fr.n7.stl.minic.ast.Block;
-import fr.n7.stl.minic.ast.SemanticsUndefinedException;
 import fr.n7.stl.minic.ast.instruction.declaration.FunctionDeclaration;
 import fr.n7.stl.minic.ast.instruction.declaration.ParameterDeclaration;
 import fr.n7.stl.minic.ast.scope.Declaration;
@@ -12,6 +11,13 @@ import fr.n7.stl.minic.ast.scope.HierarchicalScope;
 import fr.n7.stl.minic.ast.scope.SymbolTable;
 import fr.n7.stl.minic.ast.type.Type;
 
+/**
+ * Déclaration d'une méthode dans une classe.
+ * 
+ * Une méthode peut être concrète (avec un corps) ou abstraite (sans corps).
+ * En interne, elle s'appuie sur FunctionDeclaration de miniC pour faire
+ * le gros du boulot (scope, types de retour).
+ */
 public class MethodDeclaration extends ClassElement {
 
     protected boolean concrete;
@@ -30,6 +36,7 @@ public class MethodDeclaration extends ClassElement {
 
     protected Type type;
 
+    // L'équivalent miniC pour gérer le bloc et le retour
     protected FunctionDeclaration function;
 
     public FunctionDeclaration getFunction() {
@@ -40,16 +47,22 @@ public class MethodDeclaration extends ClassElement {
         super(_name);
         this.parameters = _parameters;
         this.body = _body;
-        this.concrete = (_body != null);
+        this.concrete = (_body != null); // S'il n'y a pas de bloc, c'est que c'est abstract
         this.type = _type;
 
+        // On crée la FunctionDeclaration sous-jacente
         this.function = new FunctionDeclaration(this.name, this.type, this.parameters, this.body);
     }
 
+    /**
+     * Utilisé par ClassDeclaration pour s'assurer que les méthodes ont des noms
+     * uniques en assembleur (ex: Method_Animal_speak).
+     */
     public void setClassName(String _className) {
         this.function.setName("Method_" + _className + "_" + this.name);
     }
 
+    // Constructeur pour les méthodes abstraites
     public MethodDeclaration(String _name, Type _type, List<ParameterDeclaration> _parameters) {
         this(_name, _type, _parameters, null);
     }
@@ -81,9 +94,7 @@ public class MethodDeclaration extends ClassElement {
 
     @Override
     public Type getType() {
-        /// EDITED
         return this.type;
-
     }
 
     protected HierarchicalScope<Declaration> consScope;
@@ -94,6 +105,7 @@ public class MethodDeclaration extends ClassElement {
             consScope.register(parameterDeclaration);
         }
         if (this.concrete) {
+            // On passe 'function' comme container pour que les 'return' sachent où ils sont
             return this.body.collectAndPartialResolve(consScope, this.function);
         }
         return true;

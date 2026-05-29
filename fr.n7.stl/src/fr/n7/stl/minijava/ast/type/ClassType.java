@@ -6,6 +6,12 @@ import fr.n7.stl.minic.ast.scope.HierarchicalScope;
 import fr.n7.stl.minic.ast.type.Type;
 import fr.n7.stl.minijava.ast.type.declaration.ClassDeclaration;
 
+/**
+ * Représente un type objet (une classe) dans MiniJava.
+ * 
+ * Sa taille est toujours de 1 mot (c'est juste une adresse/un pointeur vers le tas).
+ * Il gère aussi la compatibilité de type via l'héritage (polymorphisme).
+ */
 public class ClassType implements Type {
 
 	protected String name;
@@ -22,14 +28,19 @@ public class ClassType implements Type {
 
 	@Override
 	public boolean equalsTo(Type _other) {
-		// TODO Auto-generated method stub
 		if (_other instanceof ClassType) {
 			return this.name.equals(((ClassType) _other).name);
 		}
 		return false;
-
 	}
 
+	/**
+	 * Vérifie si ce type est compatible avec _other.
+	 * 
+	 * Si les types sont identiques, c'est bon.
+	 * Sinon, on remonte la hiérarchie d'héritage pour voir si ce type
+	 * hérite de _other.
+	 */
 	@Override
 	public boolean compatibleWith(Type _other) {
 		if (this.equalsTo(_other)) return true;
@@ -37,13 +48,7 @@ public class ClassType implements Type {
 		if (_other instanceof ClassType && this.declaration != null) {
 			String parentName = this.declaration.getAncestor();
 			if (parentName != null) {
-				// We need to resolve the parent type to check it
-				ClassType parentType = new ClassType(parentName);
-				// To do it properly we should resolve it, but since we might not have the scope here,
-				// we just compare names recursively if the declarations are linked.
-				// Since we don't have scope here, we just check if parentName equals the other's name
-				// But we need to go up the chain!
-				// We can navigate up the declarations if we have them.
+				// On remonte les ancêtres pour voir si l'un d'eux correspond à _other
 				ClassDeclaration current = this.declaration;
 				while (current != null) {
 					if (current.getName().equals(((ClassType)_other).name)) {
@@ -58,38 +63,36 @@ public class ClassType implements Type {
 
 	@Override
 	public Type merge(Type _other) {
-		// TODO Auto-generated method stub
 		throw new SemanticsUndefinedException("merge in Type");
-
 	}
 
+	/**
+	 * En MiniJava, les objets sont manipulés par référence.
+	 * La taille d'une variable de type classe est donc la taille d'un pointeur (1 mot).
+	 */
 	@Override
 	public int length() {
-		// throw new SemanticsUndefinedException("length in Type");
-		return 1; // C'est une adresse
-
+		return 1;
 	}
 
+	/**
+	 * Résout la classe correspondante dans le scope.
+	 */
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
-		// TODO Auto-generated method stub
-		// throw new SemanticsUndefinedException("completeResolve in Type");
-		// 1. Si la classe est déjà résolue, on ne fait rien
+		// Déjà résolu
 		if (this.declaration != null) {
 			return true;
 		}
 
-		// 2. On vérifie si le nom de la classe est connu dans le scope
 		if (!_scope.knows(this.name)) {
 			fr.n7.stl.util.Logger.error("Le type identificateur '" + this.name + "' n'est pas défini.");
 			return false;
 		}
 
-		// 3. On récupère la déclaration associée
 		Declaration decl = _scope.get(this.name);
 
-		// 4. On s'assure que cette déclaration est bien une classe (et pas une variable
-		// locale ou autre)
+		// On vérifie que c'est bien une classe et pas autre chose (ex: une variable)
 		if (decl instanceof ClassDeclaration) {
 			this.declaration = (ClassDeclaration) decl;
 			return true;
@@ -97,7 +100,6 @@ public class ClassType implements Type {
 			fr.n7.stl.util.Logger.error("L'identificateur '" + this.name + "' n'est pas une classe.");
 			return false;
 		}
-
 	}
 
 	public String toString() {

@@ -3,7 +3,6 @@ package fr.n7.stl.minijava.ast.type.declaration;
 import java.util.List;
 
 import fr.n7.stl.minic.ast.Block;
-import fr.n7.stl.minic.ast.SemanticsUndefinedException;
 import fr.n7.stl.minic.ast.instruction.Instruction;
 import fr.n7.stl.minic.ast.instruction.declaration.FunctionDeclaration;
 import fr.n7.stl.minic.ast.scope.Declaration;
@@ -12,12 +11,21 @@ import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
 
+/**
+ * La déclaration de la classe Main (le point d'entrée du programme).
+ * 
+ * En MiniJava, le Main est un peu spécial, il ressemble à un mix entre
+ * une classe et une grosse fonction. On y trouve des déclarations (attributs)
+ * et le bloc principal `public static void main(String[] args)`.
+ */
 public class MainDeclaration implements Instruction {
 
 	protected String name;
 
+	// Liste des déclarations globales du Main (variables, etc.)
 	protected List<Declaration> declarations;
 
+	// Le bloc de code du main()
 	protected Block main;
 
 	public MainDeclaration(String _name, List<Declaration> _declarations, Block _main) {
@@ -28,11 +36,8 @@ public class MainDeclaration implements Instruction {
 
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope) {
-		// throw new SemanticsUndefinedException("Semantics collectAndPartialResolve is
-		// undefined in MainDeclaration.");
 		boolean ok = true;
 		for (Declaration declaration : declarations) {
-
 			if (declaration instanceof Instruction) {
 				ok = ok && ((Instruction) declaration).collectAndPartialResolve(_scope);
 			} else {
@@ -42,45 +47,31 @@ public class MainDeclaration implements Instruction {
 					ok = false;
 				}
 			}
-
 		}
+		// On collecte aussi le bloc principal
 		ok = ok && this.main.collectAndPartialResolve(_scope);
 		return ok;
 	}
 
 	@Override
 	public boolean collectAndPartialResolve(HierarchicalScope<Declaration> _scope, FunctionDeclaration _container) {
-		// TODO Auto-generated method stub
-		// throw new SemanticsUndefinedException("Semantics collectAndPartialResolve is
-		// undefined in MainDeclaration.");
 		return this.collectAndPartialResolve(_scope);
-
 	}
 
 	@Override
 	public boolean completeResolve(HierarchicalScope<Declaration> _scope) {
-		// TODO Auto-generated method stub
-		// throw new SemanticsUndefinedException("Semantics completeResolve is undefined
-		// in MainDeclaration.");
 		boolean isValid = true;
-
 		for (Declaration declaration : this.declarations) {
 			if (declaration instanceof Instruction) {
 				isValid = isValid && ((Instruction) declaration).completeResolve(_scope);
 			}
 		}
-
 		isValid = isValid && this.main.completeResolve(_scope);
-
 		return isValid;
-
 	}
 
 	@Override
 	public boolean checkType() {
-		// TODO Auto-generated method stub
-		// throw new SemanticsUndefinedException("Semantics checktype is undefined in
-		// MainDeclaration.");
 		boolean ok = true;
 		for (Declaration d : declarations) {
 			if (d instanceof Instruction)
@@ -88,42 +79,32 @@ public class MainDeclaration implements Instruction {
 		}
 		ok = ok && this.main.checkType();
 		return ok;
-
 	}
 
 	@Override
 	public int allocateMemory(Register _register, int _offset) {
-		// TODO Auto-generated method stub
-		// throw new SemanticsUndefinedException("Semantics allocatememory is undefined
-		// in MainDeclaration.");
+		// Le bloc main alloue sa propre mémoire, on ne décale pas l'offset global
 		this.main.allocateMemory(_register, _offset);
 		return _offset;
-
 	}
 
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
-		/// EDITED
 		Fragment fragment = _factory.createFragment();
 
-		// On parcourt tous les éléments définis dans la classe
+		// On parcourt tous les éléments définis dans le Main
 		for (Declaration d : this.declarations) {
-
-			// Seules les méthodes et les constructeurs (qui implémentent Instruction)
-			// ont du code exécutable à générer. Les attributs sont ignorés ici.
+			// S'il y a des instructions exécutables déclarées au niveau global, on génère leur code
 			if (d instanceof Instruction) {
 				Instruction executableElement = (Instruction) d;
-
-				// On récupère le fragment de code de la méthode/constructeur
-				// et on l'ajoute au fragment global de la classe
 				fragment.append(executableElement.getCode(_factory));
 			}
 		}
 
+		// On ajoute le code du bloc principal
 		fragment.append(this.main.getCode(_factory));
 
 		return fragment;
-
 	}
 
 	public String getName() {

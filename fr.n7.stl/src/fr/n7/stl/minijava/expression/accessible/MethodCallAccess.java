@@ -2,22 +2,19 @@ package fr.n7.stl.minijava.expression.accessible;
 
 import java.util.List;
 
-import fr.n7.stl.minic.ast.SemanticsUndefinedException;
-import fr.n7.stl.minic.ast.expression.Expression;
-import fr.n7.stl.minic.ast.expression.FunctionCall;
 import fr.n7.stl.minic.ast.expression.accessible.AccessibleExpression;
-import fr.n7.stl.minic.ast.instruction.Instruction;
-import fr.n7.stl.minic.ast.instruction.declaration.FunctionDeclaration;
-import fr.n7.stl.minic.ast.scope.Declaration;
-import fr.n7.stl.minic.ast.scope.HierarchicalScope;
-import fr.n7.stl.minic.ast.type.Type;
-import fr.n7.stl.minijava.ast.type.declaration.MethodDeclaration;
 import fr.n7.stl.minijava.expression.AbstractMethodCall;
-import fr.n7.stl.minijava.instruction.MethodCall;
 import fr.n7.stl.tam.ast.Fragment;
-import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
 
+/**
+ * Appel de méthode utilisé comme une expression (rvalue).
+ * Ex: int x = a.getValeur();
+ * 
+ * Tout le boulot d'analyse sémantique est fait dans AbstractMethodCall.
+ * La génération de code est déléguée au FunctionCall sous-jacent de miniC
+ * qui sait comment empiler les paramètres et appeler la fonction.
+ */
 public class MethodCallAccess extends AbstractMethodCall<AccessibleExpression> implements AccessibleExpression {
 
 	public MethodCallAccess(AccessibleExpression _target, String _name, List<AccessibleExpression> _arguments) {
@@ -30,10 +27,10 @@ public class MethodCallAccess extends AbstractMethodCall<AccessibleExpression> i
 
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
-		/// EDITED
-		/// Dernière chose sur la pile devrait être la valeur renvoyée
+		// Le FunctionCall va appeler la méthode.
+		// Une fois la méthode terminée (via son RETURN), la valeur de retour
+		// se retrouvera au sommet de la pile, prête à être utilisée.
 		return this.call.getCode(_factory);
-
 	}
 
 }
