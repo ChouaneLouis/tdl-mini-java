@@ -19,6 +19,10 @@ class Point3D extends Point {
 
 public class Main {
     public static void main(String[] args) {
-        Point3D p = new Point3D(10, 20, 30);
+        Point p = new Point3D(10, 20, 30);
+
+        print p.x;
+        print p.y;
+
     }
 }

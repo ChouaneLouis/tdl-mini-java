@@ -4,8 +4,8 @@
 if [ -z "$1" ]; then
     echo "Erreur : Tu dois préciser le nom du dossier à tester."
     echo "Utilisation : ./run_tests.sh <nom_dossier>"
-    echo "Exemple     : ./run_tests.sh caca"
-    echo "Exemple     : ./run_tests.sh pipi"
+    echo "Exemple     : ./run_tests.sh ok_java"
+    echo "Exemple     : ./run_tests.sh ko_java"
     exit 1
 fi
 
